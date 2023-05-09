@@ -1,5 +1,6 @@
 ﻿//VideotecaACY
-namespace Videoteca
+
+namespace Videoteca.Models.Message
 
 
 {
