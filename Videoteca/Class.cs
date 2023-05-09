@@ -7,6 +7,6 @@ namespace Videoteca
     {
         public string Text { get; set; }
 
-        public string tipo { get; set; }
+        public string Tipo { get; set; }
     }
 }
