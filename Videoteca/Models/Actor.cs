@@ -12,4 +12,5 @@ public partial class Actor
     public string? actor_last_name { get; set; }
 
     public string? actor_url { get; set; }
+
 }
