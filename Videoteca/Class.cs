@@ -1,6 +1,12 @@
-﻿namespace Videoteca
+﻿//VideotecaACY
+namespace Videoteca
+
+
 {
-    public class Class
+    public class MessagePack
     {
+        public string Text { get; set; }
+
+        public string tipo { get; set; }
     }
 }
