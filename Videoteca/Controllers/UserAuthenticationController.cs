@@ -92,6 +92,7 @@ namespace Videoteca.Controllers
     }
 
         //UserName: AlexM2088 pass:Aa258* //admin
+        //alex    Aa2588* //user
 
 }
 }
