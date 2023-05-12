@@ -1,0 +1,84 @@
+﻿@model Videoteca.Models.DTO.LoginModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <style>
+        form {
+            border: 3px solid #f1f1f1;
+            width: 60%;
+            margin: auto;
+            margin-top: 10%;
+        }
+
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 12px 29px;
+            margin: 8px 0;
+            display: intine—block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: lightblue;
+            color: white;
+            padding: 14px 29px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .container {
+            padding: 16px;
+        }
+
+        .msg {
+            padding: 0px;
+        }
+
+        .err {
+            color: red;
+        }
+
+    </style>
+</head>
+<body>
+    <form asp-action="Login" method="post">
+        <div class="container">
+
+            <label asp-for="UserName">Username</label>
+            <input type="text" asp-for="UserName" />
+            <div class="msg">
+                <span class="err" asp-validation-for="UserName"></span>
+            </div>
+
+            <label asp-for="Password">Password</label>
+            <input type="password" asp-for="Password" />
+            <div class="msg">
+                <span class="err" asp-validation-for="Password"></span>
+            </div>
+
+            @if (TempData["msg"] != null)
+            {
+                <div class="msg">
+                    <span class="err">@TempData["msg"]</span>
+                </div>
+            }
+
+            <button type="submit">Login</button>
+            <a href="/UserAuthentication/Registration">Not a User? Click Here to Sign Up</a>
+
+        </div>
+    </form>
+</body>
+</html>
+

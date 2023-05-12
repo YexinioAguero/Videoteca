@@ -75,7 +75,23 @@ namespace Videoteca.Controllers
         //    model.Role = "admin";
         //    var result = await _service.RegistrationAsync(model);
         //    return Ok(result);
-
         //}
+
+        public async Task<IActionResult> Reg()
+        {
+           var model = new RegistrationModel
+           {
+               UserName = "SuperAdminACY",
+               Name = "SuperAdmin",
+               Email = "SuperAdmin2088@gmail.com",
+               Password = "SuperAdmin2023*",
+           };
+       model.Role = "superadmin";
+       var result = await _service.RegistrationAsync(model);
+       return Ok(result);
     }
+
+
+
+}
 }
