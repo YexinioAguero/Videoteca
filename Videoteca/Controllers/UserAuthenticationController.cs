@@ -26,7 +26,6 @@ namespace Videoteca.Controllers
             {
                 return View(model);
             }
-            model.Role = "user";
             var result = await _service.RegistrationAsync(model);
             TempData["msg"] = result.Message;
             return RedirectToAction(nameof(Registration));
@@ -91,8 +90,9 @@ namespace Videoteca.Controllers
        return Ok(result);
     }
 
-        //UserName: AlexM2088 pass:Aa258* //admin
+        //UserName: AlexM2088 pass:Aa258* //user
         //alex    Aa2588* //user
+        // A18   Aa369*// admin
 
 }
 }
