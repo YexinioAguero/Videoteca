@@ -51,8 +51,8 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-*@
-
+  
+    *@
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,7 +70,10 @@
             <ul class="nav navbar-nav">
                 @if (User.IsInRole("superadmin"))
                 {
-                    <li><a href="/UserAuthentication/Registration">SuperAdmin-Index</a></li>
+                <li><a href="/UserAuthentication/Registration">SuperAdmin-Index</a></li>
+                }else @if (User.IsInRole("admin"))
+                {
+                <li><a href="/UserAuthentication/Registration">Admin-Index</a></li>
                 }
                 else
                 {
