@@ -26,7 +26,6 @@ namespace Videoteca.Controllers
             {
                 return View(model);
             }
-            model.Role = "user";
             var result = await _service.RegistrationAsync(model);
             TempData["msg"] = result.Message;
             return RedirectToAction(nameof(Registration));
@@ -75,7 +74,26 @@ namespace Videoteca.Controllers
         //    model.Role = "admin";
         //    var result = await _service.RegistrationAsync(model);
         //    return Ok(result);
-
         //}
+
+        public async Task<IActionResult> Reg()
+        {
+           var model = new RegistrationModel
+           {
+               UserName = "SuperAdminACY",
+               Name = "SuperAdmin",
+               Email = "SuperAdmin2088@gmail.com",
+               Password = "SuperAdmin2023*",
+           };
+       model.Role = "superadmin";
+       var result = await _service.RegistrationAsync(model);
+       return Ok(result);
+    }
+
+        //UserName: AlexM2088 pass:Aa258* //user
+        //alex    Aa2588* //user
+        // A18   Aa369*// admin
+        // Allex   AdminPass1*// admin   after changes
+
     }
 }

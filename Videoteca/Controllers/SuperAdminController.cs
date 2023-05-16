@@ -4,7 +4,7 @@ using System.Data;
 
 namespace Videoteca.Controllers
 {
-    [Authorize(Roles = "super_admin")]
+    [Authorize(Roles = "superadmin")]
     public class SuperAdminController : Controller
     {
         public IActionResult Index()
