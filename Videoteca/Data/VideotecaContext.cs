@@ -92,7 +92,7 @@ public partial class VideotecaContext : DbContext
         modelBuilder.Entity<MoviesAndSeries>(entity =>
         {
             entity.HasNoKey();
-
+            entity.HasKey(e => e.id);
             entity.Property(e => e.classification)
                 .HasMaxLength(5)
                 .IsUnicode(false);
