@@ -1,83 +1,61 @@
-﻿@model Videoteca.Models.MoviesAndSeries
+﻿@model IEnumerable<Videoteca.Models.MoviesAndSeries>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData ["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<!DOCTYPE html>
 
-<h4>MoviesAndSeries</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Index">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="title" class="control-label"></label>
-                <input asp-for="title" class="form-control" />
-                <span asp-validation-for="title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="synopsis" class="control-label"></label>
-                <input asp-for="synopsis" class="form-control" />
-                <span asp-validation-for="synopsis" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="release_year" class="control-label"></label>
-                <input asp-for="release_year" class="form-control" />
-                <span asp-validation-for="release_year" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="duration" class="control-label"></label>
-                <input asp-for="duration" class="form-control" />
-                <span asp-validation-for="duration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="classification" class="control-label"></label>
-                <input asp-for="classification" class="form-control" />
-                <span asp-validation-for="classification" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="director" class="control-label"></label>
-                <input asp-for="director" class="form-control" />
-                <span asp-validation-for="director" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="num_seasons" class="control-label"></label>
-                <input asp-for="num_seasons" class="form-control" />
-                <span asp-validation-for="num_seasons" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="num_episodes" class="control-label"></label>
-                <input asp-for="num_episodes" class="form-control" />
-                <span asp-validation-for="num_episodes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="episode_duration" class="control-label"></label>
-                <input asp-for="episode_duration" class="form-control" />
-                <span asp-validation-for="episode_duration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="movie_url" class="control-label"></label>
-                <input asp-for="movie_url" class="form-control" />
-                <span asp-validation-for="movie_url" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="date_added" class="control-label"></label>
-                <input asp-for="date_added" class="form-control" />
-                <span asp-validation-for="date_added" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+</head>
+<body>
+<p>
+    <a asp-action="Create_MovieAndSerie">Register Movie</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <H2>Movie Name</H2>
+            </th>
+            <th>
+                <H2>Movie Portate</H2>
+            </th>
+            <th>
+                <H2>Date Added</H2>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                <img src="@item.movie_url" width="50px" height="50px"></img>
+           @*     @Html.DisplayFor(modelItem => item.movie_url)*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_added)
+            </td>
+            <td>
+                <a asp-action="Edit_MovieAndSerie" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details_MoviesAndSeries" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete_MovieAndSerie" asp-route-id="@item.id">Delete</a>
+            </td>
+            
+        </tr>
 }
+
+
+    </tbody>
+</table>
+</body>
+</html>

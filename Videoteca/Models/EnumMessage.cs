@@ -1,4 +1,4 @@
-﻿namespace Videoteca.Models.Message
+﻿namespace Videoteca.Models
 {
     public enum message
     {

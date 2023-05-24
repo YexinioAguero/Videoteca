@@ -8,9 +8,9 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <title>Create_MovieAndSerie</title>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit_MovieAndSerie</title>
 </head>
 <body>
 
@@ -18,8 +18,9 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create_MovieAndSerie">
+        <form asp-action="Edit_MovieAndSerie">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id" />
             <div class="form-group">
                 <label asp-for="title" class="control-label"></label>
                 <input asp-for="title" class="form-control" />
@@ -76,7 +77,7 @@
                 <span asp-validation-for="date_added" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -86,8 +87,5 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
 </body>
 </html>
