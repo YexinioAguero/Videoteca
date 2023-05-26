@@ -73,6 +73,7 @@
                 @if (User.IsInRole("superadmin"))
                 {
                 <li><a href="/UserAuthentication/Registration">SuperAdmin-Index</a></li>
+                    <li><a href="/Users/Index">UsersList</a></li>
                 }else @if (User.IsInRole("admin"))
                 {
                 <li><a href="/UserAuthentication/Registration">Admin-Index</a></li>
