@@ -242,16 +242,6 @@ public partial class VideotecaContext : DbContext
                 .HasMaxLength(8)
                 .IsUnicode(false);
             entity.Property(e => e.movie_url).IsUnicode(false);
-                .IsUnicode(false);
-                .IsUnicode(false);
-                .IsUnicode(false);
-                .IsUnicode(false);
-                .IsUnicode(false);
-                .IsUnicode(false);
-                .IsUnicode(false);
-                .IsUnicode(false);
-                .IsUnicode(false);
-                .IsUnicode(false);
             entity.Property(e => e.release_year)
                 .HasMaxLength(4)
                 .IsUnicode(false);
