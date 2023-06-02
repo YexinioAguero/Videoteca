@@ -13,5 +13,5 @@ public partial class Episode
 
     public int? episode_number { get; set; }
 
-    public int? movies_series_id { get; set; }
+    public int movies_series_id { get; set; }
 }

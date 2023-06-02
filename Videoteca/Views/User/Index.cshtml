@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Videoteca_Test_API_data.Models.Movie_S_Genre>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<head>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery" />
+    <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick-theme.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+
+<h1 class="text-center">Movies And Series</h1>
+
+<body>
+    @foreach (var item in Model)
+    {
+        <h1>@item.genre</h1>
+        <div id="carrousel-@item.genre" class="carrousel">
+            @foreach (var movie in @item.movies)
+            {
+                <div class="d-flex flex-column justify-content-center align-items-center text-center m-2">
+                    <img class="movie_img" src="@movie.movie_url">
+                    <br>
+                    <p class="display-4 text-capitalize">@movie.title</p>
+                    <br>
+                    <p class="display-4 text-capitalize">@movie.release_year</p>
+                    <br>
+                    <button class="btn btn-info align-items-xxl-center">View More</button>
+                </div>
+            }
+        </div>
+    }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="~/lib/slick-1.8.1/slick/slick.min.js"></script>
+    @section scripts{
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.carrousel').each(function () {
+                    $(this).slick({
+                        infinite: true,
+                        centerMode: true,
+                        centerPadding: '60px',
+                        slidesToShow: 1,
+                        autoplay: true,
+                        arrows: true,
+                        responsive: [
+                            {
+                                breakpoint: 768,
+                                settings: {
+                                    arrows: false,
+                                    centerMode: true,
+                                    centerPadding: '40px',
+                                    slidesToShow: 1
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    arrows: false,
+                                    centerMode: true,
+                                    centerPadding: '40px',
+                                    slidesToShow: 1
+                                }
+                            }
+                        ]
+                    });
+                });
+            });
+        </script>
+    }
+</body>

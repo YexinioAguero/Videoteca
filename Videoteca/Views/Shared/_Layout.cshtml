@@ -12,20 +12,21 @@
     <header>
         <nav class="navbar navbar-default">
             <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/Home/Index">WinBasicAuthProject</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Videoteca</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
                 </div>
-                <ul class="nav navbar-nav">
-                    @if (User.IsInRole("superadmin"))
-                    {
-                        <li><a href="/SuperAdmin/SuperAdminView">SuperAdmin-Index</a></li>
-                    }
-                    else
-                    {
-                        <li><a href="/Person/Index">Index</a></li>
-                    }
-                    <li><a href="/UserAuthentication/Logout">Logout</a></li>
-                </ul>
             </div>
         </nav>
 
@@ -51,8 +52,8 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-*@
-
+  
+    *@
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,7 +71,10 @@
             <ul class="nav navbar-nav">
                 @if (User.IsInRole("superadmin"))
                 {
-                    <li><a href="/UserAuthentication/Registration">SuperAdmin-Index</a></li>
+                <li><a href="/UserAuthentication/Registration">SuperAdmin-Index</a></li>
+                }else @if (User.IsInRole("admin"))
+                {
+                <li><a href="/UserAuthentication/Registration">Admin-Index</a></li>
                 }
                 else
                 {

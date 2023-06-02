@@ -11,5 +11,13 @@ namespace Videoteca.Controllers
         {
             return View();
         }
+
+
+        // GET: PersonController/Create
+        public ActionResult Create_MovieAndSerie()
+        {
+
+            return View();
+        }
     }
 }
