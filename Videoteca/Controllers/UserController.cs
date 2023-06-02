@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Videoteca.Data;
 using Videoteca.Models;
-using Videoteca_Test_API_data.Models;
+
 
 namespace Videoteca.Controllers
 {

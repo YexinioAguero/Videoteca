@@ -76,9 +76,9 @@
                 {
                 <li><a href="/UserAuthentication/Registration">Admin-Index</a></li>
                 }
-                else
+                else @if (User.IsInRole("user"))
                 {
-                    <li><a href="/Home/Index">Index</a></li>
+                    <li><a href="/User/Index">Index</a></li>
                 }
                 <li><a href="/UserAuthentication/Logout">Logout</a></li>
             </ul>
