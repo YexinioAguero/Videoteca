@@ -23,6 +23,7 @@
 <body>
     @foreach (var item in Model)
     {
+        <div class="movie">
         <h1>@item.genre</h1>
         <div id="carrousel-@item.genre" class="carrousel">
             @foreach (var movie in @item.movies)
@@ -39,6 +40,7 @@
                     </form>
                 </div>
             }
+        </div>
         </div>
     }
     <!--Librerias para slick, boostrap, jquery-->
@@ -82,6 +84,11 @@
                         ]
                     });
                 });
+                var divs = $("div.movie").get().sort(function(){
+                    return Math.round(Math.random())-0.5;
+
+                }).slice(0,4)
+                $(divs).appendTo(divs[0].parentNode).show();
             });
         </script>
     }
