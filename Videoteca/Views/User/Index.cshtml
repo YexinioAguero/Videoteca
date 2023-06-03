@@ -31,7 +31,7 @@
                 <div class="d-flex flex-column justify-content-center align-items-center">
                     <img class="movie_img" src="@movie.movie_url">
                     <br>
-                    <p class="display-4 text-capitalize">@movie.title</p>
+                    <h3 class="display-4 text-capitalize">@movie.title</h3>
                     <br>
                     <p class="display-4 text-capitalize">@movie.release_year</p>
                     <br>
@@ -46,50 +46,10 @@
     <!--Librerias para slick, boostrap, jquery-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script src="~/lib/slick-1.8.1/slick/slick.min.js"></script>
-    @section scripts{
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('.carrousel').each(function () {
-                    $(this).slick({
-                        infinite: true,
-                        centerMode: true,
-                        centerPadding: '60px',
-                        slidesToShow: 3,
-                        autoplay: true,
-                        responsive: [
-                            {
-                                breakpoint: 768,
-                                settings: {
-                                    arrows: false,
-                                    centerMode: true,
-                                    centerPadding: '40px',
-                                    slidesToShow: 1
-                                }
-                            },
-                            {
-                                breakpoint: 480,
-                                settings: {
-                                    arrows: false,
-                                    centerMode: true,
-                                    centerPadding: '40px',
-                                    slidesToShow: 1
-                                }
-                            }
-                        ]
-                    });
-                });
-                var divs = $("div.movie").get().sort(function(){
-                    return Math.round(Math.random())-0.5;
-
-                }).slice(0,4)
-                $(divs).appendTo(divs[0].parentNode).show();
-            });
-        </script>
-    }
+    <script src="~/js/site.js" asp-append-version="true"></script>
 </body>

@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Videoteca.Data;
 using Videoteca.Models;
-
+using Videoteca.Models.DTO;
 
 namespace Videoteca.Controllers
 {
@@ -13,6 +14,14 @@ namespace Videoteca.Controllers
     public class UserController : Controller
     {
         // GET: UserController
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public UserController(UserManager<ApplicationUser> userManager)
+        {
+            _userManager = userManager;
+        }
+
+
         private VideotecaContext vbd = new VideotecaContext();
         public ActionResult Index()
         {
@@ -25,8 +34,8 @@ namespace Videoteca.Controllers
             foreach (var g in genres)
             {
                 movie = vbd.MoviesAndSeries.FromSqlRaw("exec dbo.[Get" + g.genre_name + "]").ToList();
-               list.Add(new Movie_S_Genre() { genre = g.genre_name, movies = movie });
-                
+                list.Add(new Movie_S_Genre() { genre = g.genre_name, movies = movie });
+
             }
 
             return View(list);
@@ -36,14 +45,33 @@ namespace Videoteca.Controllers
         {
             var list = new List<MovieInfo>();
             var movie = new List<MoviesAndSeries>();
-            var genre =  new List<Genre>();
+            var genre = new List<Genre>();
             var actor = new List<Actor>();
             var movieInfo = new MoviesAndSeries();
+            var userInfo = new List<AspNetUser>();
+            var comments = new List<Comment>();
+            var user = new User();
+            string userId = "";
 
+            userId = _userManager.GetUserId(HttpContext.User);
+            if (userId != null)
+            {
+                userInfo = vbd.AspNetUsers.FromSqlRaw(@"exec dbo.GetUser @id", new SqlParameter("@id", userId)).ToList();
+                foreach (var u in userInfo)
+                {
+                    user = new User
+                    {
+                        user_id = userId,
+                        username = u.UserName,
+                        email = u.Email
+                    };
+                }
+            }
             movie = vbd.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovie @id", new SqlParameter("@id", id)).ToList();
             actor = vbd.Actors.FromSqlRaw(@"exec dbo.GetActorsMovie @id", new SqlParameter("@id", id)).ToList();
             genre = vbd.Genres.FromSqlRaw(@"exec dbo.GetGenreMovie @id", new SqlParameter("@id", id)).ToList();
-
+            comments = vbd.Comments.FromSqlRaw(@"exec dbo.GetComments @id", new SqlParameter("@id", id)).ToList();
+           
             foreach (var m in movie)
             {
                 movieInfo = new MoviesAndSeries
@@ -53,6 +81,7 @@ namespace Videoteca.Controllers
                     synopsis = m.synopsis,
                     release_year = m.release_year,
                     classification = m.classification,
+                    duration = m.duration,
                     director = m.director,
                     num_episodes = m.num_episodes,
                     num_seasons = m.num_seasons,
@@ -61,9 +90,17 @@ namespace Videoteca.Controllers
 
                 };
             }
-            list.Add(new MovieInfo() { movie = movieInfo, actors = actor, genres = genre });
+            list.Add(new MovieInfo() { user = user, movie = movieInfo, actors = actor, genres = genre , comments = comments});
 
             return View(list);
+        }
+
+
+  
+
+        public ActionResult SetComment()
+        {
+            return View();
         }
 
 

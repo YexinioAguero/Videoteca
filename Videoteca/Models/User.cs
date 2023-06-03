@@ -5,7 +5,7 @@ namespace Videoteca.Models;
 
 public partial class User
 {
-    public int user_id { get; set; }
+    public string user_id { get; set; } = null!;
 
     public string? username { get; set; }
 

@@ -1,31 +1,130 @@
-html {
-  font-size: 14px;
-}
-
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
+
     .movie_img {
         width: 150px;
-        height: 200px
+        height: 200px;
     }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.contenedor {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+
+.movie2 {
+    width: 250px;
+    height: 400px;
+    border-radius: 15px;
+    float: left;
+    margin-right: 10%;
+}
+
+.actor {
+    width: 175px;
+    height: 250px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.slide {
+    padding-block: 20px;
+    margin-top: auto;
+    align-items: center;
+}
+
+table {
+    width: 50%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 2px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+h1 {
+    text-align: left;
+    font-family: 'Arial', sans-serif;
+    color: #333333;
+    font-size: 24px;
+}
+
+h2 {
+    font-family: 'Helvetica', sans-serif;
+    color: #555555;
+    font-size: 20px;
+}
+
+p {
+    font-family: 'Helvetica', sans-serif;
+    color: #777777;
+    font-size: 14px;
+}
+textarea{
+    text-align: justify;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+
+.tab {
+    cursor: pointer;
+    padding: 10px;
+}
+
+[data-tab-content]{
+    display:none;
+}
+
+.active[data-tab-contet]{
+    display: block;
+}
+
+.tab:hover {
+     background-color: black;
+ }
+
+.tab.active {
+        background-color: #cccccc;
+    }
+
+.tab-content {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.windows {
+    width: 100%;
+    margin: auto;
 }
 
 body {
-  margin-bottom: 60px;
-}
-
-.movie_img{
-    width:200px;
-    height:400px
+    font-family: 'Helvetica', sans-serif;
+    font-size: 16px;
+    background-color: #f2f2f2;
+    text-align: justify;
+    padding: 0;
+    margin: 0;
 }
