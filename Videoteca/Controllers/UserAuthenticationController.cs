@@ -78,17 +78,32 @@ namespace Videoteca.Controllers
 
         public async Task<IActionResult> Reg()
         {
-           var model = new RegistrationModel
-           {
-               UserName = "SuperAdminACY",
-               Name = "SuperAdmin",
-               Email = "SuperAdmin2088@gmail.com",
-               Password = "SuperAdmin2023*",
-           };
-       model.Role = "superadmin";
-       var result = await _service.RegistrationAsync(model);
-       return Ok(result);
-    }
+            var model = new RegistrationModel
+            {
+                UserName = "SuperAdminACY",
+                Name = "SuperAdmin",
+                Email = "SuperAdmin2088@gmail.com",
+                Password = "SuperAdmin2023*",
+            };
+            model.Role = "superadmin";
+            var result = await _service.RegistrationAsync(model);
+            return Ok(result);
+
+        }
+
+            public async Task<IActionResult> RegDeneg()
+            {
+                var model = new RegistrationModel
+                {
+                    UserName = "UserDenegado",
+                    Name = "Deneg",
+                    Email = "Deneg2088@gmail.com",
+                    Password = "Deneg2023*",
+                };
+                model.Role = "Denegado";
+                var result = await _service.RegistrationAsync(model);
+                return Ok(result);
+            }
 
         //UserName: AlexM2088 pass:Aa258* //user
         //alex    Aa2588* //user

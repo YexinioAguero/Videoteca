@@ -25,6 +25,66 @@ namespace Videoteca.Controllers
             return View(personList);
         }
 
+
+
+
+        // Get: EditRole/Edit/5
+
+        public ActionResult EditRole(string id)
+        {
+            var person = new AspNetUserRoles();
+            var RoleUser = db.AspNetUserRoles.ToList();
+            foreach (var role in RoleUser)
+            {
+                if (role.UserId == id)
+                {
+                    person = role; break;
+
+                }
+            }
+
+            return View(person);
+        }
+
+
+
+        // POST: EditRole/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditRole(string id, AspNetUserRoles person1, string RoleId)
+        {
+
+            var person = new AspNetUserRoles();
+            var RoleUser = db.AspNetUserRoles.ToList();
+            foreach (var role in RoleUser)
+            {
+                if (role.UserId == id)
+                {
+                    person = role; break;
+
+                }
+            }
+            db.AspNetUserRoles.Remove(person);
+            db.SaveChanges();
+
+            person.RoleId = RoleId;
+            person.UserId = id;
+            db.AspNetUserRoles.Add(person);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+            
+
+        }
+
+
+
+
+
+
+
+
+
         // GET: PersonController/Details/5
         public ActionResult Details(string id)
         {
@@ -65,6 +125,8 @@ namespace Videoteca.Controllers
 
             return View(person);
         }
+
+
 
         // POST: PersonController/Edit/5
         [HttpPost]

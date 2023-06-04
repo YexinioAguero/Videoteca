@@ -79,6 +79,11 @@
                 <li><a href="/UserAuthentication/Registration">Admin-Index</a></li>
                 <li><a href="/Admin/Index">View List Movies</a></li>
                 }
+                else @if (User.IsInRole("Denegado"))
+                {
+                <h1> No puede ingresar a esta aplicación y a sus funciones debido a que su usuario se encuentra denegado.</h1>
+                <p> Para más información, escriba un correo a SuperAdmin@ucr.ac.cr o pongase en contacto con algunos de nuestros desarrolladores,gracias.</p>
+                }
                 else
                 {
                     <li><a href="/Home/Index">Index</a></li>

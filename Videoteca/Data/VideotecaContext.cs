@@ -36,6 +36,8 @@ public partial class VideotecaContext : DbContext
 
     public virtual DbSet<Genre> Genres { get; set; }
 
+    public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
+
     public virtual DbSet<MoviesAndSeries> MoviesAndSeries { get; set; }
 
     public virtual DbSet<MoviesAndSeriesActor> MoviesAndSeriesActors { get; set; }
@@ -78,6 +80,12 @@ public partial class VideotecaContext : DbContext
             entity.Property(e => e.NormalizedName).HasMaxLength(256);
         });
 
+
+        modelBuilder.Entity<AspNetUserRoles>(entity =>
+        {
+            entity.HasKey(e => new { e.UserId, e.RoleId });
+        });
+
         modelBuilder.Entity<AspNetRoleClaim>(entity =>
         {
             entity.HasIndex(e => e.RoleId, "IX_AspNetRoleClaims_RoleId");
@@ -98,17 +106,17 @@ public partial class VideotecaContext : DbContext
             entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
             entity.Property(e => e.UserName).HasMaxLength(256);
 
-            entity.HasMany(d => d.Roles).WithMany(p => p.Users)
-                .UsingEntity<Dictionary<string, object>>(
-                    "AspNetUserRole",
-                    r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
-                    l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
-                    j =>
-                    {
-                        j.HasKey("UserId", "RoleId");
-                        j.ToTable("AspNetUserRoles");
-                        j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
-                    });
+            //entity.HasMany(d => d.Roles).WithMany(p => p.Users)
+            //    .UsingEntity<Dictionary<string, object>>(
+            //        "AspNetUserRole",
+            //        r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
+            //        l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
+            //        j =>
+            //        {
+            //            j.HasKey("UserId", "RoleId");
+            //            j.ToTable("AspNetUserRoles");
+            //            j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
+            //        });
         });
 
         modelBuilder.Entity<AspNetUserClaim>(entity =>
