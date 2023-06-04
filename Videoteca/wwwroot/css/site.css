@@ -9,12 +9,6 @@
     }
 }
 
-.contenedor {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: center;
-}
 
 
 .movie2 {
@@ -40,7 +34,6 @@
 }
 
 table {
-    width: 50%;
     border-collapse: collapse;
 }
 
