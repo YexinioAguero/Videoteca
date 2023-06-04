@@ -1,15 +1,35 @@
-@media (min-width: 768px) {
+:root{
+    --body-color: #121d3b;
+    --color-letter:  #ffffff;
+}
+
+
+
+
+@media (max-width: 768px) {
     html {
         font-size: 16px;
     }
 
     .movie_img {
-        width: 150px;
-        height: 200px;
+        width: 100px;
+        height: 150px;
+    }
+    .movie2 {
+        width: 100px;
+        border-radius: 15px;
+        margin-right: 25px;
     }
 }
 
+.movie_img {
+    width: 250px;
+    height: 400px
+}
 
+.carrousel {
+    align-items: center;
+}
 
 .movie2 {
     width: 250px;
@@ -30,13 +50,22 @@
     margin-top: auto;
     align-items: center;
 }
+.contenedor{
+    margin-top: 20px;
+    display: flex;
+}
 
 table {
+    width: 80%;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right:auto;
+    margin-bottom: 40px;
     border-collapse: collapse;
 }
 
 th, td {
-    padding: 2px;
+    padding: 5px;
     border: 1px solid #ddd;
 }
 
@@ -51,7 +80,7 @@ tr:nth-child(even) {
 h1 {
     text-align: left;
     font-family: 'Arial', sans-serif;
-    color: #333333;
+    color: var(--color-letter) ;
     font-size: 24px;
 }
 
@@ -68,8 +97,13 @@ h3 {
 
 p {
     font-family: 'Helvetica', sans-serif;
-    color: #777777;
-    font-size: 14px;
+    color: #333333;
+    font-size: 16px;
+}
+li {
+    font-family: 'Helvetica', sans-serif;
+    color: #555555;
+    font-size: 20px;
 }
 textarea{
     align-content: center;
@@ -120,7 +154,7 @@ textarea{
 body {
     font-family: 'Helvetica', sans-serif;
     font-size: 16px;
-    background-color: #f2f2f2;
+    background-color: var(--body-color);
     text-align: justify;
     padding: 0;
     margin: 0;

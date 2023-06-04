@@ -17,42 +17,49 @@
         <div class="contenedor">
             
             <img class="movie2" src="@item.movie.movie_url">
-
+            <div>
              <h1> @item.movie.title</h1>
 
+                <h3> @item.movie.title</h3>
+                <br>
              <p>@item.movie.synopsis</p>
-
-            <table>
-                <tr>
-                    <th>Year</th>
-                    <td>@item.movie.release_year</td>
-                </tr>
-                <tr>
-                    <th>Duration</th>
-                    <td>@item.movie.duration</td>
-                </tr>
-                <tr>
-                    <th>Director</th>
-                    <td>@item.movie.director</td>
-                </tr>
-                <tr>
-                    <th>Classification</th>
-                    <td>@item.movie.classification</td>
-                </tr>
-                @if (@item.movie.num_episodes != null)
-                {
-                    <tr>
-                        <th>Episodes</th>
-                        <td>@item.movie.num_episodes</td>
-                    </tr>
-                    <tr>
-                        <th>Seasons</th>
-                        <td>@item.movie.num_seasons</td>
-                    </tr>
-                }
-            </table>
+            </div>
            
         </div>
+
+        <table>
+            <tr>
+                <th>Year</th>
+                <td>@item.movie.release_year</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>@item.movie.duration</td>
+            </tr>
+            <tr>
+                <th>Rate</th>
+                <td>@item.movie.duration</td>
+            </tr>
+            <tr>
+                <th>Director</th>
+                <td>@item.movie.director</td>
+            </tr>
+            <tr>
+                <th>Classification</th>
+                <td>@item.movie.classification</td>
+            </tr>
+            @if (@item.movie.num_episodes != null)
+            {
+                <tr>
+                    <th>Episodes</th>
+                    <td>@item.movie.num_episodes</td>
+                </tr>
+                <tr>
+                    <th>Seasons</th>
+                    <td>@item.movie.num_seasons</td>
+                </tr>
+            }
+        </table>
 
         <div class="windows">
             <ul class="tabs">
@@ -79,10 +86,9 @@
                     </div>
                </div>
                 <div id="comments" data-tab-content>
-                    <textarea>
 
-                    </textarea>
-                    <button type="submit">Post</button>
+                    <textarea id="@item.movie.id" class="textC text-opacity-25 align-self-xl-center"></textarea>
+                    <button id="btn_c" class="btn-light bg-white" type="submit">Post</button>
                     @if(item.comments.Count() <= 0)
                     {
                         <h4>Theres no comments...</h4>
@@ -107,6 +113,9 @@
                 </div>
             </div>
         </div>
+        <footer>
+            <p>Added: @item.movie.date_added</p>
+        </footer>
     }
 
     <!--Librerias para slick, boostrap, jquery-->

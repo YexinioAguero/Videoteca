@@ -98,8 +98,24 @@ namespace Videoteca.Controllers
 
   
 
-        public ActionResult SetComment()
+        public ActionResult SetComment(string text, int id)
         {
+            var user = new User();
+            string userId, userName = "";
+            var userInfo = new List<AspNetUser>();
+
+            userId = _userManager.GetUserId(HttpContext.User);
+            if (userId != null)
+            {
+                userInfo = vbd.AspNetUsers.FromSqlRaw(@"exec dbo.GetUser @id", new SqlParameter("@id", userId)).ToList();
+                foreach (var u in userInfo)
+                {
+                    userName = u.UserName;
+                }
+            }
+
+            vbd.Add(new Comment() { userName = userName, comment=text, movies_series_id = id});
+            vbd.SaveChanges();
             return View();
         }
 
