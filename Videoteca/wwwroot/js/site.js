@@ -67,12 +67,12 @@ $('.carrousel').each(function () {
     }).slice(0, 4)
 $(divs).appendTo(divs[0].parentNode).show();
 
-    $('#btn_c').click(function () {
-        var tValue = $('.textC').val();
-        var tId = $('.textC').val();
-        var url = '@Url.Action("SetComment","User")';
+$('#btn_c').click(function () {
+    var tValue = $('.textC').val();
+    var tId = $('.textC').val();
+    var url = '@Url.Action("SetComment","User")';
 
-        url += '?text=' + encodeURIComponent(tValue) + '&id=' + encodeURIComponent(tId);
-        window.location.href = url;
-    })
+    url += '?text=' + encodeURIComponent(tValue) + '&id=' + encodeURIComponent(tId);
+    window.location.href = url;
+});
 
