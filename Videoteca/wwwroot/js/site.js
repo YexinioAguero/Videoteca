@@ -32,6 +32,15 @@ $('.carrousel').each(function () {
             autoplay: true,
             responsive: [
                 {
+                    breakpoint: 900,
+                    settings: {
+                        arrows: false,
+                        centerMode: true,
+                        centerPadding: '60px',
+                        slidesToShow: 2
+                    }
+                },
+                {
                     breakpoint: 768,
                     settings: {
                         arrows: false,
