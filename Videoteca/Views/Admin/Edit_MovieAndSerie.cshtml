@@ -1,7 +1,7 @@
 ﻿@model Videoteca.Models.MoviesAndSeries
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Edit";
 }
 
 <!DOCTYPE html>
@@ -60,11 +60,6 @@
                 <label asp-for="num_episodes" class="control-label"></label>
                 <input asp-for="num_episodes" class="form-control" />
                 <span asp-validation-for="num_episodes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="episode_duration" class="control-label"></label>
-                <input asp-for="episode_duration" class="form-control" />
-                <span asp-validation-for="episode_duration" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="movie_url" class="control-label"></label>

@@ -23,8 +23,6 @@ public partial class MoviesAndSeries
 
     public int? num_episodes { get; set; }
 
-    public string? episode_duration { get; set; }
-
     public string? movie_url { get; set; }
 
     public DateTime? date_added { get; set; }

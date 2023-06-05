@@ -65,14 +65,13 @@ namespace Videoteca.Controllers
                 parameter.Add(new SqlParameter("@director", movisData.director));
                 parameter.Add(new SqlParameter("@num_seasons", movisData.num_seasons));
                 parameter.Add(new SqlParameter("@num_episodes", movisData.num_episodes));
-                parameter.Add(new SqlParameter("@episode_duration", movisData.episode_duration));
                 parameter.Add(new SqlParameter("@movie_url", movisData.movie_url));
                 parameter.Add(new SqlParameter("@date_added", movisData.date_added));
 
 
                 var result = Task.Run(() => db.Database
                 .ExecuteSqlRaw(@"exec dbo.InsertMovieAndSerie @title, @synopsis, @releaseYear, @duration,
-                @classification, @director, @num_seasons, @num_episodes, @episode_duration, @movie_url, @date_added",
+                @classification, @director, @num_seasons, @num_episodes, @movie_url, @date_added",
                 parameter.ToArray()));
 
                 result.Wait();
@@ -138,14 +137,13 @@ namespace Videoteca.Controllers
                 parameter.Add(new SqlParameter("@director", movisData.director));
                 parameter.Add(new SqlParameter("@num_seasons", movisData.num_seasons));
                 parameter.Add(new SqlParameter("@num_episodes", movisData.num_episodes));
-                parameter.Add(new SqlParameter("@episode_duration", movisData.episode_duration));
                 parameter.Add(new SqlParameter("@movie_url", movisData.movie_url));
                 parameter.Add(new SqlParameter("@date_added", movisData.date_added));
 
 
                 var result = Task.Run(() => db.Database
                 .ExecuteSqlRaw(@"exec dbo.EditMoviesAndSerie @id, @title, @synopsis, @releaseYear, @duration,
-            @classification, @director, @num_seasons, @num_episodes, @episode_duration, @movie_url, @date_added",
+            @classification, @director, @num_seasons, @num_episodes, @movie_url, @date_added",
                 parameter.ToArray()));
 
                 result.Wait();

@@ -176,9 +176,6 @@ public partial class VideotecaContext : DbContext
             entity.Property(e => e.duration)
                 .HasMaxLength(8)
                 .IsUnicode(false);
-            entity.Property(e => e.episode_duration)
-                .HasMaxLength(8)
-                .IsUnicode(false);
             entity.Property(e => e.movie_url).IsUnicode(false);
             entity.Property(e => e.release_year)
                 .HasMaxLength(4)
