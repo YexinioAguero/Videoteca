@@ -1,0 +1,132 @@
+﻿@model IEnumerable<Videoteca.Models.MovieInfo>
+
+@{
+    ViewData["Title"] = "InfoMovie";
+}
+
+<head>
+    <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick-theme.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    
+    @foreach(var item in Model)
+    {
+        <div class="contenedor">
+            
+            <img class="movie2" src="@item.movie.movie_url">
+            <div>
+             <h1> @item.movie.title</h1>
+
+                <h3> @item.movie.title</h3>
+                <br>
+             <p>@item.movie.synopsis</p>
+            </div>
+           
+        </div>
+
+        <table>
+            <tr>
+                <th>Year</th>
+                <td>@item.movie.release_year</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>@item.movie.duration</td>
+            </tr>
+            <tr>
+                <th>Rate</th>
+                <td>@item.movie.duration</td>
+            </tr>
+            <tr>
+                <th>Director</th>
+                <td>@item.movie.director</td>
+            </tr>
+            <tr>
+                <th>Classification</th>
+                <td>@item.movie.classification</td>
+            </tr>
+            @if (@item.movie.num_episodes != null)
+            {
+                <tr>
+                    <th>Episodes</th>
+                    <td>@item.movie.num_episodes</td>
+                </tr>
+                <tr>
+                    <th>Seasons</th>
+                    <td>@item.movie.num_seasons</td>
+                </tr>
+            }
+        </table>
+
+        <div class="windows">
+            <ul class="tabs">
+                <li data-tab-target="#actores" class="active tab">Actors</li>
+                @if (@item.movie.num_episodes != null)
+                {
+                    <li data-tab-target="#episodes" class="active tab">Episodes</li>
+                }
+                <li data-tab-target="#comments" class="tab">Comments</li>
+                <li data-tab-target=".Reviews" class="tab">Rate</li>
+            </ul>
+            <div class="tab-content">
+                <div id="actores" class="active d-flex flex-column" data-tab-content>
+                    <h1>Actors</h1>
+                    <div class="slide">
+
+                        @foreach (var a in item.actors)
+                        {
+                            <div class="d-flex flex-column justify-content-center align-items-center text-center m-2">
+                                <img class="actor d-block w-auto h-auto img-thumbnail align-content-center" src="@a.actor_url">
+                                <p> @a.actor_first_name @a.actor_last_name</p>
+                            </div>
+                        }
+                    </div>
+               </div>
+                <div id="comments" data-tab-content>
+
+                    <textarea id="@item.movie.id" class="textC"></textarea>
+                    <button id="btn_c" class="btn-light bg-white" type="submit">Post</button>
+                    @if(item.comments.Count() <= 0)
+                    {
+                        <h4>Theres no comments...</h4>
+                    }
+                    else
+                    {
+                        @foreach(var c in item.comments)
+                        {
+                            <div>
+                                <p>@c.userName</p>
+                                <p>@c.comment</p>
+                             </div>
+                             <br>
+                        }
+
+                    }
+                
+                </div>
+                <div class="Reviews" data-tab-content>
+                </div>
+                <div id="episodes" data-tab-content>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <p>Added: @item.movie.date_added</p>
+        </footer>
+    }
+
+    <!--Librerias para slick, boostrap, jquery-->
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="~/lib/slick-1.8.1/slick/slick.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+</body>
