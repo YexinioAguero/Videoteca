@@ -1,23 +1,161 @@
-html {
-  font-size: 14px;
+:root{
+    --body-color: #121d3b;
+    --color-letter:  #ffffff;
 }
 
-@media (min-width: 768px) {
-  html {
+
+
+
+@media (max-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+
+    .movie_img {
+        width: 100px;
+        height: 150px;
+    }
+    .movie2 {
+        width: 100px;
+        border-radius: 15px;
+        margin-right: 25px;
+    }
+}
+
+.movie_img {
+    width: 250px;
+    height: 400px
+}
+
+.carrousel {
+    align-items: center;
+}
+
+.movie2 {
+    width: 250px;
+    border-radius: 15px;
+    margin-right: 25px;
+}
+
+.actor {
+    width: 175px;
+    height: 250px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.slide {
+    padding-block: 20px;
+    margin-top: auto;
+    align-items: center;
+}
+.contenedor{
+    margin-top: 20px;
+    display: flex;
+}
+
+table {
+    width: 80%;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right:auto;
+    margin-bottom: 40px;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+h1 {
+    text-align: left;
+    font-family: 'Arial', sans-serif;
+    color: var(--color-letter) ;
+    font-size: 24px;
+}
+
+h2 {
+    font-family: 'Helvetica', sans-serif;
+    color: #555555;
+    font-size: 20px;
+}
+h3 {
+    font-family: 'Helvetica', sans-serif;
+    color: #555555;
+    font-size: 17px;
+}
+
+p {
+    font-family: 'Helvetica', sans-serif;
+    color: #333333;
     font-size: 16px;
-  }
+}
+li {
+    font-family: 'Helvetica', sans-serif;
+    color: #555555;
+    font-size: 20px;
+}
+textarea{
+    align-content: center;
+    text-align: justify;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid black;
+    width: 100%;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.tab {
+    cursor: pointer;
+    padding: 10px;
+}
+
+[data-tab-content]{
+    display:none;
+}
+
+.active[data-tab-contet]{
+    display: block;
+}
+
+.tab:hover {
+     background-color: black;
+ }
+
+.tab.active {
+        background-color: #cccccc;
+    }
+
+.tab-content {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.windows {
+    width: 100%;
+    margin: auto;
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: 'Helvetica', sans-serif;
+    font-size: 16px;
+    background-color: var(--body-color);
+    text-align: justify;
+    padding: 0;
+    margin: 0;
 }
-

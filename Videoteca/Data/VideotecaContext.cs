@@ -134,9 +134,10 @@ public partial class VideotecaContext : DbContext
 
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => new { e.comment_id, e.movies_series_id, e.user_id }).HasName("pk_c_m_u");
+            entity.HasNoKey();
 
             entity.Property(e => e.comment1)
+                .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("comment");
         });
@@ -145,6 +146,7 @@ public partial class VideotecaContext : DbContext
         {
             entity.HasKey(e => new { e.episodes_id, e.movies_series_id }).HasName("pk_ep_mov");
 
+            entity.Property(e => e.episodes_id).ValueGeneratedOnAdd();
             entity.Property(e => e.duration)
                 .HasMaxLength(8)
                 .IsUnicode(false);
@@ -155,10 +157,10 @@ public partial class VideotecaContext : DbContext
 
         modelBuilder.Entity<Genre>(entity =>
         {
-            entity.HasKey(e => e.genre_id);
+            entity.HasKey(e => e.genre_id).HasName("pk_genre");
 
             entity.Property(e => e.genre_name)
-                .HasMaxLength(25)
+                .HasMaxLength(30)
                 .IsUnicode(false);
         });
 
@@ -188,14 +190,12 @@ public partial class VideotecaContext : DbContext
 
         modelBuilder.Entity<MoviesAndSeriesActor>(entity =>
         {
-            entity.HasKey(e => new { e.movies_series_id, e.genre_id }).HasName("pk_m_s_a");
+            entity.HasNoKey();
         });
 
         modelBuilder.Entity<MoviesAndSeriesGenre>(entity =>
         {
             entity.HasKey(e => new { e.movies_series_id, e.genre_id });
-
-            entity.Property(e => e.movies_series_id).ValueGeneratedOnAdd();
         });
 
         modelBuilder.Entity<Rating>(entity =>
@@ -214,9 +214,11 @@ public partial class VideotecaContext : DbContext
             entity.Property(e => e.email)
                 .HasMaxLength(30)
                 .IsUnicode(false);
-            entity.Property(e => e.user_id).ValueGeneratedOnAdd();
+            entity.Property(e => e.user_id)
+                .HasMaxLength(450)
+                .IsUnicode(false);
             entity.Property(e => e.username)
-                .HasMaxLength(20)
+                .HasMaxLength(256)
                 .IsUnicode(false);
         });
 
