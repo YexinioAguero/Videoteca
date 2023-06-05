@@ -114,7 +114,7 @@ namespace Videoteca.Controllers
                 }
             }
 
-            vbd.Add(new Comment() { userName = userName, comment=text, movies_series_id = id});
+            vbd.Add(new Comment() { userName = userName, comment1 = text, movies_series_id = id });
             vbd.SaveChanges();
             return View();
         }
