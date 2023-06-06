@@ -88,7 +88,8 @@
                 <div id="comments" data-tab-content>
 
                     <textarea id="@item.movie.id" class="textC"></textarea>
-                    <button id="btn_c" class="btn-light bg-white" type="submit">Post</button>
+                    
+                    <button id="btn_c" class="btn-light bg-white" type="submit" onclick='@Url.Action("SetComment","User")?text="holi"&id="@item.movie.id"'>Post</button>
                     @if(item.comments.Count() <= 0)
                     {
                         <h4>Theres no comments...</h4>

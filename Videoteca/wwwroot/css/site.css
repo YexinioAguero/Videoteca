@@ -29,10 +29,11 @@
 
 .carrousel {
     align-items: center;
+    align-content:  center;
 }
 
 .movie2 {
-    width: 250px;
+    width: 300px;
     border-radius: 15px;
     margin-right: 25px;
 }
@@ -76,22 +77,22 @@ th {
 tr:nth-child(even) {
     background-color: #f9f9f9;
 }
+h1, h2, h3 {
+    color: var(--color-letter);
+}
 
 h1 {
     text-align: left;
     font-family: 'Arial', sans-serif;
-    color: var(--color-letter) ;
     font-size: 24px;
 }
 
 h2 {
     font-family: 'Helvetica', sans-serif;
-    color: #555555;
     font-size: 20px;
 }
 h3 {
     font-family: 'Helvetica', sans-serif;
-    color: #555555;
     font-size: 17px;
 }
 
@@ -102,7 +103,7 @@ p {
 }
 li {
     font-family: 'Helvetica', sans-serif;
-    color: #555555;
+    color: #ddd;
     font-size: 20px;
 }
 textarea{

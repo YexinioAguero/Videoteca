@@ -33,7 +33,7 @@ namespace Videoteca.Controllers
 
             foreach (var g in genres)
             {
-                movie = vbd.MoviesAndSeries.FromSqlRaw("exec dbo.[Get" + g.genre_name + "]").ToList();
+                movie = vbd.MoviesAndSeries.FromSqlRaw("exec dbo.[GetMoviesForGenre] @id", new SqlParameter("@id", g.genre_id)).ToList();
                 list.Add(new Movie_S_Genre() { genre = g.genre_name, movies = movie });
 
             }
@@ -96,8 +96,6 @@ namespace Videoteca.Controllers
         }
 
 
-  
-
         public ActionResult SetComment(string text, int id)
         {
             var user = new User();
@@ -116,7 +114,8 @@ namespace Videoteca.Controllers
 
             vbd.Add(new Comment() { userName = userName, comment=text, movies_series_id = id});
             vbd.SaveChanges();
-            return View();
+
+            return RedirectToAction(nameof(InfoMovie));
         }
 
 
