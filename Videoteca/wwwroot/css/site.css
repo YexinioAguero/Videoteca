@@ -1,13 +1,13 @@
-:root{
-    --body-color: #121d3b;
-    --color-letter:  #ffffff;
+:root {
+    --body-color: #162B4E;
+    --color-letter: #ffffff;
+    --text-color: #ddd;
+    --type-letter: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-
-
-
-@media (max-width: 768px) {
+@media-phone(min-width: 768px) {
     html {
+
         font-size: 16px;
     }
 
@@ -24,16 +24,21 @@
 
 .movie_img {
     width: 250px;
-    height: 400px
+    height: 400px;
+    border-radius: 10px;
+    margin-top: 20px;
 }
 
 .carrousel {
     align-items: center;
-    align-content:  center;
+    align-content: center;
+    margin: auto;
+    border-top: 1px solid white;
 }
 
 .movie2 {
     width: 300px;
+    height: 450px;
     border-radius: 15px;
     margin-right: 25px;
 }
@@ -60,50 +65,55 @@ table {
     width: 80%;
     margin-top: 30px;
     margin-left: auto;
-    margin-right:auto;
+    margin-right: auto;
     margin-bottom: 40px;
     border-collapse: collapse;
+    color: black;
+    font-size: 16px;
+    font-family: 'Helvetica', sans-serif;
 }
 
 th, td {
     padding: 5px;
-    border: 1px solid #ddd;
+    border: 1px solid #1f1f1f;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #d2edff;
 }
 
-tr:nth-child(even) {
-    background-color: #f9f9f9;
+tr:nth-child(2n) {
+    background-color: #ddd;
+}
+tr:nth-last-child(2n+1) {
+    background-color: #dbf4ff;
 }
 h1, h2, h3 {
     color: var(--color-letter);
+    font-family: var(--type-letter);
 }
 
 h1 {
     text-align: left;
-    font-family: 'Arial', sans-serif;
     font-size: 24px;
 }
 
 h2 {
-    font-family: 'Helvetica', sans-serif;
+
     font-size: 20px;
 }
 h3 {
-    font-family: 'Helvetica', sans-serif;
     font-size: 17px;
 }
 
 p {
     font-family: 'Helvetica', sans-serif;
-    color: #333333;
+    color: var( --text-color);
     font-size: 16px;
 }
 li {
     font-family: 'Helvetica', sans-serif;
-    color: #ddd;
+    color: var( --text-color);
     font-size: 20px;
 }
 textarea{
@@ -135,11 +145,11 @@ textarea{
 }
 
 .tab:hover {
-     background-color: black;
- }
+    background-color:#4d82ff;
+}
 
 .tab.active {
-        background-color: #cccccc;
+        background-color: #0094ff;
     }
 
 .tab-content {
