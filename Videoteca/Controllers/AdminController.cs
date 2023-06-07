@@ -15,21 +15,38 @@ namespace Videoteca.Controllers
     {
         private VideotecaContext db = new VideotecaContext();
 
-        //Get: AdminController/Index
-        public IActionResult Index()
+        //Get: AdminController/View_MoviesAndSeries
+        public IActionResult View_MoviesAndSeries()
         {
-            var MoviesList = new List<MoviesAndSeries>();
+            //var MoviesList = new List<MoviesAndSeries>();
 
-            MoviesList = db.MoviesAndSeries.FromSqlRaw("exec dbo.GetMoviesAndSerie").ToList();
+            //MoviesList = db.MoviesAndSeries.FromSqlRaw("exec dbo.GetMoviesAndSerie").ToList();
 
-            
-                return View(MoviesList);
-            
 
-            
+            //    return View(MoviesList);
+
+
+            var list = new List<Movie_S_Genre>();
+            var movie = new List<MoviesAndSeries>();
+            var genres = new List<Genre>();
+
+            genres = db.Genres.FromSqlRaw("exec dbo.GetGenre").ToList();
+
+            foreach (var g in genres)
+            {
+                movie = db.MoviesAndSeries.FromSqlRaw("exec dbo.[Get" + g.genre_name + "]").ToList();
+                list.Add(new Movie_S_Genre() { genre = g.genre_name, movies = movie });
+
+            }
+
+            return View(list);
+
+
+
         }
 
-        public IActionResult Details_MoviesAndSeries(int id) {
+        public IActionResult Details_MoviesAndSeries(int id)
+        {
 
             var MovieSearch = new List<MoviesAndSeries>();
             var parameter = new List<SqlParameter>();
@@ -51,7 +68,7 @@ namespace Videoteca.Controllers
         //POST_AdminController/Create_MovieAndSerie
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create_MovieAndSerie(MoviesAndSeries movisData) 
+        public ActionResult Create_MovieAndSerie(MoviesAndSeries movisData)
         {
             try
             {
@@ -89,7 +106,7 @@ namespace Videoteca.Controllers
 
                 return RedirectToAction("Index");
 
-                
+
             }
             catch (Exception ex)
             {
@@ -105,7 +122,7 @@ namespace Videoteca.Controllers
 
 
         //Get: AdminController/Edit_MovieAndSerie
-        public ActionResult Edit_MovieAndSerie(int id) 
+        public ActionResult Edit_MovieAndSerie(int id)
         {
             var MovieSearch = new List<MoviesAndSeries>();
             var parameter = new List<SqlParameter>();
@@ -158,7 +175,7 @@ namespace Videoteca.Controllers
 
                 return RedirectToAction("index");
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 ViewBag.Message = new Models.MessagePack()
                 {
@@ -168,11 +185,11 @@ namespace Videoteca.Controllers
 
                 return View();
             }
-            
+
         }
 
         //Get: AdminController/Delete_MovieAndSerie
-        public ActionResult Delete_MovieAndSerie(int id) 
+        public ActionResult Delete_MovieAndSerie(int id)
         {
             var MovieSearch = new List<MoviesAndSeries>();
             var parameter = new List<SqlParameter>();
@@ -189,7 +206,7 @@ namespace Videoteca.Controllers
         //POST_AdminController/Edit_MovieAndSerie
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete_MovieAndSerie(int id, MoviesAndSeries MovieData) 
+        public IActionResult Delete_MovieAndSerie(int id, MoviesAndSeries MovieData)
         {
             try
             {
@@ -208,7 +225,7 @@ namespace Videoteca.Controllers
                 return RedirectToAction("Index");
 
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 ViewBag.Message = new Models.MessagePack()
                 {
@@ -219,9 +236,24 @@ namespace Videoteca.Controllers
                 return View();
             }
 
-            
 
-           
+
+
         }
+
+        //Get: AdminController/View_MoviesAndSeries
+        public IActionResult ViewActors() {
+
+
+
+
+
+            return View();
+        }
+
     }
+   
+
+
+
 }
