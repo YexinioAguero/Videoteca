@@ -52,6 +52,7 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+//
   
     *@
 <!DOCTYPE html>
@@ -73,13 +74,14 @@
                 @if (User.IsInRole("superadmin"))
                 {
                 <li><a href="/UserAuthentication/Registration">SuperAdmin-Index</a></li>
+                    <li><a href="/Users/Index">UsersList</a></li>
                 }else @if (User.IsInRole("admin"))
                 {
                 <li><a href="/UserAuthentication/Registration">Registrar Usuarios</a></li>
                 <li><a href="/Admin/Index">Peliculas y Series</a></li>
                 <li><a href="/Admin/Create_MovieAndSerie">Agregar Peliculas o Series</a></li>
                 }
-                else @if (User.IsInRole("user"))
+                else
                 {
                     <li><a href="/User/Index">Movies And Series</a></li>
                 }
