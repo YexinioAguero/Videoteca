@@ -49,7 +49,6 @@ namespace Videoteca.Controllers
             var actor = new List<Actor>();
             var movieInfo = new MoviesAndSeries();
             var userInfo = new List<AspNetUser>();
-            var comments = new List<Comment>();
             var user = new User();
             string userId = "";
 
@@ -70,7 +69,6 @@ namespace Videoteca.Controllers
             movie = vbd.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovie @id", new SqlParameter("@id", id)).ToList();
             actor = vbd.Actors.FromSqlRaw(@"exec dbo.GetActorsMovie @id", new SqlParameter("@id", id)).ToList();
             genre = vbd.Genres.FromSqlRaw(@"exec dbo.GetGenreMovie @id", new SqlParameter("@id", id)).ToList();
-            comments = vbd.Comments.FromSqlRaw(@"exec dbo.GetComments @id", new SqlParameter("@id", id)).ToList();
            
             foreach (var m in movie)
             {
@@ -90,12 +88,18 @@ namespace Videoteca.Controllers
 
                 };
             }
-            list.Add(new MovieInfo() { user = user, movie = movieInfo, actors = actor, genres = genre , comments = comments});
+            list.Add(new MovieInfo() { user = user, movie = movieInfo, actors = actor, genres = genre });
 
             return View(list);
         }
+        [HttpPost]
+        public ActionResult SetRate(int value, int id)
+        {
 
+            return Json(new { mensaje = value });
+        }
 
+            [HttpPost]
         public ActionResult SetComment(string text, int id)
         {
             var user = new User();
@@ -112,11 +116,25 @@ namespace Videoteca.Controllers
                 }
             }
 
-            vbd.Add(new Comment() { userName = userName, comment=text, movies_series_id = id});
+            vbd.Add(new Comment() { userName = userName, comment = text, movies_series_id = id ,dateC = DateTime.Today});
             vbd.SaveChanges();
 
-            return RedirectToAction(nameof(InfoMovie));
+            return Json(new { mensaje = "Datos recibidos correctamente" });
         }
+
+        public ActionResult GetComment(int id)
+        {
+            var comments = new List<Comment>();
+
+            comments = vbd.Comments.FromSqlRaw(@"exec dbo.GetComments @id", new SqlParameter("@id", id)).ToList();
+
+            return PartialView("ViewComment", comments);
+       }
+
+
+
+
+       
 
 
     }

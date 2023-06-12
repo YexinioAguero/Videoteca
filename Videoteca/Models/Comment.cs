@@ -12,4 +12,6 @@ public partial class Comment
     public string? comment { get; set; }
 
     public int movies_series_id { get; set; }
+
+    public DateTime? dateC { get; set; }
 }

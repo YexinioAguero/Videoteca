@@ -8,6 +8,5 @@
         public List<Genre> genres { get; set; }
 
         public List<Episode>? episodes { get; set; }
-        public List<Comment>? comments { get; set; }
     }
 }
