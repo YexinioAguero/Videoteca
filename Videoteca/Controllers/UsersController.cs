@@ -190,9 +190,9 @@ namespace Videoteca.Controllers
         {
             Page.Header().Row(row =>
             {
-                row.RelativeItem().Border(1).Background(Colors.Red.Medium).Height(100);
-                row.RelativeItem().Border(1).Background(Colors.Pink.Medium).Height(100);
-                row.RelativeItem().Border(1).Background(Colors.Purple.Medium).Height(100);
+                //row.RelativeItem().Border(1).Height(200);
+                //row.RelativeItem().Border(1).Background(Colors.Pink.Medium).Height(100);
+                //row.RelativeItem().Border(1).Background(Colors.Purple.Medium).Height(100);
             });
 
             Page.Content().PaddingVertical(20).Column(col =>
@@ -201,7 +201,6 @@ namespace Videoteca.Controllers
                 {
                     table.ColumnsDefinition(columns =>
                     {
-                        columns.RelativeColumn();
                         columns.RelativeColumn();
                         columns.RelativeColumn();
                         columns.RelativeColumn();
@@ -215,20 +214,17 @@ namespace Videoteca.Controllers
                             .FontColor("#fff").FontSize(11);
                         header.Cell().Height(30).Background("#257272").AlignCenter().Text("Correo")
                             .FontColor("#fff").FontSize(11);
-                        header.Cell().Height(30).Background("#257272").AlignCenter().Text("Rol")
-                            .FontColor("#fff").FontSize(11);
                     });
 
                     foreach (var person in personList)
                     {
-                        table.Cell().Border(0.5f).BorderColor(Colors.Black).AlignCenter().Padding(2).Text(person.Name)
+                        table.Cell().Background(Colors.Pink.Medium).Border(0.5f).BorderColor(Colors.Black).AlignCenter().Padding(2).Text(person.Name)
                             .FontColor("#000").FontSize(11);
                         table.Cell().Border(0.5f).BorderColor(Colors.Black).AlignCenter().Padding(2).Text(person.UserName)
                             .FontColor("#000").FontSize(11);
                         table.Cell().Border(0.5f).BorderColor(Colors.Black).AlignCenter().Padding(2).Text(person.Email)
                             .FontColor("#000").FontSize(11);
-                        table.Cell().Border(0.5f).BorderColor(Colors.Black).AlignCenter().Padding(2).Text(person.Roles)
-                            .FontColor("#000").FontSize(11);
+
                     }
                 });
             });
