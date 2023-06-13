@@ -144,10 +144,12 @@ public partial class VideotecaContext : DbContext
         {
             entity.HasNoKey();
 
+            entity.Property(e => e.comment_id).ValueGeneratedOnAdd();
+            entity.Property(e => e.userName).HasMaxLength(256);
             entity.Property(e => e.comment1)
-                .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("comment");
+            entity.Property(e => e.dateC).HasColumnType("date");
         });
 
         modelBuilder.Entity<Episode>(entity =>
@@ -211,6 +213,7 @@ public partial class VideotecaContext : DbContext
             entity.HasKey(e => e.rating_id);
 
             entity.Property(e => e.rating1).HasColumnName("rating");
+            entity.Property(e => e.userName).HasMaxLength(256);
         });
 
         modelBuilder.Entity<User>(entity =>

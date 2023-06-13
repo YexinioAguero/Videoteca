@@ -9,7 +9,7 @@ public partial class Rating
 
     public int movies_series_id { get; set; }
 
-    public int user_id { get; set; }
+    public string userName { get; set; } = null!;
 
     public int? rating1 { get; set; }
 }

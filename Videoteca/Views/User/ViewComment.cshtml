@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Videoteca.Models.Comment>
+
+<body>
+   <main>
+           @foreach (var item in Model) {
+                <div class="container-comments">
+                    @if(item.userName != null){
+                        <div class="comments">
+                            <div class="photo-perfil">
+                                <img src="~/lib/images.png"/>
+                            </div>
+                            <div class="info-comments">
+                                 <div class="header">
+                                     <h5>@item.userName</h5>
+                                     <h5>@item.dateC</h5>
+                                </div>
+                                 <p> 
+                                      @item.comment1
+                                    </p>
+                            </div>
+                        </div>
+
+                    }
+                    else
+                    {
+                            <div class="bg-white" id="user-date">
+                                There's no comments..
+                            </div>
+                    }
+                </div>
+           }
+           
+    </main>
+
+</body>
+

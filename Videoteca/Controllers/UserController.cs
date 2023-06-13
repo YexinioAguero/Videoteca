@@ -7,6 +7,7 @@ using System.Data;
 using Videoteca.Data;
 using Videoteca.Models;
 using Videoteca.Models.DTO;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Videoteca.Controllers
 {
@@ -49,7 +50,6 @@ namespace Videoteca.Controllers
             var actor = new List<Actor>();
             var movieInfo = new MoviesAndSeries();
             var userInfo = new List<AspNetUser>();
-            var comments = new List<Comment>();
             var user = new User();
             string userId = "";
 
@@ -70,7 +70,6 @@ namespace Videoteca.Controllers
             movie = vbd.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovie @id", new SqlParameter("@id", id)).ToList();
             actor = vbd.Actors.FromSqlRaw(@"exec dbo.GetActorsMovie @id", new SqlParameter("@id", id)).ToList();
             genre = vbd.Genres.FromSqlRaw(@"exec dbo.GetGenreMovie @id", new SqlParameter("@id", id)).ToList();
-            comments = vbd.Comments.FromSqlRaw(@"exec dbo.GetComments @id", new SqlParameter("@id", id)).ToList();
            
             foreach (var m in movie)
             {
@@ -90,12 +89,40 @@ namespace Videoteca.Controllers
 
                 };
             }
-            list.Add(new MovieInfo() { user = user, movie = movieInfo, actors = actor, genres = genre , comments = comments});
+            list.Add(new MovieInfo() { user = user, movie = movieInfo, actors = actor, genres = genre });
 
             return View(list);
         }
+        [HttpPost]
+        public ActionResult SetRate(int value, int id)
+        {
+            var user = new User();
+            string userId, userName = "";
+            var userInfo = new List<AspNetUser>();
 
+            userId = _userManager.GetUserId(HttpContext.User);
+            if (userId != null)
+            {
+                userInfo = vbd.AspNetUsers.FromSqlRaw(@"exec dbo.GetUser @id", new SqlParameter("@id", userId)).ToList();
+                foreach (var u in userInfo)
+                {
+                    userName = u.UserName;
+                }
+            }
 
+            var parameter = new List<SqlParameter>();
+            parameter.Add(new SqlParameter("@movies_series_id", id));
+            parameter.Add(new SqlParameter("@userName", userName));
+            parameter.Add(new SqlParameter("@rating", value));
+
+            vbd.Database.ExecuteSqlRaw(@"exec dbo.RatingI @movies_series_id, @userName, @rating"
+            , parameter.ToArray());
+            vbd.SaveChanges();
+
+            return Json(new { mensaje = value });
+        }
+
+            [HttpPost]
         public ActionResult SetComment(string text, int id)
         {
             var user = new User();
@@ -112,11 +139,25 @@ namespace Videoteca.Controllers
                 }
             }
 
-            vbd.Add(new Comment() { userName = userName, comment1 = text, movies_series_id = id });
+            vbd.Add(new Comment() { userName = userName, comment1=text, movies_series_id = id, dateC = DateTime.Now});
             vbd.SaveChanges();
 
-            return RedirectToAction(nameof(InfoMovie));
+            return Json(new { mensaje = "Datos recibidos correctamente" });
         }
+
+        public ActionResult GetComment(int id)
+        {
+            var comments = new List<Comment>();
+
+            comments = vbd.Comments.FromSqlRaw(@"exec dbo.GetComments @id", new SqlParameter("@id", id)).ToList();
+
+            return PartialView("ViewComment", comments);
+       }
+
+
+
+
+       
 
 
     }

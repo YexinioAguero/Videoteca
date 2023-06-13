@@ -5,9 +5,8 @@
     --type-letter: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-@media-phone(min-width: 768px) {
+@media(min-width: 768px) {
     html {
-
         font-size: 16px;
     }
 
@@ -15,6 +14,7 @@
         width: 100px;
         height: 150px;
     }
+
     .movie2 {
         width: 100px;
         border-radius: 15px;
@@ -81,15 +81,12 @@ th, td {
     padding: 5px;
     border: 1px solid #1f1f1f;
 }
-
-th {
-    background-color: #d2edff;
-}
+ 
 
 tr:nth-child(2n) {
     background-color: #ddd;
 }
-tr:nth-last-child(2n+1) {
+tr:nth-child(2n+1) {
     background-color: #dbf4ff;
 }
 
@@ -107,15 +104,14 @@ h1, h2, h3 {
 
 h1 {
     text-align: left;
-    font-size: 24px;
+    font-size: 25px;
 }
 
 h2 {
-
     font-size: 20px;
 }
 h3 {
-    font-size: 17px;
+    font-size: 15px;
 }
 
 p {
@@ -133,52 +129,215 @@ textarea{
     text-align: justify;
 }
 
-.tabs {
-    display: flex;
-    justify-content: space-around;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    border-bottom: 1px solid black;
-    width: 100%;
-}
-
-.tab {
-    cursor: pointer;
-    padding: 10px;
-}
-
-[data-tab-content]{
-    display:none;
-}
-
-.active[data-tab-contet]{
-    display: block;
-}
-
-.tab:hover {
-    background-color:#4d82ff;
-}
-
-.tab.active {
-        background-color: #0094ff;
-    }
-
-.tab-content {
-    margin-left: 20px;
-    margin-right: 20px;
-}
 
 .windows {
     width: 100%;
     margin: auto;
 }
 
-body {
-    font-family: 'Helvetica', sans-serif;
-    font-size: 16px;
-    background-color: var(--body-color);
-    text-align: justify;
-    padding: 0;
-    margin: 0;
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
 }
+#getC{
+    margin-top:20px;
+    justify-content: center;
+}
+
+.modal-content{
+    background-color: var(--body-color);
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    height:30%;
+}
+
+.modal-content1 {
+    background-color: var(--body-color);
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    height: 35%;
+}
+
+#openModal1{
+    text-align: center;
+    display: inline-block;
+    margin-top: 30px;
+
+}
+
+.container-comments {
+    margin-top: 20px;
+}
+
+.comments {
+    display: flex;
+}
+.photo-perfil {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.photo-perfil img {
+    width: 100%;
+     height: 100%;
+ }
+
+.info-comments{
+    margin-left: 20px;
+    background-color:aliceblue;
+    width:100%;
+    border-radius:5px;
+}
+    .info-comments .header {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        background-color: #1953bd;
+        color: white;
+    }
+.info-comments h5{
+    font-size: 17px;
+}
+.info-comments p{
+    padding: 20px;
+    color: black;
+}
+
+.container1{
+    position: relative;
+    width: 100%;
+    padding: 10px 30px;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.container1 .rate-post{
+    display: none;
+}
+
+.container2 .comment-post {
+    display: none;
+}
+
+
+.text {
+    font-size: 20px;
+    color: var(--color-letter);
+    font-weight: 500;
+}
+
+.edit {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    font-size: 13px;
+    color: #666;
+    font-weight: 500;
+    cursor: pointer;
+}
+input:checked ~ .form{
+    display:block;
+}
+.container1 .star-widget input{
+    display:none;
+}
+.star-widget label{
+    font-size: 20px;
+    color: #444;
+    padding: 5px;
+    float: right;
+    transition: all 0.2s ease;
+}
+
+input:not(:checked) ~ label:hover,
+input:not(:checked) ~ label:hover ~ label {
+    color: #fd4;
+}
+
+input:checked ~ label {
+    color: #fd4;
+}
+
+input#rate-5:checked ~ label {
+    color: #fe7;
+    text-shadow: 0 0 20px #952;
+}
+
+.form header{
+    width:100%;
+    font-size:20px;
+    color: #fe7;
+    font-weight: 500;
+    margin: 5px 0 20px 0;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+#rate-1:checked ~ .form header:before {
+    content:"I just hate it";
+}
+#rate-2:checked ~ .form header:before {
+    content: "I don't like it";
+}
+#rate-3:checked ~ .form header:before {
+    content: "It is awesome";
+}
+#rate-4:checked ~ .form header:before {
+    content: "I just like it";
+}
+#rate-5:checked ~ .form header:before {
+    content: "I just love it";
+}
+
+button {
+  border-radius: 5px;
+}
+.btn-rate{
+    height: 45px;
+    width: 100%;
+    margin: 15px 0;
+    border: 1px solid #444;
+    outline: none;
+    color:black;
+    background: #dbf4ff;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+textarea {
+    height: 60%;
+    width: 100%;
+    outline: none;
+    border: 1px solid #333;
+    background: #dbf4ff;
+    font-family: 'Helvetica', sans-serif;
+    font-size: 15px;
+    padding:10px;
+}
+body {
+   font-family: 'Helvetica', sans-serif;
+   font-size: 18px;
+   background-color: var(--body-color);
+   text-align: justify;
+   padding: 0;
+   margin: 0;
+}
+
