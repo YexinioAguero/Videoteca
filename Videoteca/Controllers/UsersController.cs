@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json.Linq;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 using Videoteca.Migrations;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
 
 namespace Videoteca.Controllers
 {
@@ -162,7 +164,7 @@ namespace Videoteca.Controllers
         // POST: PersonController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(string id, IFormCollection collection)
         {
             try
             {
@@ -173,6 +175,71 @@ namespace Videoteca.Controllers
                 return View();
             }
         }
+       public IActionResult DownloaderPDF()
+{
+    var personList = new List<AspNetUser>();
+
+    using (var dbContext = new VideotecaContext())
+    {
+        personList = dbContext.AspNetUsers.ToList();
+    }
+
+    var documentpdf = Document.Create(Container =>
+    {
+        Container.Page(Page =>
+        {
+            Page.Header().Row(row =>
+            {
+                row.RelativeItem().Border(1).Background(Colors.Red.Medium).Height(100);
+                row.RelativeItem().Border(1).Background(Colors.Pink.Medium).Height(100);
+                row.RelativeItem().Border(1).Background(Colors.Purple.Medium).Height(100);
+            });
+
+            Page.Content().PaddingVertical(20).Column(col =>
+            {
+                col.Item().Table(table =>
+                {
+                    table.ColumnsDefinition(columns =>
+                    {
+                        columns.RelativeColumn();
+                        columns.RelativeColumn();
+                        columns.RelativeColumn();
+                        columns.RelativeColumn();
+                    });
+
+                    table.Header(header =>
+                    {
+                        header.Cell().Height(30).Background("#257272").AlignCenter().Text("Nombre")
+                            .FontColor("#fff").FontSize(11);
+                        header.Cell().Height(30).Background("#257272").AlignCenter().Text("UserName")
+                            .FontColor("#fff").FontSize(11);
+                        header.Cell().Height(30).Background("#257272").AlignCenter().Text("Correo")
+                            .FontColor("#fff").FontSize(11);
+                        header.Cell().Height(30).Background("#257272").AlignCenter().Text("Rol")
+                            .FontColor("#fff").FontSize(11);
+                    });
+
+                    foreach (var person in personList)
+                    {
+                        table.Cell().Border(0.5f).BorderColor(Colors.Black).AlignCenter().Padding(2).Text(person.Name)
+                            .FontColor("#000").FontSize(11);
+                        table.Cell().Border(0.5f).BorderColor(Colors.Black).AlignCenter().Padding(2).Text(person.UserName)
+                            .FontColor("#000").FontSize(11);
+                        table.Cell().Border(0.5f).BorderColor(Colors.Black).AlignCenter().Padding(2).Text(person.Email)
+                            .FontColor("#000").FontSize(11);
+                        table.Cell().Border(0.5f).BorderColor(Colors.Black).AlignCenter().Padding(2).Text(person.Roles)
+                            .FontColor("#000").FontSize(11);
+                    }
+                });
+            });
+        });
+    }).GeneratePdf();
+
+    var stream = new MemoryStream(documentpdf);
+    return File(stream, "application/pdf", "Person_List.pdf");
+}
+
+
     }
 }
 
