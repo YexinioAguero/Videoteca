@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
@@ -18,13 +19,6 @@ namespace Videoteca.Controllers
         //Get: AdminController/View_MoviesAndSeries
         public IActionResult View_MoviesAndSeries()
         {
-            //var MoviesList = new List<MoviesAndSeries>();
-
-            //MoviesList = db.MoviesAndSeries.FromSqlRaw("exec dbo.GetMoviesAndSerie").ToList();
-
-
-            //    return View(MoviesList);
-
 
             var list = new List<Movie_S_Genre>();
             var movie = new List<MoviesAndSeries>();
@@ -34,7 +28,7 @@ namespace Videoteca.Controllers
 
             foreach (var g in genres)
             {
-                movie = db.MoviesAndSeries.FromSqlRaw("exec dbo.[Get" + g.genre_name + "]").ToList();
+                movie = db.MoviesAndSeries.FromSqlRaw("exec dbo.[GetMoviesForGenre] @id", new SqlParameter("@id", g.genre_id)).ToList();
                 list.Add(new Movie_S_Genre() { genre = g.genre_name, movies = movie });
 
             }
@@ -48,20 +42,45 @@ namespace Videoteca.Controllers
         public IActionResult Details_MoviesAndSeries(int id)
         {
 
-            var MovieSearch = new List<MoviesAndSeries>();
-            var parameter = new List<SqlParameter>();
-            parameter.Add(new SqlParameter("@id", id));
+            var list = new List<MovieInfo>();
+            var movie = new List<MoviesAndSeries>();
+            var genre = new List<Genre>();
+            var actor = new List<Actor>();
+            var movieInfo = new MoviesAndSeries();
+            var userInfo = new List<AspNetUser>();
+            var comments = new List<Comment>();
 
+            
+            movie = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovie @id", new SqlParameter("@id", id)).ToList();
+            actor = db.Actors.FromSqlRaw(@"exec dbo.GetActorsMovie @id", new SqlParameter("@id", id)).ToList();
+            genre = db.Genres.FromSqlRaw(@"exec dbo.GetGenreMovie @id", new SqlParameter("@id", id)).ToList();
+            comments = db.Comments.FromSqlRaw(@"exec dbo.GetComments @id", new SqlParameter("@id", id)).ToList();
 
-            MovieSearch = db.MoviesAndSeries.FromSqlRaw("exec dbo.SearchMoviesAndSerie @id", parameter.ToArray()).ToList();
+            foreach (var m in movie)
+            {
+                movieInfo = new MoviesAndSeries
+                {
+                    id = m.id,
+                    title = m.title,
+                    synopsis = m.synopsis,
+                    release_year = m.release_year,
+                    classification = m.classification,
+                    duration = m.duration,
+                    director = m.director,
+                    num_episodes = m.num_episodes,
+                    num_seasons = m.num_seasons,
+                    movie_url = m.movie_url,
+                    date_added = m.date_added
 
+                };
+            }
+            list.Add(new MovieInfo() {movie = movieInfo, actors = actor, genres = genre});
 
-            return View(MovieSearch.FirstOrDefault());
+            return View(list);
         }
         // GET: AdminController/Create
-        public ActionResult Create_MovieAndSerie()
+        public ActionResult Create_MovieAndSeries()
         {
-
             return View();
         }
 
@@ -86,25 +105,50 @@ namespace Videoteca.Controllers
                 parameter.Add(new SqlParameter("@date_added", movisData.date_added));
 
 
-                var result = Task.Run(() => db.Database
-                .ExecuteSqlRaw(@"exec dbo.InsertMovieAndSerie @title, @synopsis, @releaseYear, @duration,
-                @classification, @director, @num_seasons, @num_episodes, @movie_url, @date_added",
-                parameter.ToArray()));
+                var moviesSearch = new List<MoviesAndSeries>();
 
-                result.Wait();
+                moviesSearch = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovieDataForTitle @title", new SqlParameter("@title", movisData.title)).ToList();
 
-                db.SaveChanges();
-                //db.MoviesAndSeries.Add(movisData);
-
-
-
-                ViewBag.Message = new Models.MessagePack()
+                if (moviesSearch.Count > 0)
                 {
-                    Text = "The Movie Or Serie Was Register",
-                    Tipo = message.success.ToString()
-                };
+                    ViewBag.Message = new Models.MessagePack()
+                    {
+                        Text = "The Movie Or Serie Title Was Exist",
+                        Tipo = message.danger.ToString()
+                    };
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Create_MovieAndSeries");
+                }
+                else
+                {
+                // var result = Task.Run(() => db.Database
+                //.ExecuteSqlRaw(@"exec dbo.InsertMovieAndSerie @title, @synopsis, @releaseYear, @duration,
+                //@classification, @director, @num_seasons, @num_episodes, @movie_url, @date_added",
+                //parameter.ToArray()));
+
+                //    result.Wait();
+
+                //    db.SaveChanges();
+                    db.MoviesAndSeries.Add(movisData);
+                    db.SaveChanges();
+
+                    ViewBag.Message = new Models.MessagePack()
+                    {
+                        Text = "The Movie Or Serie Was Register",
+                        Tipo = message.success.ToString()
+                    };
+
+
+                    var movies = new List<MoviesAndSeries>();
+
+                    movies = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovieDataForTitle @title", new SqlParameter("@title", movisData.title)).ToList();
+
+                    var movie = movies.FirstOrDefault();
+
+                    var idMovie = movie.id;
+
+                    return RedirectToAction("Details_MoviesAndSeries", new { id =idMovie });
+                }
 
 
             }
@@ -116,7 +160,7 @@ namespace Videoteca.Controllers
                     Tipo = message.danger.ToString()
                 };
 
-                return RedirectToAction("Create_MovieAndSerie");
+                return RedirectToAction("Create_MovieAndSeries");
             }
         }
 
@@ -240,20 +284,114 @@ namespace Videoteca.Controllers
 
 
         }
-
-        //Get: AdminController/View_MoviesAndSeries
-        public IActionResult ViewActors() {
-
-
+        //Get: Admin/AsignedActors
+        public IActionResult AsignedActors(int id_pelicula)
+        {
 
 
+            var actor = new List<Actor>();
+            var movieData = new List<MoviesAndSeries>();
+            var data = new ActorsAndMovieData();
 
-            return View();
+
+            movieData = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovie @id", new SqlParameter("@id", id_pelicula)).ToList();
+            actor = db.Actors.FromSqlRaw(@"exec dbo.GetActorsList").ToList();
+
+            data.Actors = actor.ToArray();
+            data.MoviesAndSeries= movieData.ToArray();
+
+            return View(data);
+
+        }
+
+
+        //Post: AdminController/AsignedActor
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AsignedActor(int id_actor, int id_pelicula)
+        {
+            var movieData = new List<MoviesAndSeriesActor>();
+            var parameter = new List<SqlParameter>();
+            parameter.Add(new SqlParameter("@id_pelicula", id_pelicula));
+            parameter.Add(new SqlParameter("@Id_actor", id_actor));
+
+            movieData = db.MoviesAndSeriesActors.FromSqlRaw(@"exec dbo.ComparMovieActor @id_pelicula, @Id_actor", parameter.ToArray()).ToList();
+
+            if (movieData.Count > 0)
+            {
+
+                ViewBag.Message = new Models.MessagePack()
+                {
+                    Text = "The Movie Or Serie Was Register",
+                    Tipo = message.success.ToString()
+                };
+
+                return RedirectToAction("Details_MoviesAndSeries", new { id = id_pelicula });
+            }
+            else
+            {
+                var Datos_MSA = new MoviesAndSeriesActor();
+                Datos_MSA.actor_id = id_actor;
+                Datos_MSA.movies_series_id = id_pelicula;
+                db.MoviesAndSeriesActors.Add(Datos_MSA);
+                db.SaveChanges();
+
+                return RedirectToAction("Details_MoviesAndSeries", new { id = id_pelicula });
+            }
+
+        }
+        
+        //Get: Admin/AsignedGenres
+        public IActionResult AsignedGenres(int id_pelicula) {
+
+            var genres = new List<Genre>();
+            var movieData = new List<MoviesAndSeries>();
+            var data = new GenresAndMovieData();
+
+
+            movieData = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovie @id", new SqlParameter("@id", id_pelicula)).ToList();
+            genres = db.Genres.FromSqlRaw(@"exec dbo.GetGenre").ToList();
+            data.Genre = genres.ToArray();
+            data.MoviesAndSeries = movieData.ToArray();
+
+            return View(data);
+        }
+
+        //Post: AdminController/AsignedGenre
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AsignedGenre(int genre_id, int id_pelicula) 
+        {
+            var movieData = new List<MoviesAndSeriesGenre>();
+            var parameter = new List<SqlParameter>();
+            parameter.Add(new SqlParameter("@id_pelicula", id_pelicula));
+            parameter.Add(new SqlParameter("@Id_Genre", genre_id));
+
+            movieData = db.MoviesAndSeriesGenres.FromSqlRaw(@"exec dbo.ComparMovieGenre @id_pelicula, @Id_Genre", parameter.ToArray()).ToList();
+
+            if (movieData.Count > 0)
+            {
+
+                ViewBag.Message = new Models.MessagePack()
+                {
+                    Text = "The Movie Or Serie Was Register",
+                    Tipo = message.success.ToString()
+                };
+
+                return RedirectToAction("Details_MoviesAndSeries", new { id = id_pelicula});
+            }
+            else {
+                var Datos_MSG = new MoviesAndSeriesGenre();
+                Datos_MSG.genre_id = genre_id;
+                Datos_MSG.movies_series_id = id_pelicula;
+                db.MoviesAndSeriesGenres.Add(Datos_MSG);
+                db.SaveChanges();
+
+                return RedirectToAction("Details_MoviesAndSeries", new { id = id_pelicula });
+            }
+
+            
         }
 
     }
-   
-
-
-
 }

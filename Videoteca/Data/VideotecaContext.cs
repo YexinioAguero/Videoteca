@@ -198,7 +198,7 @@ public partial class VideotecaContext : DbContext
 
         modelBuilder.Entity<MoviesAndSeriesActor>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => new { e.movies_series_id, e.actor_id });
         });
 
         modelBuilder.Entity<MoviesAndSeriesGenre>(entity =>

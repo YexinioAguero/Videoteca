@@ -61,6 +61,10 @@
     display: flex;
 }
 
+.Containt_Genre_Data {
+    margin-left: 50px;
+}
+
 table {
     width: 80%;
     margin-top: 30px;
@@ -88,6 +92,14 @@ tr:nth-child(2n) {
 tr:nth-last-child(2n+1) {
     background-color: #dbf4ff;
 }
+
+label {
+    color: var(--color-letter);
+    font-family: var(--type-letter);
+    text-align: left;
+    font-size: 24px;
+}
+
 h1, h2, h3 {
     color: var(--color-letter);
     font-family: var(--type-letter);

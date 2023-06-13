@@ -10,76 +10,81 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/site.css" />
     <title>Create_MovieAndSerie</title>
 </head>
 <body>
 
-<h4>MoviesAndSeries</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create_MovieAndSerie">
+    <h1>Register Movies Or Series</h1>
+    <hr />
+
+    <div class="contenedor">
+
+        <form asp-controller="Admin" asp-action="Create_MovieAndSerie">
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="title" class="control-label"></label>
+                <h3 asp-for="title" class="control-label">Title</h3>
                 <input asp-for="title" class="form-control" />
                 <span asp-validation-for="title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="synopsis" class="control-label"></label>
+                <h3 asp-for="synopsis" class="control-label">Synopsis</h3>
                 <input asp-for="synopsis" class="form-control" />
                 <span asp-validation-for="synopsis" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="release_year" class="control-label"></label>
+                <h3 asp-for="release_year" class="control-label">Release Year</h3>
                 <input asp-for="release_year" class="form-control" />
                 <span asp-validation-for="release_year" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="duration" class="control-label"></label>
+                <h3 asp-for="duration" class="control-label">Duration</h3>
                 <input asp-for="duration" class="form-control" />
                 <span asp-validation-for="duration" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="classification" class="control-label"></label>
+                <h3 asp-for="classification" class="control-label">Classification</h3>
                 <input asp-for="classification" class="form-control" />
                 <span asp-validation-for="classification" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="director" class="control-label"></label>
+                <h3 asp-for="director" class="control-label">Director</h3>
                 <input asp-for="director" class="form-control" />
                 <span asp-validation-for="director" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="num_seasons" class="control-label"></label>
+                <h3 asp-for="num_seasons" class="control-label">Number of Seasons</h3>
                 <input asp-for="num_seasons" class="form-control" />
                 <span asp-validation-for="num_seasons" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="num_episodes" class="control-label"></label>
+                <h3 asp-for="num_episodes" class="control-label">Number of Episodes</h3>
                 <input asp-for="num_episodes" class="form-control" />
                 <span asp-validation-for="num_episodes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="movie_url" class="control-label"></label>
+                <h3 asp-for="movie_url" class="control-label">Movie or Serie Portate</h3>
                 <input asp-for="movie_url" class="form-control" />
                 <span asp-validation-for="movie_url" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="date_added" class="control-label"></label>
+                <h3 asp-for="date_added" class="control-label">Date Added</h3>
                 <input asp-for="date_added" class="form-control" />
                 <span asp-validation-for="date_added" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <button type="submit" class="btn btn-primary">Registrar</button>
             </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+        </form>
+
+    </div>
+
+    
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

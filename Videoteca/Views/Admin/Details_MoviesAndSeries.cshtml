@@ -1,89 +1,131 @@
-﻿@model Videoteca.Models.MoviesAndSeries
+﻿@model IEnumerable<Videoteca.Models.MovieInfo>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<!DOCTYPE html>
-
-<html>
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick-theme.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
     <meta name="viewport" content="width=device-width" />
-    <title>Details_MoviesAndSeries</title>
-    <link rel="stylesheet" type="text/css" href="~/css/style.css"/>
 </head>
 <body>
 
-<div class="container">
-    <h4>MoviesAndSeries</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.synopsis)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.synopsis)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.release_year)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.release_year)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.duration)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.duration)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.classification)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.classification)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.director)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.director)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.num_seasons)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.num_seasons)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.num_episodes)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.num_episodes)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.movie_url)
-        </dt>
-        <dd class = "col-sm-10">
-            <img class="image" src="@Model.movie_url">
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.date_added)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.date_added)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit_MovieAndSerie" asp-route-id="@Model?.id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+    @foreach (var item in Model)
+    {
+        <div class="contenedor">
+
+            <img class="movie2" src="@item.movie.movie_url">
+            <div>
+                <h1> @item.movie.title</h1>
+
+                <h3> @item.movie.title</h3>
+                <br>
+                <p>@item.movie.synopsis</p>
+            </div>
+
+        </div>
+
+        <table>
+            <tr>
+                <th>Year</th>
+                <td>@item.movie.release_year</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>@item.movie.duration</td>
+            </tr>
+            <tr>
+                <th>Rate</th>
+                <td>@item.movie.duration</td>
+            </tr>
+            <tr>
+                <th>Director</th>
+                <td>@item.movie.director</td>
+            </tr>
+            <tr>
+                <th>Classification</th>
+                <td>@item.movie.classification</td>
+            </tr>
+            @if (@item.movie.num_episodes != null)
+            {
+                <tr>
+                    <th>Episodes</th>
+                    <td>@item.movie.num_episodes</td>
+                </tr>
+                <tr>
+                    <th>Seasons</th>
+                    <td>@item.movie.num_seasons</td>
+                </tr>
+            }
+        </table>
+
+        <div class="windows">
+            <ul class="tabs">
+                <li data-tab-target="#actores" class="active tab">Actors</li>
+                @if (@item.movie.num_episodes != null)
+                {
+                    <li data-tab-target="#episodes" class="active tab">Episodes</li>
+                }
+            </ul>
+            <div class="tab-content">
+                <div id="actores" class="active d-flex flex-column" data-tab-content>
+                    <h1>Actors</h1>
+
+                    <div class="slide">
+
+                        @foreach (var a in item.actors)
+                        {
+                            <div class="d-flex flex-column justify-content-center align-items-center text-center m-2">
+                                <img class="actor d-block w-auto h-auto img-thumbnail align-content-center" src="@a.actor_url">
+                                <p> @a.actor_first_name @a.actor_last_name</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+              
+            </div>
+
+            <ul class="tabs">
+                <form asp-controller="Admin" asp-action="AsignedActors">
+                    <input type="hidden" name="id_pelicula" value="@item.movie.id"/>
+                    <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">
+                        Asigned Actor
+                    </button>
+                </form>
+
+                <form asp-controller="Admin" asp-action="AsignedGenres">
+                    <input type="hidden" name="id_pelicula" value="@item.movie.id" />
+                    <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">
+                        Asigned Genre
+                    </button>
+                </form>
+                
+                @if (@item.movie.num_episodes != null)
+                {
+                    <li data-tab-target="#episodes" class="active tab">Episodes</li>
+                }
+            </ul>
+
+        </div>
+        <footer>
+            <p>Added: @item.movie.date_added</p>
+        </footer>
+
+
+
+    }
+
+    <!--Librerias para slick, boostrap, jquery-->
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="~/lib/slick-1.8.1/slick/slick.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
 </body>
-</html>
