@@ -9,7 +9,7 @@ public partial class Comment
 
     public string userName { get; set; } = null!;
 
-    public string? comment { get; set; }
+    public string? comment1 { get; set; }
 
     public int movies_series_id { get; set; }
 
