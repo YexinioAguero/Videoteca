@@ -7,6 +7,7 @@ using System.Data;
 using Videoteca.Data;
 using Videoteca.Models;
 using Videoteca.Models.DTO;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Videoteca.Controllers
 {
@@ -95,6 +96,28 @@ namespace Videoteca.Controllers
         [HttpPost]
         public ActionResult SetRate(int value, int id)
         {
+            var user = new User();
+            string userId, userName = "";
+            var userInfo = new List<AspNetUser>();
+
+            userId = _userManager.GetUserId(HttpContext.User);
+            if (userId != null)
+            {
+                userInfo = vbd.AspNetUsers.FromSqlRaw(@"exec dbo.GetUser @id", new SqlParameter("@id", userId)).ToList();
+                foreach (var u in userInfo)
+                {
+                    userName = u.UserName;
+                }
+            }
+
+            var parameter = new List<SqlParameter>();
+            parameter.Add(new SqlParameter("@movies_series_id", id));
+            parameter.Add(new SqlParameter("@userName", userName));
+            parameter.Add(new SqlParameter("@rating", value));
+
+            vbd.Database.ExecuteSqlRaw(@"exec dbo.RatingI @movies_series_id, @userName, @rating"
+            , parameter.ToArray());
+            vbd.SaveChanges();
 
             return Json(new { mensaje = value });
         }
@@ -116,7 +139,7 @@ namespace Videoteca.Controllers
                 }
             }
 
-            vbd.Add(new Comment() { userName = userName, comment = text, movies_series_id = id ,dateC = DateTime.Today});
+            vbd.Add(new Comment() { userName = userName, comment1 = text, movies_series_id = id ,dateC = DateTime.Today});
             vbd.SaveChanges();
 
             return Json(new { mensaje = "Datos recibidos correctamente" });

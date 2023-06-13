@@ -72,7 +72,6 @@ $('.btnC').click(function () {
             id: $('.textC').attr("id")
     };
     var datos1 = { id: $('.textC').attr("id") };
-
         // Realizar la solicitud Ajax
         $.ajax({
             url: '/User/SetComment',
@@ -169,7 +168,11 @@ window.onclick = function (event) {
         modal1.style.display = "none";
     }
 }
+var rate = null;
 
+$("#rate-5, #rate-4, #rate-3, #rate-2, #rate-1").click(function () {
+    rate = $(this).val();
+})
 
 
 $('.btn-rate').click(function () {
@@ -177,8 +180,9 @@ $('.btn-rate').click(function () {
     var widget = document.querySelector(".star-widget");
     var editBtn = document.querySelector(".edit");
     // Obtener los datos del formulario o crear un objeto de datos
+      
     var datos = {
-        value: $('input[name="rate"]').val(),
+        value: rate,
         id: $('.star-widget').attr("id")
     };
 

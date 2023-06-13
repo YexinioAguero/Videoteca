@@ -137,7 +137,7 @@ public partial class VideotecaContext : DbContext
 
             entity.Property(e => e.comment_id).ValueGeneratedOnAdd();
             entity.Property(e => e.userName).HasMaxLength(256);
-            entity.Property(e => e.comment)
+            entity.Property(e => e.comment1)
                 .IsUnicode(false)
                 .HasColumnName("comment");
             entity.Property(e => e.dateC).HasColumnType("date");

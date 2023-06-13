@@ -216,38 +216,23 @@ textarea{
     justify-content: center;
     flex-direction: column;
 }
-.container1 .form{
-    display:none;
-}
+
 .container1 .rate-post{
     display: none;
 }
 
-.container1 .text {
-    font-size: 20px;
-    color: var(--color-letter);
-    font-weight: 500;
-}
-.container1 .edit {
-    position:absolute;
-    right: 10px;
-    top:5px;
-    font-size: 13px;
-    color: #666;
-    font-weight: 500;
-    cursor:pointer;
-}
-.comment-post {
+.container2 .comment-post {
     display: none;
 }
 
-.container2 .text {
+
+.text {
     font-size: 20px;
     color: var(--color-letter);
     font-weight: 500;
 }
 
-.container2 .edit {
+.edit {
     position: absolute;
     right: 10px;
     top: 5px;
