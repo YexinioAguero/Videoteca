@@ -1,0 +1,40 @@
+﻿@model Videoteca.Models.AspNetUserRoles
+
+@{
+    ViewData["Title"] = "EditRole";
+}
+
+<h1>EditRole</h1>
+
+<h4>AspNetUserRoles</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditRole">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" />
+
+            <select asp-for="RoleId">
+                <option value="59e3e299-2170-4269-82c7-ed30a3886917">
+                    ADMIN
+                </option>
+                <option value="dcf1d480-586b-4e61-9c7c-561fdc129030">
+                    USER
+                </option>
+                <option value="d91f2dec-3597-45bc-a95d-ec96fb929045">
+                    DENEGADO
+                </option>
+            </select>
+
+            <input type="hidden" asp-for="RoleId" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
