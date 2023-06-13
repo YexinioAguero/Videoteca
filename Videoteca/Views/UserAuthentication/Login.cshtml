@@ -8,8 +8,9 @@
 
 <html>
 <head>
-
     <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/css/Login.css" />
+    <title>Login</title>
     <title>Login</title>
     <style>
         body{
@@ -43,6 +44,17 @@
             
         }
 
+
+        label {
+            color: white;
+        }
+
+
+        a {
+            color: white;
+        }
+
+
         .container {
             padding: 16px;
         
@@ -69,6 +81,7 @@
             </div>
 
             <label asp-for="Password">Password</label>
+
             <input type="password" asp-for="Password" />
             <div class="msg">
                 <span class="err" asp-validation-for="Password"></span>
