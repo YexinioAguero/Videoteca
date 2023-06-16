@@ -12,6 +12,9 @@
 </head>
 <body>
 
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anónimo" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v17.0&appId= 1233834500833890&autoLogAppEvents=1" nonce="bZqdA4Ag"></script>
+
     @foreach (var item in Model)
     {
         <div class="contenedor">
@@ -78,7 +81,7 @@
                         @foreach (var a in item.actors)
                         {
                             <div class="d-flex flex-column justify-content-center align-items-center text-center m-2">
-                                <img class="actor d-block w-auto h-auto img-thumbnail align-content-center" src="@a.actor_url">
+                                <img id="Image" class="actor d-block img-thumbnail align-content-center" src="@a.actor_url">
                                 <p> @a.actor_first_name @a.actor_last_name</p>
                             </div>
                         }
@@ -88,24 +91,44 @@
             </div>
 
             <ul class="tabs">
-                <form asp-controller="Admin" asp-action="AsignedActors">
-                    <input type="hidden" name="id_pelicula" value="@item.movie.id"/>
-                    <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">
-                        Asigned Actor
-                    </button>
-                </form>
+                <div class="contenedor">
 
-                <form asp-controller="Admin" asp-action="AsignedGenres">
-                    <input type="hidden" name="id_pelicula" value="@item.movie.id" />
-                    <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">
-                        Asigned Genre
-                    </button>
-                </form>
-                
-                @if (@item.movie.num_episodes != null)
-                {
+                    <form asp-controller="Admin" asp-action="AsignedActors" method="get">
+                        <input type="hidden" name="id_pelicula" value="@item.movie.id" />
+                        <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">
+                            Asigned Actor
+                        </button>
+                    </form>
+
+                    <form asp-controller="Admin" asp-action="AsignedGenres" method="get">
+                        <input type="hidden" name="id_pelicula" value="@item.movie.id" />
+                        <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">
+                            Asigned Genre
+                        </button>
+                    </form>
+
+                    <div class="fb-share-button" data-href="http://www.facebook.com/sharer.php?u= @item.movie.movie_url" data-layout="" data-size="">
+                        <a name="fb_share" id="compartir" target="_blank " href="http://www.facebook.com/sharer.php?u= @item.movie.movie_url" class="fb-xfbml -parse-ignorar">
+                        <img class="iconFa" src="https://icon-library.com/images/facebook-share-icon-png/facebook-share-icon-png-15.jpg" />
+                        </a>
+            
+                    </div>
+
+                    @if (@item.movie.num_episodes != null)
+                    {
                     <li data-tab-target="#episodes" class="active tab">Episodes</li>
-                }
+
+                    <form asp-controller="Admin" asp-action="InsertEpisodes" method="get">
+                        <input type="hidden" name="id_pelicula" value="@item.movie.id" />
+                        <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">
+                            Insert Episode
+                        </button>
+                    </form>
+
+                    }
+
+
+                </div>
             </ul>
 
         </div>
@@ -113,7 +136,7 @@
             <p>Added: @item.movie.date_added</p>
         </footer>
 
-
+        
 
     }
 

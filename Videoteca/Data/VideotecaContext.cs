@@ -58,7 +58,6 @@ public partial class VideotecaContext : DbContext
         {
             entity.HasKey(e => e.actor_id).HasName("pk_actor");
 
-            entity.Property(e => e.actor_id).ValueGeneratedNever();
             entity.Property(e => e.actor_first_name)
                 .HasMaxLength(30)
                 .IsUnicode(false);
@@ -176,8 +175,7 @@ public partial class VideotecaContext : DbContext
 
         modelBuilder.Entity<MoviesAndSeries>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("pk_idMvS");
-
+            entity.HasKey(e => e.id).HasName("pk_idMvS"); 
             entity.Property(e => e.classification)
                 .HasMaxLength(5)
                 .IsUnicode(false);

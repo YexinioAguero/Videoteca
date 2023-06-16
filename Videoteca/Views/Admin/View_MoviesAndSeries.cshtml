@@ -15,10 +15,26 @@
 
 <body>
 
+    <div class="contenedor">
+        
 
-    <form asp-action="Create_MovieAndSeries" asp-controller="Admin">
-        <button id="CreateMS" class="btn btn-info align-items-xxl-center" type="submit">Register Movie Or Serie</button>
-    </form>
+        <div>
+            <form asp-action="Create_Movie" asp-controller="Admin" method="get">
+                <button id="CreateMS" class="btn btn-info align-items-xxl-center" type="submit">Register Movie</button>
+            </form>
+        </div>
+
+        <div>
+            <form asp-action="Create_Serie" asp-controller="Admin" method="get">
+                <button id="CreateMS" class="btn btn-info align-items-xxl-center" type="submit">Register Serie</button>
+            </form>
+        </div>
+
+        
+
+    </div>
+
+    
 
 
 @*    @foreach (var m in Model)
@@ -60,7 +76,7 @@
                             <br>
                             <p class="display-4 text-capitalize">@movie.release_year</p>
                             <br>
-                            <form asp-action="Details_MoviesAndSeries" asp-controller="Admin" asp-route-id="@movie.id">
+                            <form asp-action="Details_MoviesAndSeries" asp-controller="Admin" asp-route-id="@movie.id" method="get">
                                 <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">View More</button>
                             </form>
                         </div>

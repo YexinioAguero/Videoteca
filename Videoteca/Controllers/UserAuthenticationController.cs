@@ -50,11 +50,11 @@ namespace Videoteca.Controllers
 
                 if (User.IsInRole("user"))
                 {
-                    return RedirectToAction("Index", "User");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    return RedirectToAction("Index", "User");
+                    return RedirectToAction("Index", "Home");
                 }
             
             }

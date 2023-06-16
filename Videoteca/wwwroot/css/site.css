@@ -22,6 +22,9 @@
     }
 }
 
+
+
+
 .movie_img {
     width: 250px;
     height: 400px;
@@ -58,8 +61,13 @@
 }
 .contenedor{
     margin-top: 20px;
+    margin-left:20px;
+    margin-bottom:20px;
+    margin-right: 20px;
     display: flex;
 }
+
+
 
 .Containt_Genre_Data {
     margin-left: 50px;
@@ -112,6 +120,11 @@ h2 {
 }
 h3 {
     font-size: 15px;
+}
+
+#Image {
+    height: 150px;
+    width: 150px;
 }
 
 p {
@@ -309,6 +322,18 @@ input#rate-5:checked ~ label {
 button {
   border-radius: 5px;
 }
+a#compartir {
+    display: inline-block;
+    background-color: #3b5998;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    max-height: 80px;
+    max-width: 150px;
+    border-radius: 150px;
+}
+
 .btn-rate{
     height: 45px;
     width: 100%;
@@ -339,5 +364,13 @@ body {
    text-align: justify;
    padding: 0;
    margin: 0;
+}
+
+img.iconFa {
+    max-width: 50px;
+    max-height: 50PX;
+    width: 50px;
+    height: 50px;
+    text-align: center;
 }
 

@@ -79,15 +79,15 @@ namespace Videoteca.Controllers
             return View(list);
         }
         // GET: AdminController/Create
-        public ActionResult Create_MovieAndSeries()
+        public ActionResult Create_Movie()
         {
             return View();
         }
 
-        //POST_AdminController/Create_MovieAndSerie
+        //POST_AdminController/Create_Movie
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create_MovieAndSerie(MoviesAndSeries movisData)
+        public ActionResult Create_Movie(MoviesAndSeries movisData)
         {
             try
             {
@@ -117,18 +117,11 @@ namespace Videoteca.Controllers
                         Tipo = message.danger.ToString()
                     };
 
-                    return RedirectToAction("Create_MovieAndSeries");
+                    return RedirectToAction("Create_Movie");
                 }
                 else
                 {
-                // var result = Task.Run(() => db.Database
-                //.ExecuteSqlRaw(@"exec dbo.InsertMovieAndSerie @title, @synopsis, @releaseYear, @duration,
-                //@classification, @director, @num_seasons, @num_episodes, @movie_url, @date_added",
-                //parameter.ToArray()));
 
-                //    result.Wait();
-
-                //    db.SaveChanges();
                     db.MoviesAndSeries.Add(movisData);
                     db.SaveChanges();
 
@@ -147,7 +140,7 @@ namespace Videoteca.Controllers
 
                     var idMovie = movie.id;
 
-                    return RedirectToAction("Details_MoviesAndSeries", new { id =idMovie });
+                    return RedirectToAction("Details_MoviesAndSeries", new { id = idMovie });
                 }
 
 
@@ -160,9 +153,89 @@ namespace Videoteca.Controllers
                     Tipo = message.danger.ToString()
                 };
 
-                return RedirectToAction("Create_MovieAndSeries");
+                return RedirectToAction("Create_Movie");
             }
         }
+
+        // GET: AdminController/Create
+        public ActionResult Create_Serie()
+        {
+            return View();
+        }
+
+        //POST_AdminController/Create_Serie
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create_Serie(MoviesAndSeries movisData)
+        {
+            try
+            {
+
+                var parameter = new List<SqlParameter>();
+                parameter.Add(new SqlParameter("@title", movisData.title));
+                parameter.Add(new SqlParameter("@synopsis", movisData.synopsis));
+                parameter.Add(new SqlParameter("@releaseYear", movisData.release_year));
+                parameter.Add(new SqlParameter("@duration", movisData.duration));
+                parameter.Add(new SqlParameter("@classification", movisData.classification));
+                parameter.Add(new SqlParameter("@director", movisData.director));
+                parameter.Add(new SqlParameter("@num_seasons", movisData.num_seasons));
+                parameter.Add(new SqlParameter("@num_episodes", movisData.num_episodes));
+                parameter.Add(new SqlParameter("@movie_url", movisData.movie_url));
+                parameter.Add(new SqlParameter("@date_added", movisData.date_added));
+
+
+                var moviesSearch = new List<MoviesAndSeries>();
+
+                moviesSearch = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovieDataForTitle @title", new SqlParameter("@title", movisData.title)).ToList();
+
+                if (moviesSearch.Count > 0)
+                {
+                    ViewBag.Message = new Models.MessagePack()
+                    {
+                        Text = "The Movie Or Serie Title Was Exist",
+                        Tipo = message.danger.ToString()
+                    };
+
+                    return RedirectToAction("Create_Serie");
+                }
+                else
+                {
+
+                    db.MoviesAndSeries.Add(movisData);
+                    db.SaveChanges();
+
+                    ViewBag.Message = new Models.MessagePack()
+                    {
+                        Text = "The Movie Or Serie Was Register",
+                        Tipo = message.success.ToString()
+                    };
+
+
+                    var movies = new List<MoviesAndSeries>();
+
+                    movies = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovieDataForTitle @title", new SqlParameter("@title", movisData.title)).ToList();
+
+                    var movie = movies.FirstOrDefault();
+
+                    var idMovie = movie.id;
+
+                    return RedirectToAction("Details_MoviesAndSeries", new { id = idMovie });
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = new Models.MessagePack()
+                {
+                    Text = "The Movie Or Serie Can't Was Register",
+                    Tipo = message.danger.ToString()
+                };
+
+                return RedirectToAction("Create_Serie");
+            }
+        }
+
 
 
         //Get: AdminController/Edit_MovieAndSerie
@@ -284,6 +357,95 @@ namespace Videoteca.Controllers
 
 
         }
+        
+        //Get: AdminController/CreateActor
+        public IActionResult CreateActors(int id_pelicula) {
+
+            
+            var data = new CreateActorMcs();
+
+            data.movie_id = id_pelicula;
+            
+            return View(data);
+        }
+
+        //Post: AdminController/CreateActors
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateActors(CreateActorMcs Data) 
+        {
+            try
+            {
+
+                var parameter = new List<SqlParameter>();
+                parameter.Add(new SqlParameter("@first_name", Data.actor_first_name));
+                parameter.Add(new SqlParameter("@last_name", Data.actor_last_name));
+
+
+
+                var actorSearch = new List<Actor>();
+
+                actorSearch = db.Actors.FromSqlRaw(@"exec dbo.GetActorData @first_name, @last_name", parameter.ToArray()).ToList();
+
+                if (actorSearch.Count > 0)
+                {
+                    ViewBag.Message = new Models.MessagePack()
+                    {
+                        Text = "The Actor Was Exist",
+                        Tipo = message.danger.ToString()
+                    };
+
+                    return RedirectToAction("Create_MovieAndSeries");
+                }
+                else
+                {
+                    var actorData = new Actor();
+                    actorData.actor_first_name = Data.actor_first_name;
+                    actorData.actor_last_name = Data.actor_last_name;
+                    actorData.actor_url = Data.actor_url;
+
+
+                    db.Actors.Add(actorData);
+                    db.SaveChanges();
+
+                    ViewBag.Message = new Models.MessagePack()
+                    {
+                        Text = "The Movie Or Serie Was Register",
+                        Tipo = message.success.ToString()
+                    };
+
+                    var actorSearch2 = new List<Actor>();
+                    actorSearch2 = db.Actors.FromSqlRaw(@"exec dbo.GetActorData @first_name, @last_name", parameter.ToArray()).ToList();
+
+                    var actor_id = actorSearch2.FirstOrDefault().actor_id;
+
+                    var movie_id = Data.movie_id;
+
+                    var MovieActor = new MoviesAndSeriesActor();
+
+                    MovieActor.movies_series_id = movie_id;
+                    MovieActor.actor_id = actor_id;
+
+                    db.MoviesAndSeriesActors.Add(MovieActor);
+                    db.SaveChanges();
+
+                    return RedirectToAction("Details_MoviesAndSeries", new { id = movie_id });
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = new Models.MessagePack()
+                {
+                    Text = "The Movie Or Serie Can't Was Register",
+                    Tipo = message.danger.ToString()
+                };
+
+                return RedirectToAction("Create_MovieAndSeries");
+            }
+        }
+
         //Get: Admin/AsignedActors
         public IActionResult AsignedActors(int id_pelicula)
         {
@@ -304,11 +466,10 @@ namespace Videoteca.Controllers
 
         }
 
-
         //Post: AdminController/AsignedActor
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AsignedActor(int id_actor, int id_pelicula)
+        public IActionResult AsignedActors(int id_actor, int id_pelicula)
         {
             var movieData = new List<MoviesAndSeriesActor>();
             var parameter = new List<SqlParameter>();
@@ -340,7 +501,89 @@ namespace Videoteca.Controllers
             }
 
         }
-        
+
+        //Get: Admin/CreateGenres
+        public IActionResult CreateGenres(int id_pelicula)
+        {
+
+            var data = new CreateGenresMcs();
+
+            data.movie_id = id_pelicula;
+
+            return View(data);
+        }
+
+        //Post: AdminController/CreateGenres
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateGenres(CreateGenresMcs Data)
+        {
+            try
+            {
+                var parameter = new List<SqlParameter>();
+                parameter.Add(new SqlParameter("@genre_name", Data.genre_name));
+
+                var genreSearch = new List<Genre>();
+
+                genreSearch = db.Genres.FromSqlRaw(@"exec dbo.GetGenreData @genre_name", parameter.ToArray()).ToList();
+
+                if (genreSearch.Count > 0)
+                {
+                    ViewBag.Message = new Models.MessagePack()
+                    {
+                        Text = "The Genre Was Exist",
+                        Tipo = message.danger.ToString()
+                    };
+
+                    return View();
+                }
+                else
+                {
+                    var genreData = new Genre();
+                    genreData.genre_name = Data.genre_name;
+
+                    db.Genres.Add(genreData);
+                    db.SaveChanges();
+
+                    ViewBag.Message = new Models.MessagePack()
+                    {
+                        Text = "The Movie Or Serie Was Register",
+                        Tipo = message.success.ToString()
+                    };
+
+                    var genreSearch2 = new List<Genre>();
+                    genreSearch2 = db.Genres.FromSqlRaw(@"exec dbo.GetGenreData @genre_name", parameter.ToArray()).ToList();
+
+                    var actor_id = genreSearch2.FirstOrDefault().genre_id;
+
+                    var movie_id = Data.movie_id;
+
+                    var MovieGenre = new MoviesAndSeriesGenre();
+
+                    MovieGenre.movies_series_id = movie_id;
+                    MovieGenre.genre_id = actor_id;
+
+                    db.MoviesAndSeriesGenres.Add(MovieGenre);
+                    db.SaveChanges();
+
+                    return RedirectToAction("Details_MoviesAndSeries", new { id = movie_id });
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = new Models.MessagePack()
+                {
+                    Text = "The Movie Or Serie Can't Was Register",
+                    Tipo = message.danger.ToString()
+                };
+
+                return View();
+            }
+        }
+
+
         //Get: Admin/AsignedGenres
         public IActionResult AsignedGenres(int id_pelicula) {
 
@@ -348,7 +591,7 @@ namespace Videoteca.Controllers
             var movieData = new List<MoviesAndSeries>();
             var data = new GenresAndMovieData();
 
-
+            
             movieData = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovie @id", new SqlParameter("@id", id_pelicula)).ToList();
             genres = db.Genres.FromSqlRaw(@"exec dbo.GetGenre").ToList();
             data.Genre = genres.ToArray();
@@ -360,7 +603,7 @@ namespace Videoteca.Controllers
         //Post: AdminController/AsignedGenre
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AsignedGenre(int genre_id, int id_pelicula) 
+        public IActionResult AsignedGenres(int genre_id, int id_pelicula) 
         {
             var movieData = new List<MoviesAndSeriesGenre>();
             var parameter = new List<SqlParameter>();
@@ -391,6 +634,79 @@ namespace Videoteca.Controllers
             }
 
             
+        }
+        
+        //Get: AdminController/InserEpisode
+        public IActionResult InsertEpisodes(int id_pelicula)
+        {
+
+            var episode = new Episode();
+            episode.movies_series_id = id_pelicula;
+
+            return View(episode);
+        }
+
+        //Post: AdminController/InsertEpisode
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult InsertEpisodes(Episode episode) 
+        {
+            try
+            {
+                var parameter = new List<SqlParameter>();
+                parameter.Add(new SqlParameter("@title", episode.title));
+                parameter.Add(new SqlParameter("@num_episode", episode.episode_number));
+                parameter.Add(new SqlParameter("@id_serie", episode.movies_series_id));
+
+                var episodeSearch = new List<Episode>();
+
+                episodeSearch = db.Episodes.FromSqlRaw(@"exec dbo.searchEpisode @title, @num_episode, @id_serie",
+                    parameter.ToArray()).ToList();
+
+                if (episodeSearch.Count > 0)
+                {
+                    ViewBag.Message = new Models.MessagePack()
+                    {
+                        Text = "The episode already exists for this series",
+                        Tipo = message.danger.ToString()
+                    };
+
+                    return View();
+                }
+                else
+                {
+                    
+                    db.Episodes.Add(episode);
+                    db.SaveChanges();
+
+                    var result = Task.Run(() => db.Database
+                    .ExecuteSqlRaw(@"exec dbo.updateNumEpisodes @id_serie", new SqlParameter("@id_serie", episode.movies_series_id)));
+
+                    result.Wait();
+
+                    ViewBag.Message = new Models.MessagePack()
+                    {
+                        Text = "Episode registered successfully",
+                        Tipo = message.success.ToString()
+                    };
+
+
+                   
+                    return RedirectToAction("Details_MoviesAndSeries", new { id = episode.movies_series_id });
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = new Models.MessagePack()
+                {
+                    Text = "Error registering the episode: " + ex,
+                    Tipo = message.danger.ToString()
+                };
+
+                return View();
+            }
         }
 
     }

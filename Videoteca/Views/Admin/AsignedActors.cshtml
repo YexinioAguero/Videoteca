@@ -28,7 +28,7 @@
                     Select the Actor for Asigned in the @item.title
                 </h1>
                 <br>
-                <form method="post" asp-controller="Admin" asp-action="AsignedActor">
+                <form method="post" asp-controller="Admin" asp-action="AsignedActors">
 
                     <input type="hidden" name="id_pelicula" value="@item.id" />
                     <div>
@@ -46,11 +46,33 @@
                     </div>
                     
                 </form>
+                <br><br>
+                
+                <div>
+
+                    <div>
+                        <form asp-action="CreateActors" asp-controller="Admin" method="get">
+                            <input type="hidden" name="id_pelicula" value="@item.id" />
+                            <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">Create Actor</button>
+                        </form>
+                        <br><br><br><br><br><br><br><br>
+                    </div>
+                   
+                    <div>
+                        <form asp-action="Details_MoviesAndSeries" asp-controller="Admin" asp-route-id="@item.id" method="get">
+                            <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">Go Back</button>
+                        </form>
+                    </div>
+                    
+
+                </div>
+                
+
             </div>
 
         </div>
         
     }
-    
+
 
 </body>

@@ -1,0 +1,59 @@
+﻿@model Videoteca.Models.Episode
+
+@{
+    ViewData["Title"] = "InsertEpisodes";
+}
+
+<head>
+    <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick-theme.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <h1>Register Movies</h1>
+    <hr />
+
+    <div class="contenedor">
+        <form asp-controller="Admin" asp-action="InsertEpisodes" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <h3 asp-for="title" class="control-label">Title</h3>
+                <input asp-for="title" class="form-control" />
+                <span asp-validation-for="title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <h3 asp-for="duration" class="control-label">Duration</h3>
+                <input asp-for="duration" class="form-control" />
+                <span asp-validation-for="duration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <h3 asp-for="episode_number" class="control-label">Episode Number</h3>
+                <input asp-for="episode_number" class="form-control" />
+                <span asp-validation-for="episode_number" class="text-danger"></span>
+            </div>
+            
+            <input type="hidden" name="movies_series_id" value="@Model.movies_series_id" />
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div>
+        <form asp-action="Details_MoviesAndSeries" asp-controller="Admin" asp-route-id="@Model.movies_series_id" method="get">
+            <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">Go Back</button>
+        </form>
+    </div>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+
+</body>

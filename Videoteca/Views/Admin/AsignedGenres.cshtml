@@ -28,14 +28,14 @@
                     Select the Genre for Asigned in the @item.title
                 </h1>
                 <br>
-                <form method="post" asp-controller="Admin" asp-action="AsignedGenre">
+                <form asp-controller="Admin" asp-action="AsignedGenres" method="post">
 
                     <input type="hidden" name="id_pelicula" value="@item.id" />
                     <div>
                         <select name="genre_id">
                             @foreach (var opcion in Model.Genre)
                             {
-                                <option n value="@opcion.genre_id">@opcion.genre_name</option>
+                                <option value="@opcion.genre_id">@opcion.genre_name</option>
                                 
                             }
                         </select>
@@ -45,11 +45,21 @@
                         <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">Asigned Genre</button>
                     </div>
 
-
-
-
-
                 </form>
+                <br><br>
+
+                <div>
+                    <form asp-action="CreateGenres" asp-controller="Admin" method="get">
+                        <input type="hidden" name="id_pelicula" value="@item.id" />
+                        <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">Create Genre</button>
+                    </form>
+                    <br><br><br><br><br><br><br><br>
+
+                    <form asp-action="Details_MoviesAndSeries" asp-controller="Admin" asp-route-id="@item.id" method="get">
+                        <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">Go Back</button>
+                    </form>
+
+                </div>
             </div>
 
         </div>
