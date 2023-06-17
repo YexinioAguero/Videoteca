@@ -11,6 +11,14 @@
     <meta name="viewport" content="width=device-width" />
 </head>
 <body>
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-@(ViewBag.Message.Tipo)">
+            @ViewBag.Message.Text
+        </div>
+    }
+
     <h1>Register Movies</h1>
     <hr />
 

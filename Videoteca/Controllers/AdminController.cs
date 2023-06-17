@@ -113,11 +113,11 @@ namespace Videoteca.Controllers
                 {
                     ViewBag.Message = new Models.MessagePack()
                     {
-                        Text = "The Movie Or Serie Title Was Exist",
+                        Text = "The Movie Title Was Exist",
                         Tipo = message.danger.ToString()
                     };
 
-                    return RedirectToAction("Create_Movie");
+                    return View();
                 }
                 else
                 {
@@ -127,7 +127,7 @@ namespace Videoteca.Controllers
 
                     ViewBag.Message = new Models.MessagePack()
                     {
-                        Text = "The Movie Or Serie Was Register",
+                        Text = "The Movie Was Register",
                         Tipo = message.success.ToString()
                     };
 
@@ -149,11 +149,11 @@ namespace Videoteca.Controllers
             {
                 ViewBag.Message = new Models.MessagePack()
                 {
-                    Text = "The Movie Or Serie Can't Was Register",
+                    Text = "Error registering the movie: " + ex,
                     Tipo = message.danger.ToString()
                 };
 
-                return RedirectToAction("Create_Movie");
+                return View();
             }
         }
 
@@ -192,11 +192,11 @@ namespace Videoteca.Controllers
                 {
                     ViewBag.Message = new Models.MessagePack()
                     {
-                        Text = "The Movie Or Serie Title Was Exist",
+                        Text = "The Series Title Was Exist",
                         Tipo = message.danger.ToString()
                     };
 
-                    return RedirectToAction("Create_Serie");
+                    return View();
                 }
                 else
                 {
@@ -206,7 +206,7 @@ namespace Videoteca.Controllers
 
                     ViewBag.Message = new Models.MessagePack()
                     {
-                        Text = "The Movie Or Serie Was Register",
+                        Text = "The Series Was Register",
                         Tipo = message.success.ToString()
                     };
 
@@ -228,15 +228,13 @@ namespace Videoteca.Controllers
             {
                 ViewBag.Message = new Models.MessagePack()
                 {
-                    Text = "The Movie Or Serie Can't Was Register",
+                    Text = "Error registering the series: " + ex,
                     Tipo = message.danger.ToString()
                 };
 
-                return RedirectToAction("Create_Serie");
+                return View();
             }
         }
-
-
 
         //Get: AdminController/Edit_MovieAndSerie
         public ActionResult Edit_MovieAndSerie(int id)
@@ -255,29 +253,26 @@ namespace Videoteca.Controllers
         //POST_AdminController/Edit_MovieAndSerie
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit_MovieAndSerie(int id, MoviesAndSeries movisData)
+        public IActionResult Edit_MovieAndSerie(MoviesAndSeries movisData)
         {
 
             try
             {
                 var MovieEdit = new List<MoviesAndSeries>();
                 var parameter = new List<SqlParameter>();
-                parameter.Add(new SqlParameter("@id", id));
+                parameter.Add(new SqlParameter("@Id_Movie", movisData.id));
                 parameter.Add(new SqlParameter("@title", movisData.title));
                 parameter.Add(new SqlParameter("@synopsis", movisData.synopsis));
                 parameter.Add(new SqlParameter("@releaseYear", movisData.release_year));
                 parameter.Add(new SqlParameter("@duration", movisData.duration));
                 parameter.Add(new SqlParameter("@classification", movisData.classification));
                 parameter.Add(new SqlParameter("@director", movisData.director));
-                parameter.Add(new SqlParameter("@num_seasons", movisData.num_seasons));
-                parameter.Add(new SqlParameter("@num_episodes", movisData.num_episodes));
                 parameter.Add(new SqlParameter("@movie_url", movisData.movie_url));
-                parameter.Add(new SqlParameter("@date_added", movisData.date_added));
 
 
                 var result = Task.Run(() => db.Database
-                .ExecuteSqlRaw(@"exec dbo.EditMoviesAndSerie @id, @title, @synopsis, @releaseYear, @duration,
-            @classification, @director, @num_seasons, @num_episodes, @movie_url, @date_added",
+                .ExecuteSqlRaw(@"exec dbo.EditMoviesAndSerie @Id_Movie, @title, @synopsis, @releaseYear, @duration,
+                @classification, @director, @movie_url",
                 parameter.ToArray()));
 
                 result.Wait();
@@ -286,17 +281,17 @@ namespace Videoteca.Controllers
 
                 ViewBag.Message = new Models.MessagePack()
                 {
-                    Text = "The Movie Or Serie Was Register",
+                    Text = "The series or movie was modified correctly",
                     Tipo = message.success.ToString()
                 };
 
-                return RedirectToAction("index");
+                return RedirectToAction("Details_MoviesAndSeries", new { id = movisData.id});
             }
             catch (Exception ex)
             {
                 ViewBag.Message = new Models.MessagePack()
                 {
-                    Text = "The Movie Or Serie Can't Was Register",
+                    Text = "Error The series or movie was not modified correctly: " + ex,
                     Tipo = message.danger.ToString()
                 };
 
@@ -339,22 +334,26 @@ namespace Videoteca.Controllers
 
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                ViewBag.Message = new Models.MessagePack()
+                {
+                    Text = "The movie or series was deleted correctly.",
+                    Tipo = message.danger.ToString()
+                };
+
+
+                return RedirectToAction("View_MoviesAndSeries");
 
             }
             catch (Exception ex)
             {
                 ViewBag.Message = new Models.MessagePack()
                 {
-                    Text = "The Movie Or Serie Can't Was Register",
+                    Text = "Error The series or movie was not Delete correctly: " + ex,
                     Tipo = message.danger.ToString()
                 };
 
                 return View();
             }
-
-
-
 
         }
         
@@ -395,7 +394,7 @@ namespace Videoteca.Controllers
                         Tipo = message.danger.ToString()
                     };
 
-                    return RedirectToAction("Create_MovieAndSeries");
+                    return View();
                 }
                 else
                 {
@@ -408,11 +407,6 @@ namespace Videoteca.Controllers
                     db.Actors.Add(actorData);
                     db.SaveChanges();
 
-                    ViewBag.Message = new Models.MessagePack()
-                    {
-                        Text = "The Movie Or Serie Was Register",
-                        Tipo = message.success.ToString()
-                    };
 
                     var actorSearch2 = new List<Actor>();
                     actorSearch2 = db.Actors.FromSqlRaw(@"exec dbo.GetActorData @first_name, @last_name", parameter.ToArray()).ToList();
@@ -429,6 +423,13 @@ namespace Videoteca.Controllers
                     db.MoviesAndSeriesActors.Add(MovieActor);
                     db.SaveChanges();
 
+
+                    ViewBag.Message = new Models.MessagePack()
+                    {
+                        Text = "The actor registered successfully",
+                        Tipo = message.success.ToString()
+                    };
+
                     return RedirectToAction("Details_MoviesAndSeries", new { id = movie_id });
                 }
 
@@ -438,11 +439,11 @@ namespace Videoteca.Controllers
             {
                 ViewBag.Message = new Models.MessagePack()
                 {
-                    Text = "The Movie Or Serie Can't Was Register",
+                    Text = "Error The actor did not register correctly: " + ex,
                     Tipo = message.danger.ToString()
                 };
 
-                return RedirectToAction("Create_MovieAndSeries");
+                return View();
             }
         }
 
@@ -483,11 +484,11 @@ namespace Videoteca.Controllers
 
                 ViewBag.Message = new Models.MessagePack()
                 {
-                    Text = "The Movie Or Serie Was Register",
-                    Tipo = message.success.ToString()
+                    Text = "The actor is already registered in this movie or series",
+                    Tipo = message.danger.ToString()
                 };
 
-                return RedirectToAction("Details_MoviesAndSeries", new { id = id_pelicula });
+                return View();
             }
             else
             {
@@ -496,6 +497,12 @@ namespace Videoteca.Controllers
                 Datos_MSA.movies_series_id = id_pelicula;
                 db.MoviesAndSeriesActors.Add(Datos_MSA);
                 db.SaveChanges();
+
+                ViewBag.Message = new Models.MessagePack()
+                {
+                    Text = "The actor entered the movie correctly or",
+                    Tipo = message.success.ToString()
+                };
 
                 return RedirectToAction("Details_MoviesAndSeries", new { id = id_pelicula });
             }
@@ -545,12 +552,7 @@ namespace Videoteca.Controllers
                     db.Genres.Add(genreData);
                     db.SaveChanges();
 
-                    ViewBag.Message = new Models.MessagePack()
-                    {
-                        Text = "The Movie Or Serie Was Register",
-                        Tipo = message.success.ToString()
-                    };
-
+                    
                     var genreSearch2 = new List<Genre>();
                     genreSearch2 = db.Genres.FromSqlRaw(@"exec dbo.GetGenreData @genre_name", parameter.ToArray()).ToList();
 
@@ -566,6 +568,12 @@ namespace Videoteca.Controllers
                     db.MoviesAndSeriesGenres.Add(MovieGenre);
                     db.SaveChanges();
 
+                    ViewBag.Message = new Models.MessagePack()
+                    {
+                        Text = "The genre was inserted correctly in the movie or series",
+                        Tipo = message.success.ToString()
+                    };
+
                     return RedirectToAction("Details_MoviesAndSeries", new { id = movie_id });
                 }
 
@@ -575,14 +583,13 @@ namespace Videoteca.Controllers
             {
                 ViewBag.Message = new Models.MessagePack()
                 {
-                    Text = "The Movie Or Serie Can't Was Register",
+                    Text = "Error registering gender: " + ex,
                     Tipo = message.danger.ToString()
                 };
 
                 return View();
             }
         }
-
 
         //Get: Admin/AsignedGenres
         public IActionResult AsignedGenres(int id_pelicula) {
@@ -617,11 +624,11 @@ namespace Videoteca.Controllers
 
                 ViewBag.Message = new Models.MessagePack()
                 {
-                    Text = "The Movie Or Serie Was Register",
-                    Tipo = message.success.ToString()
+                    Text = "The movie or series already has this genre assigned",
+                    Tipo = message.danger.ToString()
                 };
 
-                return RedirectToAction("Details_MoviesAndSeries", new { id = id_pelicula});
+                return View();
             }
             else {
                 var Datos_MSG = new MoviesAndSeriesGenre();
@@ -629,6 +636,12 @@ namespace Videoteca.Controllers
                 Datos_MSG.movies_series_id = id_pelicula;
                 db.MoviesAndSeriesGenres.Add(Datos_MSG);
                 db.SaveChanges();
+
+                ViewBag.Message = new Models.MessagePack()
+                {
+                    Text = "The genre was registered correctly in the movie or it will be",
+                    Tipo = message.success.ToString()
+                };
 
                 return RedirectToAction("Details_MoviesAndSeries", new { id = id_pelicula });
             }
@@ -671,7 +684,8 @@ namespace Videoteca.Controllers
                         Tipo = message.danger.ToString()
                     };
 
-                    return View();
+
+                    return RedirectToAction("Details_MoviesAndSeries", new { id = episode.movies_series_id });
                 }
                 else
                 {
