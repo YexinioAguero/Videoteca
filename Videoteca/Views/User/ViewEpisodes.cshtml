@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Videoteca.Models.Episode>
+
+<body>
+    <main>
+        @foreach (var item in Model)
+        {
+            <div class="container-comments">
+                @if (item.title != null)
+                {
+                    <div class="episodes">
+                        <div><h3>@item.title</h3></div>
+                        <div><h4>@item.episode_number</h4></div>
+                        <div><h4>@item.duration</h4></div>
+                    </div>
+
+                }
+                else
+                {
+                    <div class="bg-white" id="user-date">
+                        There's no episodes..
+                    </div>
+                }
+            </div>
+        }
+
+    </main>
+ </body>
