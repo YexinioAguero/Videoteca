@@ -36,6 +36,8 @@ public partial class VideotecaContext : DbContext
 
     public virtual DbSet<Genre> Genres { get; set; }
 
+    public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
+
     public virtual DbSet<MoviesAndSeries> MoviesAndSeries { get; set; }
 
     public virtual DbSet<MoviesAndSeriesActor> MoviesAndSeriesActors { get; set; }
@@ -48,7 +50,7 @@ public partial class VideotecaContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=163.178.173.130;Database=VideotecaACY;TrustServerCertificate=True; User Id=basesdedatos; Password=rpbases.2022");
+        => optionsBuilder.UseSqlServer("Server=163.178.173.130;Database=VideotecaACY;user id=basesdedatos;password=rpbases.2022;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -56,6 +58,7 @@ public partial class VideotecaContext : DbContext
         {
             entity.HasKey(e => e.actor_id).HasName("pk_actor");
 
+            entity.Property(e => e.actor_id).ValueGeneratedNever();
             entity.Property(e => e.actor_first_name)
                 .HasMaxLength(30)
                 .IsUnicode(false);
@@ -73,6 +76,12 @@ public partial class VideotecaContext : DbContext
 
             entity.Property(e => e.Name).HasMaxLength(256);
             entity.Property(e => e.NormalizedName).HasMaxLength(256);
+        });
+
+
+        modelBuilder.Entity<AspNetUserRoles>(entity =>
+        {
+            entity.HasKey(e => new { e.UserId, e.RoleId });
         });
 
         modelBuilder.Entity<AspNetRoleClaim>(entity =>
@@ -95,17 +104,17 @@ public partial class VideotecaContext : DbContext
             entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
             entity.Property(e => e.UserName).HasMaxLength(256);
 
-            entity.HasMany(d => d.Roles).WithMany(p => p.Users)
-                .UsingEntity<Dictionary<string, object>>(
-                    "AspNetUserRole",
-                    r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
-                    l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
-                    j =>
-                    {
-                        j.HasKey("UserId", "RoleId");
-                        j.ToTable("AspNetUserRoles");
-                        j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
-                    });
+            //entity.HasMany(d => d.Roles).WithMany(p => p.Users)
+            //    .UsingEntity<Dictionary<string, object>>(
+            //        "AspNetUserRole",
+            //        r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
+            //        l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
+            //        j =>
+            //        {
+            //            j.HasKey("UserId", "RoleId");
+            //            j.ToTable("AspNetUserRoles");
+            //            j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
+            //        });
         });
 
         modelBuilder.Entity<AspNetUserClaim>(entity =>
@@ -133,7 +142,7 @@ public partial class VideotecaContext : DbContext
 
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => new { e.comment_id, e.movies_series_id, e.userName }).HasName("pk_c_m_u");
+            entity.HasNoKey();
 
             entity.Property(e => e.comment_id).ValueGeneratedOnAdd();
             entity.Property(e => e.userName).HasMaxLength(256);
@@ -191,7 +200,7 @@ public partial class VideotecaContext : DbContext
 
         modelBuilder.Entity<MoviesAndSeriesActor>(entity =>
         {
-            entity.HasKey(e => new { e.movies_series_id, e.actor_id }).HasName("pk_m_s_a");
+            entity.HasNoKey();
         });
 
         modelBuilder.Entity<MoviesAndSeriesGenre>(entity =>

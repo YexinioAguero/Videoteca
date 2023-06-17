@@ -172,7 +172,7 @@ namespace Videoteca.Controllers
                 }
             }
 
-            vbd.Add(new Comment() { userName = userName, comment1 = text, movies_series_id = id ,dateC = DateTime.Today});
+            vbd.Add(new Comment() { userName = userName, comment1=text, movies_series_id = id, dateC = DateTime.Now});
             vbd.SaveChanges();
 
             return Json(new { mensaje = "Datos recibidos correctamente" });
