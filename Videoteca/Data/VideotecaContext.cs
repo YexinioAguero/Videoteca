@@ -36,8 +36,6 @@ public partial class VideotecaContext : DbContext
 
     public virtual DbSet<Genre> Genres { get; set; }
 
-    public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
-
     public virtual DbSet<MoviesAndSeries> MoviesAndSeries { get; set; }
 
     public virtual DbSet<MoviesAndSeriesActor> MoviesAndSeriesActors { get; set; }
@@ -48,9 +46,11 @@ public partial class VideotecaContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    public virtual DbSet<imagesProfile> imagesProfiles { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=163.178.173.130;Database=VideotecaACY;user id=basesdedatos;password=rpbases.2022;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server=163.178.173.130;Database=VideotecaACY;TrustServerCertificate=True; User Id=basesdedatos; Password=rpbases.2022");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -77,12 +77,6 @@ public partial class VideotecaContext : DbContext
             entity.Property(e => e.NormalizedName).HasMaxLength(256);
         });
 
-
-        modelBuilder.Entity<AspNetUserRoles>(entity =>
-        {
-            entity.HasKey(e => new { e.UserId, e.RoleId });
-        });
-
         modelBuilder.Entity<AspNetRoleClaim>(entity =>
         {
             entity.HasIndex(e => e.RoleId, "IX_AspNetRoleClaims_RoleId");
@@ -101,19 +95,20 @@ public partial class VideotecaContext : DbContext
             entity.Property(e => e.Email).HasMaxLength(256);
             entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
             entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
+            entity.Property(e => e.SelectedImageId).HasMaxLength(450);
             entity.Property(e => e.UserName).HasMaxLength(256);
 
-            //entity.HasMany(d => d.Roles).WithMany(p => p.Users)
-            //    .UsingEntity<Dictionary<string, object>>(
-            //        "AspNetUserRole",
-            //        r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
-            //        l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
-            //        j =>
-            //        {
-            //            j.HasKey("UserId", "RoleId");
-            //            j.ToTable("AspNetUserRoles");
-            //            j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
-            //        });
+            entity.HasMany(d => d.Roles).WithMany(p => p.Users)
+                .UsingEntity<Dictionary<string, object>>(
+                    "AspNetUserRole",
+                    r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
+                    l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
+                    j =>
+                    {
+                        j.HasKey("UserId", "RoleId");
+                        j.ToTable("AspNetUserRoles");
+                        j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
+                    });
         });
 
         modelBuilder.Entity<AspNetUserClaim>(entity =>
@@ -141,7 +136,7 @@ public partial class VideotecaContext : DbContext
 
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => new { e.comment_id, e.movies_series_id, e.userName }).HasName("pk_c_m_u");
 
             entity.Property(e => e.comment_id).ValueGeneratedOnAdd();
             entity.Property(e => e.userName).HasMaxLength(256);
@@ -156,12 +151,14 @@ public partial class VideotecaContext : DbContext
             entity.HasKey(e => new { e.episodes_id, e.movies_series_id }).HasName("pk_ep_mov");
 
             entity.Property(e => e.episodes_id).ValueGeneratedOnAdd();
+            entity.Property(e => e.descripction).IsUnicode(false);
             entity.Property(e => e.duration)
                 .HasMaxLength(8)
                 .IsUnicode(false);
             entity.Property(e => e.title)
                 .HasMaxLength(20)
                 .IsUnicode(false);
+            entity.Property(e => e.url).IsUnicode(false);
         });
 
         modelBuilder.Entity<Genre>(entity =>
@@ -175,7 +172,8 @@ public partial class VideotecaContext : DbContext
 
         modelBuilder.Entity<MoviesAndSeries>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("pk_idMvS"); 
+            entity.HasKey(e => e.id).HasName("pk_idMvS");
+
             entity.Property(e => e.classification)
                 .HasMaxLength(5)
                 .IsUnicode(false);
@@ -198,7 +196,7 @@ public partial class VideotecaContext : DbContext
 
         modelBuilder.Entity<MoviesAndSeriesActor>(entity =>
         {
-            entity.HasKey(e => new { e.movies_series_id, e.actor_id });
+            entity.HasKey(e => new { e.movies_series_id, e.actor_id }).HasName("pk_m_s_a");
         });
 
         modelBuilder.Entity<MoviesAndSeriesGenre>(entity =>
@@ -228,6 +226,21 @@ public partial class VideotecaContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.username)
                 .HasMaxLength(256)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<imagesProfile>(entity =>
+        {
+            entity.HasKey(e => e.idImage).HasName("PK__imagesPr__84D649AF25627FF6");
+
+            entity.ToTable("imagesProfile");
+
+            entity.Property(e => e.idImage)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.imageURL)
+                .HasMaxLength(500)
                 .IsUnicode(false);
         });
 
