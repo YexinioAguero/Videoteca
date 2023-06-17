@@ -25,6 +25,7 @@ namespace Videoteca.Controllers
 
 
         private VideotecaContext vbd = new VideotecaContext();
+
         public ActionResult Index()
         {
             var list = new List<Movie_S_Genre>();

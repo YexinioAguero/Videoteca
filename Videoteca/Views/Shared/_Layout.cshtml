@@ -67,26 +67,43 @@
 </head>
 <body>
  
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/Home/Index">Videoteca</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/Home/Index">Videoteca</a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    @if (User.IsInRole("superadmin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/UserAuthentication/Registration">SuperAdmin-Index</a>
+                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Users/Index">UsersList</a>
+                            </li>
+                    }
+                    else @if (User.IsInRole("admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/UserAuthentication/Registration">Registrar Usuarios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/Admin/View_MoviesAndSeries">Peliculas y Series</a>
+                         </li>
+                    }
+                    else @if (User.IsInRole("user"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/User/Index">Movies And Series</a>
+                        </li>
+                    }
+                </ul>
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-item nav-link" href="/UserAuthentication/Logout">Logout</a>
+                </div>
             </div>
-            <ul class="nav navbar-nav">
-                @if (User.IsInRole("superadmin"))
-                {
-                <li><a href="/UserAuthentication/Registration">SuperAdmin-Index</a></li>
-                    <li><a href="/Users/Index">UsersList</a></li>
-                }else @if (User.IsInRole("admin"))
-                {
-                    <li><a href="/UserAuthentication/Registration">Registrar Usuarios</a></li>
-                    <li><a href="/Admin/View_MoviesAndSeries">Peliculas y Series</a></li>
-                }
-                else
-                {
-                    <li><a href="/User/Index">Movies And Series</a></li>
-                }
-                <li><a href="/UserAuthentication/Logout">Logout</a></li>
-            </ul>
         </div>
     </nav>
 

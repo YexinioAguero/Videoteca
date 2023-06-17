@@ -54,7 +54,7 @@ namespace Videoteca.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "User");
                 }
             
             }

@@ -413,7 +413,7 @@ namespace Videoteca.Controllers
 
                     var actor_id = actorSearch2.FirstOrDefault().actor_id;
 
-                    var movie_id = Data.movie_id;
+                    var movie_id = (int) (Data.movie_id);
 
                     var MovieActor = new MoviesAndSeriesActor();
 
@@ -562,7 +562,7 @@ namespace Videoteca.Controllers
 
                     var MovieGenre = new MoviesAndSeriesGenre();
 
-                    MovieGenre.movies_series_id = movie_id;
+                    MovieGenre.movies_series_id = (int)(movie_id);
                     MovieGenre.genre_id = actor_id;
 
                     db.MoviesAndSeriesGenres.Add(MovieGenre);
