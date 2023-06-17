@@ -6,10 +6,11 @@
 }
 
 .movie_img {
-    width: 250px;
-    height: 400px;
+    width: 220px;
+    height: 297px;
     border-radius: 10px;
     margin: auto;
+    margin-bottom: 10px;
 }
 
 .carrousel {
@@ -42,7 +43,16 @@
 
 .contenedor {
     margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    margin-right: 20px;
     display: flex;
+}
+
+
+
+.Containt_Genre_Data {
+    margin-left: 50px;
 }
 
 table {
@@ -62,6 +72,11 @@ th, td {
     border: 1px solid #1f1f1f;
 }
 
+#rate-prom {
+    font-family: 'Helvetica', sans-serif;
+    color: black;
+    font-size: 16px;
+}
 
 tr:nth-child(2n) {
     background-color: #ddd;
@@ -69,6 +84,13 @@ tr:nth-child(2n) {
 
 tr:nth-child(2n+1) {
     background-color: #dbf4ff;
+}
+
+label {
+    color: var(--color-letter);
+    font-family: var(--type-letter);
+    text-align: left;
+    font-size: 24px;
 }
 
 h1, h2, h3 {
@@ -87,6 +109,11 @@ h2 {
 
 h3 {
     font-size: 15px;
+}
+
+#Image {
+    height: 150px;
+    width: 150px;
 }
 
 p {
@@ -113,7 +140,7 @@ textarea {
 }
 
 #star1 {
-    color: #fd4;
+    color: #eb9d11;
 }
 
 .modal {
@@ -304,6 +331,18 @@ button {
     border-radius: 5px;
 }
 
+a#compartir {
+    display: inline-block;
+    background-color: #3b5998;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    max-height: 80px;
+    max-width: 150px;
+    border-radius: 150px;
+}
+
 .btn-rate {
     height: 45px;
     width: 100%;
@@ -340,4 +379,12 @@ body {
     text-align: justify;
     padding: 0;
     margin: 0;
+}
+
+img.iconFa {
+    max-width: 50px;
+    max-height: 50PX;
+    width: 50px;
+    height: 50px;
+    text-align: center;
 }

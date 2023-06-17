@@ -47,16 +47,8 @@ namespace Videoteca.Controllers
             var result = await _service.LoginAsync(model);
             if (result.StatusCode == 1)
             {
+                return RedirectToAction("Index", "Home");
 
-                if (User.IsInRole("user"))
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    return RedirectToAction("Index", "User");
-                }
-            
             }
             else
             {
