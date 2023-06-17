@@ -19,6 +19,12 @@
     .searchSection{
 
     }
+    .title {
+        font-size: 25px;
+    }
+    #rate-prom {
+        font-size: 14px;
+    }
     table {
         width: 80%;
         margin-top: 20px;
