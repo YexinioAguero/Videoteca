@@ -225,6 +225,16 @@ public partial class VideotecaContext : DbContext
             entity.Property(e => e.rating1).HasColumnName("rating");
         });
 
+
+        modelBuilder.Entity<imageProfile>(entity =>
+        {
+            entity.HasKey(e => e.idImage);
+
+            entity.Property(e => e.imageURL).HasColumnName("imageURL");
+        });
+
+
+
         modelBuilder.Entity<User>(entity =>
         {
             entity

@@ -75,14 +75,9 @@ namespace Videoteca.Controllers
             db.SaveChanges();
 
             return RedirectToAction("Index");
-            
+
 
         }
-
-
-
-
-
 
 
 
@@ -137,7 +132,7 @@ namespace Videoteca.Controllers
         {
             try
             {
-     
+
                 db.Update(person);
                 db.SaveChanges(true);
                 ViewBag.Message = new MessagePack { Text = "Se realizo de manera correcta", Tipo = Tipo.message.success.ToString() };
@@ -175,67 +170,58 @@ namespace Videoteca.Controllers
                 return View();
             }
         }
-       public IActionResult DownloaderPDF()
-{
-    var personList = new List<AspNetUser>();
 
-    using (var dbContext = new VideotecaContext())
-    {
-        personList = dbContext.AspNetUsers.ToList();
-    }
-
-    var documentpdf = Document.Create(Container =>
-    {
-        Container.Page(Page =>
+        public IActionResult DownloaderPDF()
         {
-            Page.Header().Row(row =>
-            {
-                //row.RelativeItem().Border(1).Height(200);
-                //row.RelativeItem().Border(1).Background(Colors.Pink.Medium).Height(100);
-                //row.RelativeItem().Border(1).Background(Colors.Purple.Medium).Height(100);
-            });
+            var personList = new List<AspNetUser>();
 
-            Page.Content().PaddingVertical(20).Column(col =>
+            using (var dbContext = new VideotecaContext())
             {
-                col.Item().Table(table =>
+                personList = dbContext.AspNetUsers.ToList();
+            }
+
+            var documentpdf = Document.Create(Container =>
+            {
+                Container.Page(Page =>
                 {
-                    table.ColumnsDefinition(columns =>
+                    Page.Content().Background("#F5F5DC").Padding(20).Column(col =>
                     {
-                        columns.RelativeColumn();
-                        columns.RelativeColumn();
-                        columns.RelativeColumn();
+                        col.Item().Table(table =>
+                        {
+                            table.ColumnsDefinition(columns =>
+                            {
+                                columns.RelativeColumn();
+                                columns.RelativeColumn();
+                                columns.RelativeColumn();
+                            });
+
+                            table.Header(header =>
+                            {
+                                header.Cell().Height(30).Background("#257272").AlignCenter().Text("Nombre")
+                                    .FontColor("#fff").FontSize(11);
+                                header.Cell().Height(30).Background("#257272").AlignCenter().Text("UserName")
+                                    .FontColor("#fff").FontSize(11);
+                                header.Cell().Height(30).Background("#257272").AlignCenter().Text("Correo")
+                                    .FontColor("#fff").FontSize(11);
+                            });
+
+                            foreach (var person in personList)
+                            {
+                                table.Cell().Background(Colors.LightBlue.Lighten3).Border(0.5f).BorderColor(Colors.Black).AlignCenter().Padding(2).Text(person.Name)
+                                    .FontColor("#000").FontSize(11);
+                                table.Cell().Background(Colors.LightGreen.Lighten1).Border(0.5f).BorderColor(Colors.Black).AlignCenter().Padding(2).Text(person.UserName)
+                                    .FontColor("#000").FontSize(11);
+                                table.Cell().Background(Colors.LightBlue.Lighten3).Border(0.5f).BorderColor(Colors.Black).AlignCenter().Padding(2).Text(person.Email)
+                                    .FontColor("#000").FontSize(11);
+                            }
+                        });
                     });
-
-                    table.Header(header =>
-                    {
-                        header.Cell().Height(30).Background("#257272").AlignCenter().Text("Nombre")
-                            .FontColor("#fff").FontSize(11);
-                        header.Cell().Height(30).Background("#257272").AlignCenter().Text("UserName")
-                            .FontColor("#fff").FontSize(11);
-                        header.Cell().Height(30).Background("#257272").AlignCenter().Text("Correo")
-                            .FontColor("#fff").FontSize(11);
-                    });
-
-                    foreach (var person in personList)
-                    {
-                        table.Cell().Background(Colors.Pink.Medium).Border(0.5f).BorderColor(Colors.Black).AlignCenter().Padding(2).Text(person.Name)
-                            .FontColor("#000").FontSize(11);
-                        table.Cell().Border(0.5f).BorderColor(Colors.Black).AlignCenter().Padding(2).Text(person.UserName)
-                            .FontColor("#000").FontSize(11);
-                        table.Cell().Border(0.5f).BorderColor(Colors.Black).AlignCenter().Padding(2).Text(person.Email)
-                            .FontColor("#000").FontSize(11);
-
-                    }
                 });
-            });
-        });
-    }).GeneratePdf();
+            }).GeneratePdf();
 
-    var stream = new MemoryStream(documentpdf);
-    return File(stream, "application/pdf", "Person_List.pdf");
-}
-
-
+            var stream = new MemoryStream(documentpdf);
+            return File(stream, "application/pdf", "Person_List.pdf");
+        }
     }
 }
 
