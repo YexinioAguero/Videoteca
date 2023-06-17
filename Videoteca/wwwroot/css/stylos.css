@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     --body-color: #162B4E;
     --color-letter: #ffffff;
     --text-color: #ddd;
@@ -6,11 +6,10 @@
 }
 
 .movie_img {
-    width: 220px;
-    height: 297px;
+    width: 250px;
+    height: 400px;
     border-radius: 10px;
-    margin:auto;
-    margin-bottom: 10px;
+    margin: auto;
 }
 
 .carrousel {
@@ -40,18 +39,10 @@
     margin-top: auto;
     align-items: center;
 }
-.contenedor{
+
+.contenedor {
     margin-top: 20px;
-    margin-left:20px;
-    margin-bottom:20px;
-    margin-right: 20px;
     display: flex;
-}
-
-
-
-.Containt_Genre_Data {
-    margin-left: 50px;
 }
 
 table {
@@ -70,20 +61,14 @@ th, td {
     padding: 5px;
     border: 1px solid #1f1f1f;
 }
- 
+
 
 tr:nth-child(2n) {
     background-color: #ddd;
 }
+
 tr:nth-child(2n+1) {
     background-color: #dbf4ff;
-}
-
-label {
-    color: var(--color-letter);
-    font-family: var(--type-letter);
-    text-align: left;
-    font-size: 24px;
 }
 
 h1, h2, h3 {
@@ -99,13 +84,9 @@ h1 {
 h2 {
     font-size: 20px;
 }
+
 h3 {
     font-size: 15px;
-}
-
-#Image {
-    height: 150px;
-    width: 150px;
 }
 
 p {
@@ -113,12 +94,14 @@ p {
     color: var( --text-color);
     font-size: 16px;
 }
+
 li {
     font-family: 'Helvetica', sans-serif;
     color: var( --text-color);
     font-size: 20px;
 }
-textarea{
+
+textarea {
     align-content: center;
     text-align: justify;
 }
@@ -128,8 +111,9 @@ textarea{
     width: 100%;
     margin: auto;
 }
+
 #star1 {
-    color: #eb9d11;
+    color: #fd4;
 }
 
 .modal {
@@ -144,18 +128,19 @@ textarea{
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4);
 }
-#getC{
-    margin-top:20px;
+
+#getC {
+    margin-top: 20px;
     justify-content: center;
 }
 
-.modal-content{
+.modal-content {
     background-color: var(--body-color);
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 50%;
-    height:30%;
+    height: 30%;
 }
 
 .modal-content1 {
@@ -167,11 +152,10 @@ textarea{
     height: 25%;
 }
 
-#openModal1{
+#openModal1 {
     text-align: center;
     display: inline-block;
     margin-top: 30px;
-
 }
 
 .container-comments {
@@ -181,6 +165,7 @@ textarea{
 .comments {
     display: flex;
 }
+
 .photo-perfil {
     width: 50px;
     height: 50px;
@@ -188,17 +173,18 @@ textarea{
     overflow: hidden;
 }
 
-.photo-perfil img {
-    width: 100%;
-     height: 100%;
- }
+    .photo-perfil img {
+        width: 100%;
+        height: 100%;
+    }
 
-.info-comments{
+.info-comments {
     margin-left: 20px;
-    background-color:aliceblue;
-    width:100%;
-    border-radius:5px;
+    background-color: aliceblue;
+    width: 100%;
+    border-radius: 5px;
 }
+
     .info-comments .header {
         display: flex;
         justify-content: space-between;
@@ -206,15 +192,17 @@ textarea{
         background-color: #1953bd;
         color: white;
     }
-.info-comments h5{
-    font-size: 17px;
-}
-.info-comments p{
-    padding: 20px;
-    color: black;
-}
 
-.container1{
+    .info-comments h5 {
+        font-size: 17px;
+    }
+
+    .info-comments p {
+        padding: 20px;
+        color: black;
+    }
+
+.container1 {
     position: relative;
     width: 100%;
     padding: 10px 30px;
@@ -226,9 +214,9 @@ textarea{
     flex-direction: column;
 }
 
-.container1 .rate-post{
-    display: none;
-}
+    .container1 .rate-post {
+        display: none;
+    }
 
 .container2 .comment-post {
     display: none;
@@ -251,13 +239,15 @@ textarea{
     cursor: pointer;
 }
 
-input:checked ~ .form{
-    display:block;
+input:checked ~ .form {
+    display: block;
 }
-.container1 .star-widget input{
-    display:none;
+
+.container1 .star-widget input {
+    display: none;
 }
-.star-widget label{
+
+.star-widget label {
     font-size: 20px;
     color: #444;
     padding: 5px;
@@ -279,63 +269,59 @@ input#rate-5:checked ~ label {
     text-shadow: 0 0 20px #952;
 }
 
-.form header{
-    width:100%;
-    font-size:20px;
+.form header {
+    width: 100%;
+    font-size: 20px;
     color: #fe7;
     font-weight: 500;
     margin: 5px 0 20px 0;
     text-align: center;
     transition: all 0.2s ease;
 }
+
 #rate-1:checked ~ .form header:before {
-    content:"I just hate it";
+    content: "I just hate it";
 }
+
 #rate-2:checked ~ .form header:before {
     content: "I don't like it";
 }
+
 #rate-3:checked ~ .form header:before {
     content: "It is awesome";
 }
+
 #rate-4:checked ~ .form header:before {
     content: "I just like it";
 }
+
 #rate-5:checked ~ .form header:before {
     content: "I just love it";
 }
 
 
 button {
-  border-radius: 5px;
-}
-a#compartir {
-    display: inline-block;
-    background-color: #3b5998;
-    color: #ffffff;
-    text-decoration: none;
     border-radius: 5px;
-    font-weight: bold;
-    max-height: 80px;
-    max-width: 150px;
-    border-radius: 150px;
 }
 
-.btn-rate{
+.btn-rate {
     height: 45px;
     width: 100%;
     margin: 15px 0;
     border: 1px solid #444;
     outline: none;
-    color:black;
+    color: black;
     background: #dbf4ff;
     font-size: 17px;
     font-weight: 500;
     cursor: pointer;
 }
-#cardM{
-    margin-top:20px;
+
+#cardM {
+    margin-top: 20px;
     margin-bottom: 20px;
 }
+
 textarea {
     height: 80%;
     width: 100%;
@@ -344,22 +330,14 @@ textarea {
     background: #dbf4ff;
     font-family: 'Helvetica', sans-serif;
     font-size: 15px;
-    padding:10px;
+    padding: 10px;
 }
+
 body {
-   font-family: 'Helvetica', sans-serif;
-   font-size: 18px;
-   background-color: var(--body-color);
-   text-align: justify;
-   padding: 0;
-   margin: 0;
+    font-family: 'Helvetica', sans-serif;
+    font-size: 18px;
+    background-color: var(--body-color);
+    text-align: justify;
+    padding: 0;
+    margin: 0;
 }
-
-img.iconFa {
-    max-width: 50px;
-    max-height: 50PX;
-    width: 50px;
-    height: 50px;
-    text-align: center;
-}
-

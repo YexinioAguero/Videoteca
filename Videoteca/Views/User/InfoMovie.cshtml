@@ -12,8 +12,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/site.css" />
     <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/css/responsive.css" />
 </head>
-<body>
+<body id="movie_body">
 
     @foreach(var item in Model)
     {
@@ -29,7 +30,7 @@
             </div>
            
         </div>
-
+        <!--Tab of movie data-->
         <table>
             <tr>
                 <th>Year</th>
@@ -41,7 +42,10 @@
             </tr>
             <tr>
                 <th>Rate</th>
-                <td>@item.movie.duration</td>
+                <td>
+                    <label id="rate-prom"></label> / 5
+                    <label id="star1" class="fas fa-star"></label>
+                </td>
             </tr>
             <tr>
                 <th>Director</th>
@@ -68,12 +72,12 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active icon-users" id="home-tab" data-bs-toggle="tab" data-bs-target="#actors" type="button" role="tab" aria-controls="home" aria-selected="true">Actors</button>
+                    <button class="nav-link active icon-users" id="actors-tab" data-bs-toggle="tab" data-bs-target="#actors" type="button" role="tab" aria-controls="home" aria-selected="true">Actors</button>
                 </li>
                 @if (@item.movie.num_episodes != null)
                 {
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#episodes" type="button" role="tab" aria-controls="profile" aria-selected="false">Episodes</button>
+                        <button class="nav-link icon-clipboard" id="episodes-tab" data-bs-toggle="tab" data-bs-target="#episodes" type="button" role="tab" aria-controls="profile" aria-selected="false">Episodes</button>
                     </li>
                 }
                 <li class="nav-id nav-item" role="presentation">
@@ -90,7 +94,6 @@
                 <div class="tab-pane active" id="actors" role="tabpanel" aria-labelledby="home-tab">
                     <h1>Actors</h1>
                     <div class="slide">
-
                         @foreach (var a in item.actors)
                         {
                             <div class="d-flex flex-column justify-content-center align-items-center text-center m-2">
@@ -102,6 +105,9 @@
                 </div>
                 <!-- Tab panes Episodes -->
                 <div class="tab-pane" id="episodes" role="tabpanel" aria-labelledby="profile-tab">
+
+                    <div id="getE">
+                    </div>
 
                 </div>
                 <!-- Tab panes Comments -->
@@ -140,8 +146,9 @@
                             <div class="container1">
                                 <div class="rate-post">
                                     <div class="text">Thanks for rating the movie!!</div>
-                                    <div class="edit">EDIT</div>
+                                    <div class="edit">Edit</div>
                                 </div>
+                                <!--Rate star widget-->
                                 <div class="star-widget" id="@item.movie.id">
                                     <input type="radio" name="rate" value="5" id="rate-5"/>
                                     <label for="rate-5" class="fas fa-star"></label>

@@ -1,18 +1,12 @@
-﻿$('.slide').slick({
+﻿
+
+$('.slide').slick({
     autoplay: true,
     dots: true,
     infinite: true,
     speed: 500,
     fade: true,
     cssEase: 'linear'
-});
-
-$('.actuales').slick({
-    dots: true,
-    infinite: true,
-    speed: 300,
-    slidesToShow: 1,
-    adaptiveHeight: true
 });
 $('.carrousel').each(function () {
         $(this).slick({
@@ -110,7 +104,6 @@ $('.btnC').click(function () {
     
 });
 
-
 $('#comments-tab').click(function () {
     var datos1 = { id: $('.textC').attr("id") };
 
@@ -131,6 +124,42 @@ $('#comments-tab').click(function () {
     
     
 });
+$('#episodes-tab').click(function () {
+    var datos = { id: $('.textC').attr("id") };
+
+
+    $.ajax({
+        url: '/User/GetEpisodes',
+        type: 'GET',
+        data: datos,
+        success: function (result) {
+            console.log(result);
+            $("#getE").html(result);
+        },
+        error: function () {
+            // Manejar errores en la solicitud Ajax
+            alert('Error al obtener la vista parcial');
+        }
+    });
+
+
+});
+
+  var datos = { id: $('.textC').attr("id") };
+
+ $.ajax({
+      url: '/User/GetRate',
+      type: 'GET',
+      data: datos,
+      success: function (result) {
+            console.log(result);
+            $("#rate-prom").html(result.replace(/['"]/g,""));
+      },
+      error: function () {
+            // Manejar errores en la solicitud Ajax
+            alert('Error al obtener el dato');
+      }
+  });
 
 
 var modal = document.getElementById("modal1");
@@ -140,11 +169,9 @@ var span = document.getElementsByClassName("closeModal1")[0];
 btn.onclick = function () {
     modal.style.display = "block";
 }
-
 span.onclick = function () {
     modal.style.display = "none";
 }
-
 window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
@@ -185,6 +212,7 @@ $('.btn-rate').click(function () {
         value: rate,
         id: $('.star-widget').attr("id")
     };
+    var datos2 = { id: $('.textC').attr("id") };
 
     // Realizar la solicitud Ajax
     $.ajax({
@@ -200,6 +228,19 @@ $('.btn-rate').click(function () {
                 ratep.style.display = "none";
             }
             console.log(response);
+            $.ajax({
+                url: '/User/GetRate',
+                type: 'GET',
+                data: datos,
+                success: function (result) {
+                    console.log(result);
+                    $("#rate-prom").html(result.replace(/['"]/g, ""));
+                },
+                error: function () {
+                    // Manejar errores en la solicitud Ajax
+                    alert('Error al obtener el dato');
+                }
+            });
         },
         error: function (error) {
             // Manejar errores en la solicitud Ajax
@@ -209,7 +250,6 @@ $('.btn-rate').click(function () {
 
 });
 
-  
 
 
 

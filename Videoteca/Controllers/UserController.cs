@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using System.Data;
 using Videoteca.Data;
 using Videoteca.Models;
@@ -121,8 +122,40 @@ namespace Videoteca.Controllers
 
             return Json(new { mensaje = value });
         }
+        [HttpGet]
+        public ActionResult GetRate(int id)
+        {
+            var ratings = new List<Rating>();
+            int count = 0;
+            string rate = null;
 
-            [HttpPost]
+            ratings = vbd.Ratings.FromSqlRaw(@"exec dbo.GetRate @id", new SqlParameter("@id", id)).ToList();
+
+
+            foreach(var r in ratings)
+            {
+                if(r.rating1 != null)
+                {
+                    count = (int)(count + r.rating1);
+                }
+                else
+                {
+                    count = 0;
+                }
+                
+            }
+            if (count != 0)
+            {
+                count = count / ratings.Count();
+            }
+
+            rate = count.ToString();
+
+
+            return Json(rate.ToJson());
+        }
+
+        [HttpPost]
         public ActionResult SetComment(string text, int id)
         {
             var user = new User();
@@ -154,11 +187,16 @@ namespace Videoteca.Controllers
             return PartialView("ViewComment", comments);
        }
 
+        public ActionResult GetEpisodes(int id)
+        {
+            var episodes = new List<Episode>();
 
+            episodes = vbd.Episodes.FromSqlRaw(@"exec dbo.GetEpisodes @id", new SqlParameter("@id", id)).ToList();
 
+            return PartialView("ViewEpisodes", episodes);
+        }
 
-       
-
+      
 
     }
 }
