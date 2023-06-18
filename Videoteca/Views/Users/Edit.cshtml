@@ -3,16 +3,64 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
 <h1>Edit</h1>
+
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .form-container {
+        max-width: 400px;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .profile-picture-container {
+        margin-bottom: 20px;
+    }
+
+    .profile-picture img {
+        width: 200px;
+        height: 200px;
+        border-radius: 0;
+        object-fit: cover;
+    }
+</style>
+
+
+
 
 <h4>AspNetUser</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+
+    <form asp-action="Edit" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="profile-picture-container">
+            <label for="photo">Profile Picture</label>
+            <input type="file" id="photo" name="photo" accept="image/*" class="form-control-file" onchange="previewProfilePicture(event)" />
+
+            <div class="profile-picture">
+                @if (!string.IsNullOrEmpty(Model.ProfilePicture))
+                {
+                    <img id="profile-picture" src="@Url.Action("GetProfilePicture", "Users", new { id = Model.ProfilePicture })" alt="Profile Picture" />
+                }
+                else
+                {
+                    <span>No profile picture selected</span>
+                }
+            </div>
+        </div>
+
+
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -34,6 +82,8 @@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
+
+
         </form>
     </div>
 </div>
@@ -43,3 +93,9 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script src="C:\Users\Pc\Source\Repos\YexinioAguero\Videoteca\Videoteca\wwwroot\js\site.js"></script>
+    }
+}

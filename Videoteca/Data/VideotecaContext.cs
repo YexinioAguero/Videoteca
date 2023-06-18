@@ -218,6 +218,9 @@ public partial class VideotecaContext : DbContext
             entity.Property(e => e.userName).HasMaxLength(256);
         });
 
+
+
+
         modelBuilder.Entity<User>(entity =>
         {
             entity

@@ -257,3 +257,20 @@ $('.btn-rate').click(function () {
 
 
 
+// Write your JavaScript code.
+$(document).ready(function () {
+
+
+function previewProfilePicture(event) {
+    var input = event.target;
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var ProfilePicture = document.getElementById("profile-picture");
+            ProfilePicture.src = e.target.result;
+            ProfilePicture.alt = 'Profile picture';
+        }
+    
+    reader.readAsDataURL(input.files[0]);
+    }
+}
