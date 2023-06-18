@@ -67,7 +67,7 @@ namespace Videoteca.Controllers
 
             if (!string.IsNullOrEmpty(movieGenre))
             {
-                movies = movies.Where(x => x.classification == movieGenre);
+                movies = movies.Where(s => s.title!.Contains(searchString));
             }
 
             var movieGenreVM = new MovieGenreViewModel
