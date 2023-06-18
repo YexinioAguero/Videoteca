@@ -10,6 +10,7 @@ using Videoteca.Migrations;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Security.Claims;
 
 namespace Videoteca.Controllers
 {
@@ -131,7 +132,6 @@ namespace Videoteca.Controllers
         {
             try
             {
-
                 db.Update(person);
                 if (photo != null && photo.Length > 0)
                 {
@@ -146,7 +146,8 @@ namespace Videoteca.Controllers
                         {
                             image = photoData
                         };
-                        //db.ProfilePictures.Add(image);
+
+                        db.profilePictures.Add(image);
                         db.SaveChanges();
 
                         // Actualizar el campo "ProfilePicture" en la tabla "AspNetUsers" con la ruta de la foto guardada en la tabla "Image"
@@ -156,11 +157,9 @@ namespace Videoteca.Controllers
 
 
                 ViewBag.Message = "Se realizó de manera correcta";
-         
-
                 db.SaveChanges();
                 ViewBag.Message = new MessagePack { Text = "Se realizo de manera correcta", Tipo = Tipo.message.success.ToString() };
-                return View();
+                return RedirectToAction("Edit");
 
             }
             catch
@@ -172,6 +171,7 @@ namespace Videoteca.Controllers
 
 
         }
+ 
 
         public ActionResult GetProfilePicture(string id)
         {

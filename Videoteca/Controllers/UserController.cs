@@ -212,7 +212,7 @@ namespace Videoteca.Controllers
                 }
             }
 
-            vbd.Add(new Comment() { userName = userName, comment1=text, movies_series_id = id, dateC = DateTime.Now});
+            vbd.Add(new Comment() { userName = userName, comment1=text, movies_series_id = id, dateC = DateTime.UtcNow});
             vbd.SaveChanges();
 
             return Json(new { mensaje = "Datos recibidos correctamente" });
@@ -221,10 +221,32 @@ namespace Videoteca.Controllers
         public ActionResult GetComment(int id)
         {
             var comments = new List<Comment>();
-
+            var commentUser = new List<CommentUser>();
+            var cUser = new CommentUser();
+            string img,pImg = null;
             comments = vbd.Comments.FromSqlRaw(@"exec dbo.GetComments @id", new SqlParameter("@id", id)).ToList();
 
-            return PartialView("ViewComment", comments);
+            foreach (var c in comments)
+            {
+                var user = 
+                    vbd.AspNetUsers.FromSqlRaw(@"exec dbo.GetUserImg @username", new SqlParameter("@username", c.userName)).ToList();
+                foreach(var u in user)
+                {
+                    pImg = u.ProfilePicture;
+                }
+                cUser = new CommentUser
+                {
+                    comment_id = c.comment_id,
+                    comment1 = c.comment1,
+                    dateC = c.dateC,
+                    userName = c.userName,
+                    movies_series_id = id,
+                    image = pImg
+                };
+                commentUser.Add(cUser);
+            }
+
+            return PartialView("ViewComment", commentUser);
        }
 
         public ActionResult GetEpisodes(int id)
@@ -236,7 +258,77 @@ namespace Videoteca.Controllers
             return PartialView("ViewEpisodes", episodes);
         }
 
-      
+        //Edit profile
+        // GET: UserController/Edit/5
+        public ActionResult Edit(string id)
+        {
+            var person = vbd.AspNetUsers.Find(id);
+
+            return View(person);
+        }
+
+        // POST: PersonController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(string id, AspNetUser person, IFormFile photo)
+        {
+            try
+            {
+                vbd.Update(person);
+                if (photo != null && photo.Length > 0)
+                {
+                    // Leer los datos de la foto y convertirlos a un arreglo de bytes
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        photo.CopyTo(memoryStream);
+                        byte[] photoData = memoryStream.ToArray();
+
+                        // Guardar la foto en la tabla "Image"
+                        var image = new profilePicture
+                        {
+                            image = photoData
+                        };
+
+                        vbd.profilePictures.Add(image);
+                        vbd.SaveChanges();
+
+                        // Actualizar el campo "ProfilePicture" en la tabla "AspNetUsers" con la ruta de la foto guardada en la tabla "Image"
+                        person.ProfilePicture = image.id.ToString();
+                    }
+                }
+
+
+                ViewBag.Message = "Se realizó de manera correcta";
+                vbd.SaveChanges();
+                ViewBag.Message = new MessagePack { Text = "Se realizo de manera correcta", Tipo = Tipo.message.success.ToString() };
+                return RedirectToAction("Edit");
+            }
+            catch
+            {
+                ViewBag.Message = new MessagePack { Text = "No se realizo de manera correcta", Tipo = Tipo.message.danger.ToString() };
+
+                return View();
+            }
+        }
+
+
+        public ActionResult GetProfilePicture(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            var image = vbd.profilePictures.Find(int.Parse(id));
+            if (image == null)
+            {
+                return NotFound();
+            }
+
+            return File(image.image, "image/jpeg"); // Devuelve la imagen como un archivo de tipo "image/jpeg"
+        }
+
+
 
     }
 }

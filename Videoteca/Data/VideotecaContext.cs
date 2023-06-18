@@ -27,6 +27,7 @@ public partial class VideotecaContext : DbContext
     public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
 
     public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+
     public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
 
     public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
@@ -94,22 +95,27 @@ public partial class VideotecaContext : DbContext
                 .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
             entity.Property(e => e.Email).HasMaxLength(256);
+            entity.Property(e => e.ProfilePicture).HasMaxLength(256);
             entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
             entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
             entity.Property(e => e.SelectedImageId).HasMaxLength(450);
             entity.Property(e => e.UserName).HasMaxLength(256);
 
-            //  entity.HasMany(d => d.Roles).WithMany(p => p.Users)
-            //      .UsingEntity<Dictionary<string, object>>(
-            //          "AspNetUserRole",
-            //          r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
-            //          l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
-            //          j =>
-            //         {
-            //             j.HasKey("UserId", "RoleId");
-            //            j.ToTable("AspNetUserRoles");
-            //             j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
-            //        });
+           // entity.HasMany(d => d.Roles).WithMany(p => p.Users)
+           //     .UsingEntity<Dictionary<string, object>>(
+          //          "AspNetUserRole",
+          //          r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
+           //         l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
+           //         j =>
+            //        {
+            //            j.HasKey("UserId", "RoleId");
+           //             j.ToTable("AspNetUserRoles");
+           //             j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
+           //         });
+        });
+        modelBuilder.Entity<AspNetUserRoles>(entity =>
+        {
+            entity.HasKey(e => new { e.UserId, e.RoleId });
         });
 
         modelBuilder.Entity<AspNetUserClaim>(entity =>
@@ -117,10 +123,6 @@ public partial class VideotecaContext : DbContext
             entity.HasIndex(e => e.UserId, "IX_AspNetUserClaims_UserId");
 
             entity.HasOne(d => d.User).WithMany(p => p.AspNetUserClaims).HasForeignKey(d => d.UserId);
-        });
-
-        {
-            entity.HasKey(e => new { e.UserId, e.RoleId });
         });
 
         modelBuilder.Entity<AspNetUserLogin>(entity =>
@@ -131,6 +133,7 @@ public partial class VideotecaContext : DbContext
 
             entity.HasOne(d => d.User).WithMany(p => p.AspNetUserLogins).HasForeignKey(d => d.UserId);
         });
+
 
         modelBuilder.Entity<AspNetUserToken>(entity =>
         {

@@ -123,6 +123,7 @@ $('#comments-tab').click(function () {
         data: datos1,
         success: function (result) {
             $("#getC").html(result);
+            console.log(result);
         },
         error: function () {
             // Manejar errores en la solicitud Ajax

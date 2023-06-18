@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Videoteca.Models.Comment>
+﻿@model IEnumerable<Videoteca.Models.CommentUser>
 
 <body>
    <main>
@@ -7,7 +7,14 @@
                     @if(item.userName != null){
                         <div class="comments">
                             <div class="photo-perfil">
-                                <img src="~/lib/images.png"/>
+                            @if (item.image != null)
+                            {
+                                <img src="@Url.Action("GetProfilePicture", "User", new { id = item.image })" alt="Profile Picture" />
+                            }
+                            else
+                            {
+                                <img src="~/lib/images.png" />
+                            }
                             </div>
                             <div class="info-comments">
                                  <div class="header">
