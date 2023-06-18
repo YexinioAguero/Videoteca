@@ -1,5 +1,4 @@
 ﻿
-
 $('.slide').slick({
     autoplay: true,
     dots: true,
@@ -8,6 +7,7 @@ $('.slide').slick({
     fade: true,
     cssEase: 'linear'
 });
+
 $('.carrousel').each(function () {
         $(this).slick({
             infinite: true,
@@ -60,13 +60,18 @@ $('.btnC').click(function () {
     var commp = document.querySelector(".comment-post");
     var widget = document.querySelector(".comment-widget");
     var editBtn = document.querySelector(".edit");
+    var texto = $('.textC').val();
+
         // Obtener los datos del formulario o crear un objeto de datos
-        var datos = {
+    var datos = {
             text: $('.textC').val(),
             id: $('.textC').attr("id")
     };
     var datos1 = { id: $('.textC').attr("id") };
         // Realizar la solicitud Ajax
+    const regText = /\S+/g;
+ 
+    if (regText.test(texto)) {
         $.ajax({
             url: '/User/SetComment',
             type: 'POST',
@@ -79,7 +84,6 @@ $('.btnC').click(function () {
                     widget.style.display = "block";
                     commp.style.display = "none";
                 }
-                console.log(response);
                 $('.textC').val("");
                 $.ajax({
                     url: '/User/GetComment',
@@ -94,13 +98,18 @@ $('.btnC').click(function () {
                         alert('Error al obtener la vista parcial');
                     }
                 });
-               
+
             },
             error: function (error) {
                 // Manejar errores en la solicitud Ajax
                 console.log(error);
             }
         });
+
+    } else {
+        alert("El campo esta vacio!!");
+    }
+
     
 });
 
@@ -113,7 +122,6 @@ $('#comments-tab').click(function () {
         type: 'GET',
         data: datos1,
         success: function (result) {
-            console.log(result);
             $("#getC").html(result);
         },
         error: function () {
@@ -133,7 +141,6 @@ $('#episodes-tab').click(function () {
         type: 'GET',
         data: datos,
         success: function (result) {
-            console.log(result);
             $("#getE").html(result);
         },
         error: function () {
@@ -152,7 +159,6 @@ $('#episodes-tab').click(function () {
       type: 'GET',
       data: datos,
       success: function (result) {
-            console.log(result);
             $("#rate-prom").html(result.replace(/['"]/g,""));
       },
       error: function () {
@@ -227,13 +233,11 @@ $('.btn-rate').click(function () {
                 widget.style.display = "block";
                 ratep.style.display = "none";
             }
-            console.log(response);
             $.ajax({
                 url: '/User/GetRate',
                 type: 'GET',
                 data: datos,
                 success: function (result) {
-                    console.log(result);
                     $("#rate-prom").html(result.replace(/['"]/g, ""));
                 },
                 error: function () {

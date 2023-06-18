@@ -19,8 +19,14 @@
     .searchSection{
 
     }
+    .genre{
+        font-size: 20px;
+        text-align:left;
+    }
     .title {
-        font-size: 25px;
+        font-size: 30px;
+        margin-bottom: 10%;
+        border-radius: 5px;
     }
     #rate-prom {
         font-size: 14px;

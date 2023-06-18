@@ -48,6 +48,18 @@
                 </td>
             </tr>
             <tr>
+                <th>Genres</th>
+                <td id="genreP">
+
+                    @foreach(var g in item.genres)
+                    {
+                        <div id="gen">@g.genre_name </div>
+                        <br />
+                    }
+
+                </td>
+            </tr>
+            <tr>
                 <th>Director</th>
                 <td>@item.movie.director</td>
             </tr>

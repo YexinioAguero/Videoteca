@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
+using System.Collections.Generic;
 using System.Data;
 using Videoteca.Data;
 using Videoteca.Models;
@@ -44,11 +46,47 @@ namespace Videoteca.Controllers
             return View(list);
         }
 
+        //GET: Search Movies
+        public async Task<IActionResult> MovieSearch(string movieGenre, string searchString)
+        {
+          
+
+            // Use LINQ to get list of genres.
+            IQueryable<string> genres = from m in vbd.Genres
+                                            orderby m.genre_id
+                                            select m.genre_name;
+
+            var movies = from m in vbd.MoviesAndSeries
+                         select m;
+
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(s => s.title!.Contains(searchString));
+            }
+
+            if (!string.IsNullOrEmpty(movieGenre))
+            {
+                movies = movies.Where(x => x.classification == movieGenre);
+            }
+
+            var movieGenreVM = new MovieGenreViewModel
+            {
+                Genres = new SelectList(await genres.Distinct().ToListAsync()),
+                Movies = await movies.ToListAsync()
+            };
+
+            return View(movieGenreVM);
+
+
+        }
+
         public ActionResult InfoMovie(int id)
         {
             var list = new List<MovieInfo>();
             var movie = new List<MoviesAndSeries>();
             var genre = new List<Genre>();
+            string genresS = null;
             var actor = new List<Actor>();
             var movieInfo = new MoviesAndSeries();
             var userInfo = new List<AspNetUser>();
@@ -91,7 +129,8 @@ namespace Videoteca.Controllers
 
                 };
             }
-            list.Add(new MovieInfo() { user = user, movie = movieInfo, actors = actor, genres = genre });
+
+           list.Add(new MovieInfo() { user = user, movie = movieInfo, actors = actor, genres = genre });
 
             return View(list);
         }

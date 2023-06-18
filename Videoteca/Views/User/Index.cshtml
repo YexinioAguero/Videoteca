@@ -15,31 +15,6 @@
 
 <body>
 
-    <!--Input search name and -->
-    <div class="searchSection">
-        <form class="filter">
-            <div class="filter-group">
-                <select name="">
-                    <option value="*">Select a genre</option>
-                    @foreach (var item in Model)
-                    {
-                        <option>@item.genre</option>
-                    }
-                </select>
-                <datalist id="movie_name">
-                    @foreach (var item in Model)
-                    {
-                        @foreach (var m in item.movies)
-                        {
-                            <option>@m.title</option>
-                        }
-                    }
-                </datalist>
-                <input class="search" type="text" list="movie_name" />
-                <button class="btn-info icon-search" id="btns"></button>
-            </div>
-        </form>
-    </div>
 
     @foreach (var item in Model)
     {
