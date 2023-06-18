@@ -16,8 +16,10 @@
         color: ghostwhite;
         background-color:#444
     }
-    .searchSection{
-
+    .searching {
+        margin-top: 20px;
+        align-items: center;
+        align-content: center;
     }
     .genre{
         font-size: 20px;

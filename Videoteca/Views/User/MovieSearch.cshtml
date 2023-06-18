@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <div class="searching">
         <form asp-controller="User" asp-action="MovieSearch" method="get">
             <p>
 
@@ -27,6 +28,7 @@
             <input class="search" type="text" list="movie_name" asp-for="SearchString" />
             <button type="submit" class="btn-info icon-search" id="btns"></button>
         </form>
+    </div>
    
     <div class="searchT">
  

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using NuGet.Protocol;
 using System.Collections.Generic;
 using System.Data;
@@ -49,13 +50,11 @@ namespace Videoteca.Controllers
         //GET: Search Movies
         public async Task<IActionResult> MovieSearch(string movieGenre, string searchString)
         {
-          
-
             // Use LINQ to get list of genres.
             IQueryable<string> genres = from m in vbd.Genres
                                             orderby m.genre_id
                                             select m.genre_name;
-
+           
             var movies = from m in vbd.MoviesAndSeries
                          select m;
 
@@ -67,13 +66,17 @@ namespace Videoteca.Controllers
 
             if (!string.IsNullOrEmpty(movieGenre))
             {
-                movies = movies.Where(s => s.title!.Contains(searchString));
+                movies = from m in movies
+                         join mg in vbd.MoviesAndSeriesGenres on m.id equals mg.movies_series_id
+                         join g in vbd.Genres on mg.genre_id equals g.genre_id
+                         where g.genre_name == movieGenre
+                         select m;
             }
 
             var movieGenreVM = new MovieGenreViewModel
             {
                 Genres = new SelectList(await genres.Distinct().ToListAsync()),
-                Movies = await movies.ToListAsync()
+                Movies = movies.ToList()
             };
 
             return View(movieGenreVM);
