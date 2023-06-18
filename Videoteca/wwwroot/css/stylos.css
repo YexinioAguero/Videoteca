@@ -67,7 +67,18 @@
     display: flex;
 }
 
-
+#CreateS{
+    margin-left: 20px;
+    float: left;
+}
+#CreateM{
+    margin-left: 20px;
+    float: right;
+}
+.contenedor3{
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
 
 .Containt_Genre_Data {
     margin-left: 50px;

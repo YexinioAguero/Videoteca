@@ -17,17 +17,17 @@
 <body>
 
 
-    <div class="contenedor">
+    <div class="contenedor3">
         
         <div>
             <form asp-action="Create_Movie" asp-controller="Admin" method="get">
-                <button id="CreateMS" class="btn btn-info align-items-xxl-center" type="submit">Register Movie</button>
+                <button id="CreateM" class="btn btn-info align-items-xxl-center" type="submit">Register Movie</button>
             </form>
         </div>
 
         <div>
             <form asp-action="Create_Serie" asp-controller="Admin" method="get">
-                <button id="CreateMS" class="btn btn-info align-items-xxl-center" type="submit">Register Serie</button>
+                <button id="CreateS" class="btn btn-info align-items-xxl-center" type="submit">Register Serie</button>
             </form>
         </div>
 
@@ -64,20 +64,18 @@
     @foreach (var item in Model)
     {
         <div class="movie">
-            <h1>@item.genre</h1>
+            <h1 class="genre">@item.genre</h1>
             <div id="carrousel-@item.genre" class="carrousel">
+
                 @if (item.movies.Count() > 0)
                 {
                     @foreach (var movie in @item.movies)
                     {
-                        <div class="d-flex flex-column justify-content-center align-items-center">
+                        <div class="d-flex flex-column justify-content-center align-items-center" id="cardM">
                             <img class="movie_img" src="@movie.movie_url">
-                            <br>
-                            <h3 class="display-4 text-capitalize">@movie.title</h3>
-                            <br>
-                            <p class="display-4 text-capitalize">@movie.release_year</p>
-                            <br>
-                            <form asp-action="Details_MoviesAndSeries" asp-controller="Admin" asp-route-id="@movie.id" method="get">
+                            <h3>@movie.title</h3>
+                            <p>@movie.release_year</p>
+                            <form asp-action="Details_MoviesAndSeries" asp-route-id="@movie.id">
                                 <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">View More</button>
                             </form>
                         </div>

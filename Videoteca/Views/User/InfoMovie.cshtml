@@ -199,6 +199,23 @@
         </footer>
     }
 
+    <script>
+        var datos = { id: $('.textC').attr("id") };
+
+        $.ajax({
+        url: '/User/GetRate',
+        type: 'GET',
+        data: datos,
+        success: function (result) {
+        $("#rate-prom").html(result.replace(/['"]/g,""));
+        },
+        error: function () {
+        // Manejar errores en la solicitud Ajax
+        alert('Error al obtener el dato');
+        }
+        });
+    </script>
+
     <!--Librerias para slick, boostrap, jquery-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

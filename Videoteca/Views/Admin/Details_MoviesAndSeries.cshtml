@@ -46,7 +46,10 @@
             </tr>
             <tr>
                 <th>Rate</th>
-                <td>@item.movie.duration</td>
+                <td>
+                    <label id="rate-prom"></label> / 5
+                    <label id="star1" class="fas fa-star"></label>
+                </td>
             </tr>
             <tr>
                 <th>Director</th>
@@ -86,7 +89,7 @@
 
         </div>
 
-
+        
         <div class="windows">
             <ul class="tabs">
                 <li data-tab-target="#actores" class="active tab">Actors</li>
@@ -112,7 +115,7 @@
                 </div>
               
             </div>
-
+            <textarea id="@item.movie.id" class="textC fade"></textarea>
             <ul class="tabs">
                 <div class="contenedor">
 
@@ -148,6 +151,8 @@
             </ul>
 
         </div>
+
+
         <footer>
             <p>Added: @item.movie.date_added</p>
 
@@ -159,6 +164,22 @@
         
 
     }
+    <script>
+        var datos = { id: $('.textC').attr("id") };
+
+        $.ajax({
+            url: '/Admin/GetRate',
+            type: 'GET',
+            data: datos,
+            success: function (result) {
+                $("#rate-prom").html(result.replace(/['"]/g, ""));
+            },
+            error: function () {
+                // Manejar errores en la solicitud Ajax
+                alert('Error al obtener el dato');
+            }
+        });
+    </script>
 
     <!--Librerias para slick, boostrap, jquery-->
 

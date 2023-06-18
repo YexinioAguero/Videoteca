@@ -152,21 +152,6 @@ $('#episodes-tab').click(function () {
 
 });
 
-  var datos = { id: $('.textC').attr("id") };
-
- $.ajax({
-      url: '/User/GetRate',
-      type: 'GET',
-      data: datos,
-      success: function (result) {
-            $("#rate-prom").html(result.replace(/['"]/g,""));
-      },
-      error: function () {
-            // Manejar errores en la solicitud Ajax
-            alert('Error al obtener el dato');
-      }
-  });
-
 
 var modal = document.getElementById("modal1");
 var btn = document.getElementById("openModal1");
