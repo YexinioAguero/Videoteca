@@ -4,6 +4,36 @@
     ViewData["Title"] = "Details";
 }
 
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .form-container {
+        max-width: 400px;
+        padding: 20px;
+        background-color: antiquewhite;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .profile-picture-container {
+        margin-bottom: 20px;
+    }
+
+    .profile-picture img {
+        width: 10px;
+        height: 10px;
+        border-radius: 0;
+        object-fit: cover;
+
+    }
+
+</style>
+
 <h1>Details</h1>
 
 <div>
@@ -31,7 +61,10 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
     
-
+        @if (!string.IsNullOrEmpty(Model.ProfilePicture))
+        {
+            <img src="@Url.Action("GetProfilePicture", "Users", new { id = Model.ProfilePicture })" alt="Profile Picture"   />
+        }
 
     </dl>
 </div>

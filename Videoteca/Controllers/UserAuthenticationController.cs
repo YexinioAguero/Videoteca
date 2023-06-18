@@ -43,17 +43,42 @@ namespace Videoteca.Controllers
             {
                 return View(model);
             }
+
             var result = await _service.LoginAsync(model);
+
             if (result.StatusCode == 1)
             {
                 return RedirectToAction("Index", "Home");
             }
             else
             {
+                if (result.StatusCode == 2) // Verificar si el estado es 2 (Inicio de sesión fallido)
+                {
+                    var user = await _service.GetUserByNameAsync(model.UserName);
+
+                    if (user != null)
+                    {
+                        var lockoutEnabled = await _service.GetLockoutEnabledAsync(user);
+
+                        if (lockoutEnabled) // Comprobar si el bloqueo está habilitado para el usuario
+                        {
+                            var failedCount = await _service.GetAccessFailedCountAsync(user);
+
+                            if (failedCount >= 2) // Comprobar si el usuario ya ha fallado dos veces
+                            {
+                                await _service.LockUserAsync(user); // Bloquear al usuario
+                                TempData["msg"] = "La cuenta ha sido bloqueada debido a múltiples intentos fallidos de inicio de sesión.";
+                                return RedirectToAction(nameof(Login));
+                            }
+                        }
+                    }
+                }
+
                 TempData["msg"] = result.Message;
                 return RedirectToAction(nameof(Login));
             }
         }
+
 
         [Authorize]
         public async Task<IActionResult> Logout()

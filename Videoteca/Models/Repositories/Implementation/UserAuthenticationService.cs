@@ -10,6 +10,41 @@ namespace Videoteca.Models.Repositories.Implementation
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+
+
+        public UserAuthenticationService(UserManager<ApplicationUser> userManager)
+        {
+            _userManager = userManager;
+        }
+
+        public async Task<ApplicationUser> GetUserByNameAsync(string userName)
+        {
+            return await _userManager.FindByNameAsync(userName);
+        }
+
+        public async Task<int> GetFailedAccessCountAsync(ApplicationUser user)
+        {
+            try
+            {
+                return await _userManager.GetAccessFailedCountAsync(user);
+            }
+            catch (Exception ex)
+            {
+                // Manejar el error o lanzar una excepción personalizada si es necesario
+                throw new Exception("Error al obtener el recuento de intentos de inicio de sesión fallidos del usuario.", ex);
+            }
+        }
+
+        public async Task<bool> GetLockoutEnabledAsync(ApplicationUser user)
+        {
+            return await _userManager.GetLockoutEnabledAsync(user);
+        }
+
+        public async Task LockUserAsync(ApplicationUser user)
+        {
+            await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.MaxValue);
+        }
 
         public UserAuthenticationService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -114,6 +149,11 @@ namespace Videoteca.Models.Repositories.Implementation
             status.StatusCode = 1;
             status.Message = "User Has Registered Successfully";
             return status;
+        }
+
+        public Task<int> GetAccessFailedCountAsync(ApplicationUser user)
+        {
+            throw new NotImplementedException();
         }
     }
 }

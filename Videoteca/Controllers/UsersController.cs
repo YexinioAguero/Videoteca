@@ -15,6 +15,7 @@ namespace Videoteca.Controllers
 {
     public class UsersController : Controller
     {
+        static AspNetUser newPerson = new AspNetUser();
         private VideotecaContext db = new VideotecaContext();
         // GET: PersonController
         public ActionResult Index()
@@ -172,6 +173,8 @@ namespace Videoteca.Controllers
 
 
         }
+
+
 
         public ActionResult GetProfilePicture(string id)
         {
