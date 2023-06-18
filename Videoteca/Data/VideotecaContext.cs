@@ -119,7 +119,6 @@ public partial class VideotecaContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.AspNetUserClaims).HasForeignKey(d => d.UserId);
         });
 
-        modelBuilder.Entity<AspNetUserRoles>(entity =>
         {
             entity.HasKey(e => new { e.UserId, e.RoleId });
         });
