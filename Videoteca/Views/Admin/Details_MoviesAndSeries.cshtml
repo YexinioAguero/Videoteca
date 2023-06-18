@@ -13,12 +13,6 @@
 </head>
 <body>
 
-    @if (ViewBag.Message != null)
-    {
-        <div class="alert alert-@(ViewBag.Message.Tipo)">
-            @ViewBag.Message.Text
-        </div>
-    }
 
     <div id="fb-root"></div>
     <script async defer crossorigin="anónimo" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v17.0&appId= 1233834500833890&autoLogAppEvents=1" nonce="bZqdA4Ag"></script>
@@ -35,12 +29,7 @@
                 <br>
                 <p>@item.movie.synopsis</p>
 
-                <div class="fb-share-button" data-href="http://www.facebook.com/sharer.php?u= @item.movie.movie_url" data-layout="" data-size="">
-                    <a name="fb_share" id="compartir" target="_blank " href="http://www.facebook.com/sharer.php?u= @item.movie.movie_url" class="fb-xfbml -parse-ignorar">
-                        <img class="iconFa" src="https://icon-library.com/images/facebook-share-icon-png/facebook-share-icon-png-15.jpg" />
-                    </a>
-
-                </div>
+                
 
             </div>
 
@@ -57,7 +46,10 @@
             </tr>
             <tr>
                 <th>Rate</th>
-                <td>@item.movie.duration</td>
+                <td>
+                    <label id="rate-prom"></label> / 5
+                    <label id="star1" class="fas fa-star"></label>
+                </td>
             </tr>
             <tr>
                 <th>Director</th>
@@ -97,7 +89,7 @@
 
         </div>
 
-
+        
         <div class="windows">
             <ul class="tabs">
                 <li data-tab-target="#actores" class="active tab">Actors</li>
@@ -123,7 +115,7 @@
                 </div>
               
             </div>
-
+            <textarea id="@item.movie.id" class="textC fade"></textarea>
             <ul class="tabs">
                 <div class="contenedor">
 
@@ -159,6 +151,8 @@
             </ul>
 
         </div>
+
+
         <footer>
             <p>Added: @item.movie.date_added</p>
 
@@ -170,6 +164,22 @@
         
 
     }
+    <script>
+        var datos = { id: $('.textC').attr("id") };
+
+        $.ajax({
+            url: '/Admin/GetRate',
+            type: 'GET',
+            data: datos,
+            success: function (result) {
+                $("#rate-prom").html(result.replace(/['"]/g, ""));
+            },
+            error: function () {
+                // Manejar errores en la solicitud Ajax
+                alert('Error al obtener el dato');
+            }
+        });
+    </script>
 
     <!--Librerias para slick, boostrap, jquery-->
 

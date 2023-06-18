@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using System;
 using System.Data;
 using Videoteca.Data;
@@ -648,7 +649,40 @@ namespace Videoteca.Controllers
 
             
         }
-        
+
+        [HttpGet]
+        public ActionResult GetRate(int id)
+        {
+            var ratings = new List<Rating>();
+            int count = 0;
+            string rate = null;
+
+            ratings = db.Ratings.FromSqlRaw(@"exec dbo.GetRate @id", new SqlParameter("@id", id)).ToList();
+
+
+            foreach (var r in ratings)
+            {
+                if (r.rating1 != null)
+                {
+                    count = (int)(count + r.rating1);
+                }
+                else
+                {
+                    count = 0;
+                }
+
+            }
+            if (count != 0)
+            {
+                count = count / ratings.Count();
+            }
+
+            rate = count.ToString();
+
+
+            return Json(rate.ToJson());
+        }
+
         //Get: AdminController/InserEpisode
         public IActionResult InsertEpisodes(int id_pelicula)
         {
