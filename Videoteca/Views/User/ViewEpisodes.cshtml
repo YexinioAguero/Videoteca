@@ -7,42 +7,29 @@
     <link rel="stylesheet" href="~/css/responsive.css" />
 </head>
 <body>
-    <main>
-        @foreach (var item in Model)
-        {
-            <div class="slideE">
-                @if (item.title != null)
-                {
-                    <div class="episodes">
-                        <img src="@item.url">
-                        <div><h3>@item.title</h3></div>
-                        <div><h4>@item.episode_number</h4></div>
-                        <div><h4>@item.duration</h4></div>
-                    </div>
+       <div class="slideE">
+            @foreach (var item in Model)
+            {
+                    @if (item.title != null)
+                    {
+                        <div class="episodes">
+                            <img src="@item.url">
+                            <div><h3>@item.title</h3></div>
+                            <div><h4>@item.episode_number</h4></div>
+                            <div><h4>@item.duration</h4></div>
+                        </div>
 
-                }
-                else
-                {
-                    <div class="bg-white" id="user-date">
-                        There's no episodes..
-                    </div>
-                }
-            </div>
-        }
+                    }
+                    else
+                    {
+                        <div class="bg-white" id="user-date">
+                            There's no episodes..
+                        </div>
+                    }
+            
+            }
+        </div>
 
-    </main>
-    @section scripts{
-        <script>
-            $('.slideE').slick({
-                autoplay: true,
-                dots: true,
-                infinite: true,
-                speed: 500,
-                fade: true,
-                cssEase: 'linear'
-            });
-        </script>
-    }
     <!--Librerias para slick, boostrap, jquery-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -56,4 +43,5 @@
     <script src="~/lib/slick-1.8.1/slick/slick.min.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
+
  </body>

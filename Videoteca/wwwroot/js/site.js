@@ -254,12 +254,16 @@ $('.btn-rate').click(function () {
 
 });
 
-
-
+$('.slideE').slick({
+    autoplay: true,
+    dots: true,
+    infinite: true,
+    speed: 500,
+    fade: true,
+    cssEase: 'linear'
+});
 
 // Write your JavaScript code.
-$(document).ready(function () {
-
 
 function previewProfilePicture(event) {
     var input = event.target;
@@ -270,7 +274,7 @@ function previewProfilePicture(event) {
             ProfilePicture.src = e.target.result;
             ProfilePicture.alt = 'Profile picture';
         }
-    
-    reader.readAsDataURL(input.files[0]);
+
+        reader.readAsDataURL(input.files[0]);
     }
 }
