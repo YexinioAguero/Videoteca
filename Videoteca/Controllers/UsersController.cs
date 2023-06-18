@@ -9,6 +9,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 using Videoteca.Migrations;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 
 namespace Videoteca.Controllers
 {
@@ -26,8 +27,6 @@ namespace Videoteca.Controllers
             ViewBag.persona = personList.FirstOrDefault();
             return View(personList);
         }
-
-
 
 
         // Get: EditRole/Edit/5
@@ -128,15 +127,41 @@ namespace Videoteca.Controllers
         // POST: PersonController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, AspNetUser person)
+        public ActionResult Edit(string id, AspNetUser person, IFormFile photo)
         {
             try
             {
 
                 db.Update(person);
-                db.SaveChanges(true);
+                if (photo != null && photo.Length > 0)
+                {
+                    // Leer los datos de la foto y convertirlos a un arreglo de bytes
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        photo.CopyTo(memoryStream);
+                        byte[] photoData = memoryStream.ToArray();
+
+                        // Guardar la foto en la tabla "Image"
+                        var image = new ProfilePicture
+                        {
+                            image = photoData
+                        };
+                        db.ProfilePictures.Add(image);
+                        db.SaveChanges();
+
+                        // Actualizar el campo "ProfilePicture" en la tabla "AspNetUsers" con la ruta de la foto guardada en la tabla "Image"
+                        person.ProfilePicture = image.id.ToString();
+                    }
+                }
+
+
+                ViewBag.Message = "Se realizó de manera correcta";
+         
+
+                db.SaveChanges();
                 ViewBag.Message = new MessagePack { Text = "Se realizo de manera correcta", Tipo = Tipo.message.success.ToString() };
                 return View();
+
             }
             catch
             {
@@ -144,32 +169,26 @@ namespace Videoteca.Controllers
 
                 return View();
             }
+
+
         }
 
-
-
-
-
-        // GET: PersonController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult GetProfilePicture(string id)
         {
-            return View();
-        }
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
 
-        // POST: PersonController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(string id, IFormCollection collection)
-        {
-            try
+            var image = db.ProfilePictures.Find(int.Parse(id));
+            if (image == null)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
-            {
-                return View();
-            }
-        }
+
+            return File(image.image, "image/jpeg"); // Devuelve la imagen como un archivo de tipo "image/jpeg"
+        }
+
 
         public IActionResult DownloaderPDF()
         {
@@ -186,6 +205,13 @@ namespace Videoteca.Controllers
                 {
                     Page.Content().Background("#F5F5DC").Padding(20).Column(col =>
                     {
+                        Page.Header().Row(row =>
+                        {
+
+                            row.RelativeItem().Background("#F5F5DC").AlignCenter().PaddingTop(10).Text("Reporte de Usuarios VIDEOTECA ACY").FontFamily("Courier New").FontColor("#050505").FontSize(16);
+
+                        });
+
                         col.Item().Table(table =>
                         {
                             table.ColumnsDefinition(columns =>
