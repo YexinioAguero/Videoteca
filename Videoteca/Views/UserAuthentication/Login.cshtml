@@ -11,6 +11,63 @@
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="~/css/Login.css" />
     <title>Login</title>
+    <style>
+        body{
+            background-color:lightskyblue
+        }
+
+        form {
+            border: 3px solid black;
+            width: 60%;
+            margin: auto;
+            margin-top: 10%;
+        }
+
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 12px 29px;
+            margin: 8px 0;
+            display: intine—block;
+            border: 1px solid black;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: cyan;
+            color: lightslategrey;
+            padding: 14px 29px;
+            margin: 8px 0;
+            border: black;
+            cursor: pointer;
+            width: 100%;
+            
+        }
+
+
+        label {
+            color: white;
+        }
+
+
+        a {
+            color: white;
+        }
+
+
+        .container {
+            padding: 16px;
+        
+        }
+
+        .msg {
+            padding: 0px;
+        }
+
+        .err {
+            color: blue;
+        }
+
+    </style>
 </head>
 <body>
     <form asp-action="Login" method="post">

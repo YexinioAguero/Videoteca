@@ -1,9 +1,11 @@
-﻿namespace Videoteca.Models
-{
-    public class ProfilePicture
-    {
-        public int id { get; set; }
+﻿using System;
+using System.Collections.Generic;
 
-        public byte[] image { get; set; }
-    }
+namespace Videoteca.Models;
+
+public partial class profilePicture
+{
+    public int id { get; set; }
+
+    public byte[]? image { get; set; }
 }

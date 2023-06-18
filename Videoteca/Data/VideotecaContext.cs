@@ -27,8 +27,8 @@ public partial class VideotecaContext : DbContext
     public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
 
     public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-
     public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
+
     public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
 
     public virtual DbSet<Comment> Comments { get; set; }
@@ -47,7 +47,7 @@ public partial class VideotecaContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    public virtual DbSet<imagesProfile> imagesProfiles { get; set; }
+    public virtual DbSet<profilePicture> profilePictures { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -99,16 +99,16 @@ public partial class VideotecaContext : DbContext
             entity.Property(e => e.SelectedImageId).HasMaxLength(450);
             entity.Property(e => e.UserName).HasMaxLength(256);
 
-          //  entity.HasMany(d => d.Roles).WithMany(p => p.Users)
-          //      .UsingEntity<Dictionary<string, object>>(
-          //          "AspNetUserRole",
-          //          r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
-          //          l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
-          //          j =>
-           //         {
-           //             j.HasKey("UserId", "RoleId");
+            //  entity.HasMany(d => d.Roles).WithMany(p => p.Users)
+            //      .UsingEntity<Dictionary<string, object>>(
+            //          "AspNetUserRole",
+            //          r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
+            //          l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
+            //          j =>
+            //         {
+            //             j.HasKey("UserId", "RoleId");
             //            j.ToTable("AspNetUserRoles");
-           //             j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
+            //             j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
             //        });
         });
 
@@ -218,9 +218,6 @@ public partial class VideotecaContext : DbContext
             entity.Property(e => e.userName).HasMaxLength(256);
         });
 
-
-
-
         modelBuilder.Entity<User>(entity =>
         {
             entity
@@ -238,19 +235,9 @@ public partial class VideotecaContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<imagesProfile>(entity =>
+        modelBuilder.Entity<profilePicture>(entity =>
         {
-            entity.HasKey(e => e.idImage).HasName("PK__imagesPr__84D649AF25627FF6");
-
-            entity.ToTable("imagesProfile");
-
-            entity.Property(e => e.idImage)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .IsFixedLength();
-            entity.Property(e => e.imageURL)
-                .HasMaxLength(500)
-                .IsUnicode(false);
+            entity.Property(e => e.image).HasColumnType("image");
         });
 
         OnModelCreatingPartial(modelBuilder);

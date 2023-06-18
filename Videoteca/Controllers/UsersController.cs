@@ -142,11 +142,11 @@ namespace Videoteca.Controllers
                         byte[] photoData = memoryStream.ToArray();
 
                         // Guardar la foto en la tabla "Image"
-                        var image = new ProfilePicture
+                        var image = new profilePicture
                         {
                             image = photoData
                         };
-                        db.ProfilePictures.Add(image);
+                        //db.ProfilePictures.Add(image);
                         db.SaveChanges();
 
                         // Actualizar el campo "ProfilePicture" en la tabla "AspNetUsers" con la ruta de la foto guardada en la tabla "Image"
@@ -180,13 +180,13 @@ namespace Videoteca.Controllers
                 return NotFound();
             }
 
-            var image = db.ProfilePictures.Find(int.Parse(id));
+            var image = db.profilePictures.Find(int.Parse(id));
             if (image == null)
             {
                 return NotFound();
             }
 
-            return File(image.image, "image/jpeg"); // Devuelve la imagen como un archivo de tipo "image/jpeg"
+           return File(image.image, "image/jpeg"); // Devuelve la imagen como un archivo de tipo "image/jpeg"
         }
 
 
