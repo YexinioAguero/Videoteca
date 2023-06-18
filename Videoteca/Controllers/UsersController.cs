@@ -160,7 +160,7 @@ namespace Videoteca.Controllers
 
                 db.SaveChanges();
                 ViewBag.Message = new MessagePack { Text = "Se realizo de manera correcta", Tipo = Tipo.message.success.ToString() };
-                return View();
+                return RedirectToAction("Edit");
 
             }
             catch
