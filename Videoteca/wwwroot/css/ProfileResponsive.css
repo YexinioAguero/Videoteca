@@ -1,0 +1,56 @@
+﻿
+@media (max-width: 768px) {
+    .container {
+        height: 90vh;
+    }
+
+    .form-container {
+        max-width: 300px;
+        padding: 20px;
+        background-color: #ebeebd;
+        border-radius: 5px;
+        text-align: center;
+        color: black;
+    }
+    #photo{
+        display:flex;
+        font-size:10px;
+    }
+    .form-group input {
+        background-color: #162B4E;
+        text-align: center;
+        color: white;
+    }
+
+    label {
+        font-size: 15px;
+        margin-top: 5px;
+        color: black;
+        padding-bottom: 10px;
+    }
+
+    .btn {
+        margin-top: 10px;
+        width: 60px;
+        background-color: #162B4E;
+        border-radius: 5px;
+    }
+
+    #save {
+        font-size: 11px;
+    }
+
+    #back {
+        width: 80px;
+        font-size:11px;
+        float: left;
+    }
+
+    button {
+        font-size:10px;
+    }
+    input{
+        font-size:10px;
+    }
+
+}

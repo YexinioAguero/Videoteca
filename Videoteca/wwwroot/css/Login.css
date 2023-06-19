@@ -13,7 +13,7 @@ form {
     margin: auto;
     margin-top: 10%;
     background-color: #0b0f5f;
-    opacity: 0.95;
+    opacity: 0.91;
     border-radius: 15px;
 }
 
@@ -31,18 +31,18 @@ label {
     margin-bottom: 5px;
     margin-top: 5px;
     font-size:20px;
+    color:white;
 }
 input{
-    font-size:20px;
-   border-radius:5px;
+   font-size:15px;
 }
-#logo {
-    justify-items: center;
+.container #logo {
+    align-self: center;
     text-align: center;
     border-radius: 50%;
-    width:170px;
+    width: 170px;
     height: 150px;
-    margin-bottom: 50px;
+    margin-bottom: 0px;
 }
 
 button {
@@ -63,33 +63,6 @@ button {
     position: relative;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
-
-    button::before {
-        content: '';
-        background-color: darkcyan;
-        border-radius: 10px;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        z-index: 0;
-        left: 100%;
-        width: 0%;
-        transition: .3s;
-    }
-
-    button:hover::before {
-        left: 0%;
-        width: 100%;
-        transition: width .3s;
-    }
-
-label {
-    float:left;
-    color: white;
-    font-size: 25px;
-}
-
 
 a {
     color: white;
