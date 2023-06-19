@@ -12,15 +12,16 @@
     margin-bottom: 10px;
 }
 .searching{
-    margin-top: 20px;
-    margin-bottom: 50px;
-    margin-left:20%;
-    align-content:center;
+    margin-top: 10%;
+    align-content: center;
+    margin-bottom: 20%;
 }
-select {
-    border-radius: 5px;
+#selected {
+    height: 30px;
+    width: 200px;
     font-family: var(--type-letter);
-    font-size: 15px;
+    font-size: 14px;
+    background-color: #fefefe;
 }
 .carrousel {
     align-items: center;
@@ -35,12 +36,16 @@ select {
 #gen{
     margin-left: 5px;
 }
-.searchDivs {
-    align-items: center;
-    align-content: center;
-    display: flex;
-    color: white;
+.search {
+    height: 30px;
+    width: 200px;
+    border-radius: 5px;
+    font-family: var(--type-letter);
+    font-size: 14px;
+    color: black;
+    background-color: #dbdbdb
 }
+
 #searchM{
     display:flex;
     flex-direction: column;
@@ -74,6 +79,10 @@ select {
     margin-bottom: 20px;
     margin-right: 20px;
     display: flex;
+}
+.searchT{
+    margin-top:15%;
+    height:500px;
 }
 
 #CreateS{

@@ -48,13 +48,16 @@ namespace Videoteca.Controllers
         }
 
         //GET: Search Movies
-        public async Task<IActionResult> MovieSearch(string movieGenre, string searchString)
+        public async Task<IActionResult> MovieSearch(string movieGenre, string searchString, string movieActor)
         {
             // Use LINQ to get list of genres.
             IQueryable<string> genres = from m in vbd.Genres
                                             orderby m.genre_id
                                             select m.genre_name;
-           
+            IQueryable<string> actors = from m in vbd.Actors
+                                        orderby m.actor_last_name
+                                        select m.actor_first_name;
+
             var movies = from m in vbd.MoviesAndSeries
                          select m;
 
@@ -72,11 +75,20 @@ namespace Videoteca.Controllers
                          where g.genre_name == movieGenre
                          select m;
             }
+            if (!string.IsNullOrEmpty(movieActor))
+            {
+                movies = from m in movies
+                         join mg in vbd.MoviesAndSeriesActors on m.id equals mg.movies_series_id
+                         join g in vbd.Actors on mg.actor_id equals g.actor_id
+                         where g.actor_first_name == movieActor
+                         select m;
+            }
 
             var movieGenreVM = new MovieGenreViewModel
             {
                 Genres = new SelectList(await genres.Distinct().ToListAsync()),
-                Movies = movies.ToList()
+                Movies = movies.ToList(),
+                Actors = new SelectList(await actors.Distinct().ToListAsync())
             };
 
             return View(movieGenreVM);
@@ -137,6 +149,7 @@ namespace Videoteca.Controllers
 
             return View(list);
         }
+
         [HttpPost]
         public ActionResult SetRate(int value, int id)
         {
@@ -165,6 +178,7 @@ namespace Videoteca.Controllers
 
             return Json(new { mensaje = value });
         }
+
         [HttpGet]
         public ActionResult GetRate(int id)
         {

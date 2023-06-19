@@ -10,14 +10,18 @@
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="~/css/responsive.css" />
 </head>
-
+<h1 class="title">Search</h1>
 <body>
-    <div class="searching">
+    
+    <div class="justify-content-center">
         <form asp-controller="User" asp-action="MovieSearch" method="get">
-            <p>
 
-                <select asp-for="MovieGenre" asp-items="Model.Genres">
-                    <option value="">All</option>
+                <select asp-for="MovieGenre" asp-items="Model.Genres" id="selected">
+                    <option value="">Select for genres</option>
+                </select>
+
+                <select asp-for="MovieActor" asp-items="Model.Actors" id="selected">
+                    <option value="">Select for actors</option>
                 </select>
             <datalist id="movie_name">
                 @foreach (var item in Model.Movies!)
@@ -34,21 +38,13 @@
  
             @foreach (var item in Model.Movies!)
             {
-                <div class="searchDivs">
-                    <img class="movie_img" src="@item.movie_url">
-                    <div id="searchM">
-                        <div>
-                            @item.title
-                        </div>
-                        <div>
-                            @item.release_year
-                        </div>
-                        <div>
-                            <form asp-action="InfoMovie" asp-route-id="@item.id">
-                                <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">View More</button>
-                            </form>
-                        </div>
-                    </div>
+            <div class="d-flex flex-column justify-content-center align-items-center" id="cardM">
+                <img class="movie_img" src="@item.movie_url">
+                <h3>@item.title</h3>
+                <p>@item.release_year</p>
+                <form asp-action="InfoMovie" asp-route-id="@item.id">
+                    <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">View More</button>
+                </form>
                 </div>
             }
    </div>

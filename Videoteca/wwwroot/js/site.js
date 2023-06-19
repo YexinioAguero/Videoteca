@@ -70,41 +70,46 @@ $('.btnC').click(function () {
     var datos1 = { id: $('.textC').attr("id") };
         // Realizar la solicitud Ajax
     const regText = /\S+/g;
+    const regText2 = /(mierda)?(hp)?(hijueputa)?(malparido)?/g;
  
     if (regText.test(texto)) {
-        $.ajax({
-            url: '/User/SetComment',
-            type: 'POST',
-            data: datos,
-            success: function (response) {
-                // Manejar la respuesta del ActionResult
-                widget.style.display = "none";
-                commp.style.display = "block";
-                editBtn.onclick = () => {
-                    widget.style.display = "block";
-                    commp.style.display = "none";
-                }
-                $('.textC').val("");
-                $.ajax({
-                    url: '/User/GetComment',
-                    type: 'GET',
-                    data: datos1,
-                    success: function (result) {
-                        console.log(result);
-                        $("#getC").html(result);
-                    },
-                    error: function () {
-                        // Manejar errores en la solicitud Ajax
-                        alert('Error al obtener la vista parcial');
+        if (!regText2.test(texto)) {
+            $.ajax({
+                url: '/User/SetComment',
+                type: 'POST',
+                data: datos,
+                success: function (response) {
+                    // Manejar la respuesta del ActionResult
+                    widget.style.display = "none";
+                    commp.style.display = "block";
+                    editBtn.onclick = () => {
+                        widget.style.display = "block";
+                        commp.style.display = "none";
                     }
-                });
+                    $('.textC').val("");
+                    $.ajax({
+                        url: '/User/GetComment',
+                        type: 'GET',
+                        data: datos1,
+                        success: function (result) {
+                            console.log(result);
+                            $("#getC").html(result);
+                        },
+                        error: function () {
+                            // Manejar errores en la solicitud Ajax
+                            alert('Error al obtener la vista parcial');
+                        }
+                    });
 
-            },
-            error: function (error) {
-                // Manejar errores en la solicitud Ajax
-                console.log(error);
-            }
-        });
+                },
+                error: function (error) {
+                    // Manejar errores en la solicitud Ajax
+                    console.log(error);
+                }
+            });
+        } else {
+            alert("Hay malas palabras en el comentario!!");
+        }
 
     } else {
         alert("El campo esta vacio!!");
