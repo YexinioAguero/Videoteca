@@ -93,19 +93,6 @@ namespace Videoteca.Controllers
             try
             {
 
-                var parameter = new List<SqlParameter>();
-                parameter.Add(new SqlParameter("@title", movisData.title));
-                parameter.Add(new SqlParameter("@synopsis", movisData.synopsis));
-                parameter.Add(new SqlParameter("@releaseYear", movisData.release_year));
-                parameter.Add(new SqlParameter("@duration", movisData.duration));
-                parameter.Add(new SqlParameter("@classification", movisData.classification));
-                parameter.Add(new SqlParameter("@director", movisData.director));
-                parameter.Add(new SqlParameter("@num_seasons", movisData.num_seasons));
-                parameter.Add(new SqlParameter("@num_episodes", movisData.num_episodes));
-                parameter.Add(new SqlParameter("@movie_url", movisData.movie_url));
-                parameter.Add(new SqlParameter("@date_added", movisData.date_added));
-
-
                 var moviesSearch = new List<MoviesAndSeries>();
 
                 moviesSearch = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovieDataForTitle @title", new SqlParameter("@title", movisData.title)).ToList();
@@ -123,25 +110,48 @@ namespace Videoteca.Controllers
                 else
                 {
 
-                    db.MoviesAndSeries.Add(movisData);
-                    db.SaveChanges();
 
-                    ViewBag.Message = new Models.MessagePack()
+                    using (var client = new HttpClient())
                     {
-                        Text = "The Movie Was Register",
-                        Tipo = message.success.ToString()
-                    };
+                        client.BaseAddress = new Uri("https://localhost:7220/api/");
+                        //HTTP GET
+                        var PostTask = client.PostAsJsonAsync("MovieService/", movisData);
+                        PostTask.Wait();
+
+                        var result = PostTask.Result;
+
+                        if (result.IsSuccessStatusCode)
+                        {
+                            ViewBag.Message = new Models.MessagePack()
+                            {
+                                Text = "The Movie Was Register",
+                                Tipo = message.success.ToString()
+                            };
+
+                            var movies = new List<MoviesAndSeries>();
+
+                            movies = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovieDataForTitle @title", new SqlParameter("@title", movisData.title)).ToList();
+
+                            var movie = movies.FirstOrDefault();
+
+                            var idMovie = movie.id;
+
+                            return RedirectToAction("Details_MoviesAndSeries", new { id = idMovie });
+
+                        }
+                        else
+                        {
+                            ViewBag.Message = new Models.MessagePack()
+                            {
+                                Text = "Problem was register Movie",
+                                Tipo = message.success.ToString()
+                            };
+
+                            return View();
+                        }
+                    }
 
 
-                    var movies = new List<MoviesAndSeries>();
-
-                    movies = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovieDataForTitle @title", new SqlParameter("@title", movisData.title)).ToList();
-
-                    var movie = movies.FirstOrDefault();
-
-                    var idMovie = movie.id;
-
-                    return RedirectToAction("Details_MoviesAndSeries", new { id = idMovie });
                 }
 
 
@@ -259,34 +269,35 @@ namespace Videoteca.Controllers
 
             try
             {
-                var MovieEdit = new List<MoviesAndSeries>();
-                var parameter = new List<SqlParameter>();
-                parameter.Add(new SqlParameter("@Id_Movie", movisData.id));
-                parameter.Add(new SqlParameter("@title", movisData.title));
-                parameter.Add(new SqlParameter("@synopsis", movisData.synopsis));
-                parameter.Add(new SqlParameter("@releaseYear", movisData.release_year));
-                parameter.Add(new SqlParameter("@duration", movisData.duration));
-                parameter.Add(new SqlParameter("@classification", movisData.classification));
-                parameter.Add(new SqlParameter("@director", movisData.director));
-                parameter.Add(new SqlParameter("@movie_url", movisData.movie_url));
-
-
-                var result = Task.Run(() => db.Database
-                .ExecuteSqlRaw(@"exec dbo.EditMoviesAndSerie @Id_Movie, @title, @synopsis, @releaseYear, @duration,
-                @classification, @director, @movie_url",
-                parameter.ToArray()));
-
-                result.Wait();
-
-                db.SaveChanges();
-
-                ViewBag.Message = new Models.MessagePack()
+                using (var client = new HttpClient())
                 {
-                    Text = "The series or movie was modified correctly",
-                    Tipo = message.success.ToString()
-                };
+                    client.BaseAddress = new Uri("https://localhost:7220/api/");
+                    //HTTP GET
+                    var responseTask = client.PutAsJsonAsync("MovieService/" + movisData.id, movisData);
+                    responseTask.Wait();
 
-                return RedirectToAction("Details_MoviesAndSeries", new { id = movisData.id});
+                    var result = responseTask.Result;
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        ViewBag.Message = new Models.MessagePack()
+                        {
+                            Text = "The movie or series was update correctly.",
+                            Tipo = message.success.ToString()
+                        };
+                    }
+                    else
+                    {
+                        ViewBag.Message = new Models.MessagePack()
+                        {
+                            Text = "The series or movie was not modified correctly:",
+                            Tipo = message.danger.ToString()
+                        };
+                    }
+
+
+                    return RedirectToAction("Details_MoviesAndSeries", new { id = movisData.id });
+                }
             }
             catch (Exception ex)
             {
@@ -296,7 +307,7 @@ namespace Videoteca.Controllers
                     Tipo = message.danger.ToString()
                 };
 
-                return View();
+                return View(movisData.id);
             }
 
         }
@@ -323,25 +334,56 @@ namespace Videoteca.Controllers
         {
             try
             {
-                var parameter = new List<SqlParameter>();
-                parameter.Add(new SqlParameter("@Id", id));
 
-                var MovieList = new List<MoviesAndSeries>();
-
-
-                var result = Task.Run(() => db.Database
-                .ExecuteSqlRaw(@"exec dbo.DeleteMoviesAndSerie @Id", parameter.ToArray()));
-                result.Wait();
-
-                db.SaveChanges();
-
-                ViewBag.Message = new Models.MessagePack()
+                using (var client = new HttpClient())
                 {
-                    Text = "The movie or series was deleted correctly.",
-                    Tipo = message.danger.ToString()
-                };
+                    client.BaseAddress = new Uri("https://localhost:7220/api/");
+                    //HTTP GET
+                    var responseTask = client.DeleteAsync("MovieService/" + id);
+                    responseTask.Wait();
+
+                    var result = responseTask.Result;
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        ViewBag.Message = new Models.MessagePack()
+                        {
+                            Text = "The movie or series was deleted correctly.",
+                            Tipo = message.danger.ToString()
+                        };
+                    }
+                    else
+                    {
+                        ViewBag.Message = new Models.MessagePack()
+                        {
+                            Text = "The movie or series was not deleted.",
+                            Tipo = message.danger.ToString()
+                        };
+
+                    }
+                }
 
 
+                //var parameter = new List<SqlParameter>();
+                //parameter.Add(new SqlParameter("@Id", id));
+
+                //var MovieList = new List<MoviesAndSeries>();
+
+
+                //var result = Task.Run(() => db.Database
+                //.ExecuteSqlRaw(@"exec dbo.DeleteMoviesAndSerie @Id", parameter.ToArray()));
+                
+                //result.Wait();
+
+                //db.SaveChanges();
+
+                //ViewBag.Message = new Models.MessagePack()
+                //{
+                //    Text = "The movie or series was deleted correctly.",
+                //    Tipo = message.danger.ToString()
+                //};
+
+            
                 return RedirectToAction("View_MoviesAndSeries");
 
             }

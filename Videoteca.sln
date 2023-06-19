@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Videoteca", "Videoteca\Vide
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportPro", "..\..\..\..\Downloads\Demopdf\Demo\ReportPro\ReportPro.csproj", "{8CF0E590-4604-4190-8007-C93A2F278E41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Videoteca_API", "Videoteca_API\Videoteca_API.csproj", "{CD9250CE-F84B-4962-BA43-2D2DEE85F184}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8CF0E590-4604-4190-8007-C93A2F278E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CF0E590-4604-4190-8007-C93A2F278E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CF0E590-4604-4190-8007-C93A2F278E41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD9250CE-F84B-4962-BA43-2D2DEE85F184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD9250CE-F84B-4962-BA43-2D2DEE85F184}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD9250CE-F84B-4962-BA43-2D2DEE85F184}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD9250CE-F84B-4962-BA43-2D2DEE85F184}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
