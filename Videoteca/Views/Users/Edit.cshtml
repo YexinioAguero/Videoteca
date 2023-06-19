@@ -44,7 +44,7 @@
 
             <div class="profile-picture-container">
                 <label for="photo">Profile Picture</label>
-                <input type="file" id="photo" name="photo" accept="image/*" class="form-control-file" onclick="previewProfilePicture(event)" />
+                <input type="file" id="photo" name="photo" accept="image/*" class="form-control-file" onchange="previewProfilePicture(event)" />
 
                 <div class="profile-picture">
                     @if (!string.IsNullOrEmpty(Model.ProfilePicture))
