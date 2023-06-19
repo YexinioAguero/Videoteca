@@ -10,6 +10,7 @@ using Videoteca.Migrations;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Security.Claims;
 
 namespace Videoteca.Controllers
 {
@@ -128,55 +129,65 @@ namespace Videoteca.Controllers
         // POST: PersonController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, AspNetUser person, IFormFile photo)
+        public ActionResult Edit(AspNetUser person, IFormFile photo)
         {
-            try
+            if (!ModelState.IsValid)
             {
-
-                db.Update(person);
-                if (photo != null && photo.Length > 0)
+                return View(person);
+            }
+            using (var dbContext = new VideotecaContext())
+            {
+                newPerson = dbContext.AspNetUsers.Find(person.Id);
+                try
                 {
-                    // Leer los datos de la foto y convertirlos a un arreglo de bytes
-                    using (var memoryStream = new MemoryStream())
+
+                    if (photo != null && photo.Length > 0)
                     {
-                        photo.CopyTo(memoryStream);
-                        byte[] photoData = memoryStream.ToArray();
-
-                        // Guardar la foto en la tabla "Image"
-                        var image = new ProfilePicture
+                        // Leer los datos de la foto y convertirlos a un arreglo de bytes
+                        using (var memoryStream = new MemoryStream())
                         {
-                            image = photoData
-                        };
-                        db.ProfilePictures.Add(image);
-                        db.SaveChanges();
+                            photo.CopyTo(memoryStream);
+                            byte[] photoData = memoryStream.ToArray();
 
-                        // Actualizar el campo "ProfilePicture" en la tabla "AspNetUsers" con la ruta de la foto guardada en la tabla "Image"
-                        person.ProfilePicture = image.id.ToString();
+                            // Guardar la foto en la tabla "Image"
+                            var image = new ProfilePicture
+                            {
+                                image = photoData
+                            };
+                            db.ProfilePictures.Add(image);
+                            db.SaveChanges();
+
+                            // Actualizar el campo "ProfilePicture" en la tabla "AspNetUsers" con la ruta de la foto guardada en la tabla "Image"
+                            person.ProfilePicture = image.id.ToString();
+                        }
                     }
+
+                        newPerson.Name = person.Name;
+                        newPerson.UserName = person.UserName;
+                        newPerson.NormalizedUserName = person.UserName.ToUpper();
+                        newPerson.ProfilePicture = person.ProfilePicture;
+                        newPerson.Email = person.Email;
+                        newPerson.NormalizedEmail = person.Email.ToUpper();
+                        dbContext.Update(newPerson);
+                        dbContext.SaveChanges(true);
+
+                        return RedirectToAction(nameof(Index));
+
                 }
 
-
-                ViewBag.Message = "Se realizó de manera correcta";
-         
-
-                db.SaveChanges();
-                ViewBag.Message = new MessagePack { Text = "Se realizo de manera correcta", Tipo = Tipo.message.success.ToString() };
-                return RedirectToAction("Edit");
+                catch
+                {
+                    return View();
+                }
 
             }
-            catch
-            {
-                ViewBag.Message = new MessagePack { Text = "No se realizo de manera correcta", Tipo = Tipo.message.danger.ToString() };
 
-                return View();
-            }
-
-
-        }
+    }
 
 
 
-        public ActionResult GetProfilePicture(string id)
+
+    public ActionResult GetProfilePicture(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
