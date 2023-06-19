@@ -19,6 +19,7 @@ namespace Videoteca.Controllers
     public class UserController : Controller
     {
         // GET: UserController
+        static AspNetUser newPerson = new AspNetUser();
         private readonly UserManager<ApplicationUser> _userManager;
 
         public UserController(UserManager<ApplicationUser> userManager)
@@ -277,9 +278,10 @@ namespace Videoteca.Controllers
 
         //Edit profile
         // GET: UserController/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit()
         {
-            var person = vbd.AspNetUsers.Find(id);
+            string userId = _userManager.GetUserId(HttpContext.User);
+            var person = vbd.AspNetUsers.Find(userId);
 
             return View(person);
         }
@@ -287,45 +289,59 @@ namespace Videoteca.Controllers
         // POST: PersonController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, AspNetUser person, IFormFile photo)
+        public ActionResult Edit(AspNetUser person, IFormFile photo)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                vbd.Update(person);
-                if (photo != null && photo.Length > 0)
+                return View(person);
+            }
+            using (var dbContext = new VideotecaContext())
+            {
+                newPerson = dbContext.AspNetUsers.Find(person.Id);
+                try
                 {
-                    // Leer los datos de la foto y convertirlos a un arreglo de bytes
-                    using (var memoryStream = new MemoryStream())
+
+                    if (photo != null && photo.Length > 0)
                     {
-                        photo.CopyTo(memoryStream);
-                        byte[] photoData = memoryStream.ToArray();
-
-                        // Guardar la foto en la tabla "Image"
-                        var image = new profilePicture
+                        // Leer los datos de la foto y convertirlos a un arreglo de bytes
+                        using (var memoryStream = new MemoryStream())
                         {
-                            image = photoData
-                        };
+                            photo.CopyTo(memoryStream);
+                            byte[] photoData = memoryStream.ToArray();
 
-                        vbd.profilePictures.Add(image);
-                        vbd.SaveChanges();
+                            // Guardar la foto en la tabla "Image"
+                            var image = new profilePicture
+                            {
+                                image = photoData
+                            };
+                            vbd.profilePictures.Add(image);
+                            vbd.SaveChanges();
 
-                        // Actualizar el campo "ProfilePicture" en la tabla "AspNetUsers" con la ruta de la foto guardada en la tabla "Image"
-                        person.ProfilePicture = image.id.ToString();
+                            // Actualizar el campo "ProfilePicture" en la tabla "AspNetUsers" con la ruta de la foto guardada en la tabla "Image"
+                            person.ProfilePicture = image.id.ToString();
+                        }
                     }
+
+                    newPerson.Name = person.Name;
+                    newPerson.UserName = person.UserName;
+                    newPerson.NormalizedUserName = person.UserName.ToUpper();
+                    newPerson.ProfilePicture = person.ProfilePicture;
+                    newPerson.Email = person.Email;
+                    newPerson.NormalizedEmail = person.Email.ToUpper();
+                    dbContext.Update(newPerson);
+                    dbContext.SaveChanges(true);
+
+                    return RedirectToAction(nameof(Index));
+
                 }
 
+                catch
+                {
+                    return View();
+                }
 
-                ViewBag.Message = "Se realizó de manera correcta";
-                vbd.SaveChanges();
-                ViewBag.Message = new MessagePack { Text = "Se realizo de manera correcta", Tipo = Tipo.message.success.ToString() };
-                return RedirectToAction("Edit");
             }
-            catch
-            {
-                ViewBag.Message = new MessagePack { Text = "No se realizo de manera correcta", Tipo = Tipo.message.danger.ToString() };
 
-                return View();
-            }
         }
 
 

@@ -245,15 +245,6 @@ $('.btn-rate').click(function () {
 
 });
 
-$('.slideE').slick({
-    autoplay: true,
-    dots: true,
-    infinite: true,
-    speed: 500,
-    fade: true,
-    cssEase: 'linear'
-});
-
 // Write your JavaScript code.
 
 function previewProfilePicture(event) {
