@@ -26,7 +26,6 @@ namespace Videoteca.Controllers
             {
                 return View(model);
             }
-            model.Role = "user";
             var result = await _service.RegistrationAsync(model);
             TempData["msg"] = result.Message;
             return RedirectToAction(nameof(Registration));
