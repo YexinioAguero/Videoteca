@@ -14,7 +14,8 @@
 <h1 class="title">Movies And Series</h1>
 
 <body>
-
+    <div class="actuales">
+    </div>
 
     @foreach (var item in Model)
     {
@@ -43,7 +44,22 @@
             </div>
         </div>
     }
- 
+    <script>
+        var datos1 = { id: $('.textC').attr("id") };
+        $.ajax({
+            url: '/User/GetNews',
+            type: 'GET',
+            data: datos1,
+            success: function (result) {
+                $(".actuales").html(result);
+                console.log(result);
+            },
+            error: function () {
+                // Manejar errores en la solicitud Ajax
+                alert('Error al obtener la vista parcial');
+            }
+        });
+    </script>
     <!--Librerias para slick, boostrap, jquery-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

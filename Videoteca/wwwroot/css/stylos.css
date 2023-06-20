@@ -16,6 +16,13 @@
     align-content: center;
     margin-bottom: 20%;
 }
+form{
+    align-self:center;
+}
+#icon-s{
+    color:black;
+}
+
 #selected {
     height: 30px;
     width: 200px;
@@ -83,6 +90,7 @@
 .searchT{
     margin-top:15%;
     height:500px;
+    align-self:center;
 }
 
 #CreateS{

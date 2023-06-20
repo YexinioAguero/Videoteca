@@ -276,6 +276,15 @@ namespace Videoteca.Controllers
             return PartialView("ViewEpisodes", episodes);
         }
 
+        public ActionResult GetNews(int id)
+        {
+            var moviesA = new List<MoviesAndSeries>();
+
+            moviesA = vbd.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMoviesA").ToList();
+
+            return PartialView("ViewNews", moviesA);
+        }
+
         //Edit profile
         // GET: UserController/Edit/5
         public ActionResult Edit()

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Videoteca.Models.MoviesAndSeries>
+<style>
+    #movieA{
+        width:100%;
+        height:450px;
+        opacity: 0.8;
+    }
+    #textoA{
+        position:absolute;
+        float:right;
+        margin:0;
+        text-align: left;
+    }
+    #textoA p{
+        float:left;
+        width:600px;
+        font-size:14px;
+    }
+    #cardA{
+        text-align:center;
+    }
+</style>
+
+<body>
+    <div class="one-time">
+    @foreach (var item in Model)
+    {
+        
+        @if (item.id != 0)
+        {
+            <div class="d-flex flex-column justify-content-center align-items-center" id="cardA">
+                  <img id="movieA"src="@item.movie_url">
+                     <div id="textoA">
+                          <h3 class="titleA">@item.title</h3>
+                           <p>@item.synopsis</p>
+                           <form asp-action="InfoMovie" asp-route-id="@item.id">
+                                    <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">View More</button>
+                           </form>
+                     </div>
+            </div>
+            
+            
+        }else
+        {
+                <h2>There's no movies in this section</h2>
+         }
+       
+    }
+    </div>
+    <script>
+        $('.one-time').slick({
+            dots: true,
+            infinite: true,
+            speed: 300,
+            autoplay: true,
+            autoplaySpeed: 2000,
+            slidesToShow: 1,
+            adaptiveHeight: true
+        });
+    </script>
+</body>

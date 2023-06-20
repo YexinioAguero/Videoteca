@@ -63,7 +63,25 @@ button {
     position: relative;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+    button::before {
+        content: '';
+        background-color: darkcyan;
+        border-radius: 10px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 0;
+        left: 100%;
+        width: 0%;
+        transition: .3s;
+    }
 
+    button:hover::before {
+        left: 0%;
+        width: 100%;
+        transition: width .3s;
+    }
 a {
     color: white;
 }
