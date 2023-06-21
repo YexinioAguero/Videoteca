@@ -765,24 +765,39 @@ namespace Videoteca.Controllers
                 }
                 else
                 {
-                    
-                    db.Episodes.Add(episode);
-                    db.SaveChanges();
 
-                    var result = Task.Run(() => db.Database
-                    .ExecuteSqlRaw(@"exec dbo.updateNumEpisodes @id_serie", new SqlParameter("@id_serie", episode.movies_series_id)));
-
-                    result.Wait();
-
-                    ViewBag.Message = new Models.MessagePack()
+                    using (var client = new HttpClient())
                     {
-                        Text = "Episode registered successfully",
-                        Tipo = message.success.ToString()
-                    };
+                        client.BaseAddress = new Uri("https://localhost:7220/api/");
+                        //HTTP GET
+                        var PostTask = client.PostAsJsonAsync("EpisodeService/", episode);
+                        PostTask.Wait();
 
+                        var result = PostTask.Result;
 
-                   
-                    return RedirectToAction("Details_MoviesAndSeries", new { id = episode.movies_series_id });
+                        if (result.IsSuccessStatusCode)
+                        {
+                            ViewBag.Message = new Models.MessagePack()
+                            {
+                                Text = "The Episode Was Register",
+                                Tipo = message.success.ToString()
+                            };
+
+                           
+                            return RedirectToAction("Details_MoviesAndSeries", new { id = episode.movies_series_id });
+
+                        }
+                        else
+                        {
+                            ViewBag.Message = new Models.MessagePack()
+                            {
+                                Text = "Problem was register Movie",
+                                Tipo = message.success.ToString()
+                            };
+
+                            return View();
+                        }
+                    }
                 }
 
 

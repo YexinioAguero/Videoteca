@@ -73,7 +73,7 @@
             }
         </table>
 
-        <div class="contenedor">
+        <div class="contenedor4">
 
             <form asp-controller="Admin" asp-action="Delete_MovieAndSerie" method="get">
                 <input type="hidden" name="id" value="@item.movie.id" />
@@ -118,7 +118,7 @@
             </div>
             <textarea id="@item.movie.id" class="textC fade"></textarea>
             <ul class="tabs">
-                <div class="contenedor">
+                <div class="contenedor4">
 
                     <form asp-controller="Admin" asp-action="AsignedActors" method="get">
                         <input type="hidden" name="id_pelicula" value="@item.movie.id" />
