@@ -52,23 +52,28 @@ namespace Videoteca_API
             }
 
             await next(context);
+
+ 
         }
 
+
         private async Task HandleUnauthorizedAsync(HttpContext context, string error, string details)
-    {
-        context.Response.StatusCode = 401;
-
-        var errorResponse = new ErrorResponse
         {
-            StatusCode = 401,
-            Message = "Unauthorized",
-            Error = error,
-            Details = details
-        };
+            context.Response.StatusCode = 401;
+            context.Response.Headers.Add("WWW-Authenticate", "Basic realm=\"Postman\"");
 
-        var json = JsonConvert.SerializeObject(errorResponse);
-        await context.Response.WriteAsync(json, Encoding.UTF8);
-    }
+            var errorResponse = new ErrorResponse
+            {
+                StatusCode = 401,
+                Message = "Unauthorized",
+                Error = error,
+                Details = details
+            };
+
+            var json = JsonConvert.SerializeObject(errorResponse);
+            await context.Response.WriteAsync(json, Encoding.UTF8);
+        }
+
 
     }
 
