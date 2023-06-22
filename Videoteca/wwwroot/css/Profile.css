@@ -8,10 +8,10 @@
 .form-container {
     max-width: 400px;
     padding: 20px;
-    background-color: #ebeebd;
+    background-color: #004ca0;
     border-radius: 5px;
     text-align: center;
-    color:black;
+    color: black;
 }
 .form-group input {
     background-color: #162B4E;

@@ -1,13 +1,20 @@
 ﻿* {
     box-sizing: border-box;
 }
-
+:root {
+    --body-color1: #004ca0;
+    --body-color2: #ebeebd;
+    --color-letter: #ffffff;
+    --text-color: #ddd;
+    --type-letter: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 
 .nav1 {
     height: 65px;
     width: 100%;
-    background-color: #ebeebd;
+    background-color: var(--body-color1);
     position: relative;
+    color:white;
 }
 
     .nav1 > .nav-header {
@@ -37,13 +44,14 @@
         .nav1 > .nav-links > ul li a {
             display: block;
             padding: 0 8px;
-            color: black;
+            color: white;
             line-height: 40px;
             font-size: 18px;
             text-decoration: none;
         }
 
         .nav1 > .nav-links > ul {
+            color: white;
             padding: 0;
             margin-top: 5px;
             list-style: none;
@@ -52,12 +60,16 @@
 
             .nav1 > .nav-links > ul li {
                 display: inline-block;
-                background-color: #ebeebd;
+                background-color: var(--body-color1);
+                font-family: var(--type-letter);
             }
 
                 .nav1 > .nav-links > ul li:hover {
-                    background-color: #162B4E;
+                    background-color: var(--body-color2);
                     border-radius: 5px;
+                }
+                .nav1 > .nav-links > ul li a:hover {
+                    color: black;
                 }
 
     .nav1 > #nav-check {
@@ -87,8 +99,12 @@
     border: 2px solid #333;
 }
 #icon-s{
-    color:black;
+    color:white;
 }
+#icon-s :hover{
+    color:black ;
+}
+
 
 @media (max-width:750px) {
     .nav1 > .nav-btn {
@@ -115,6 +131,7 @@
                 width: 25px;
                 height: 10px;
                 border-top: 2px solid #333;
+                color:white;
             }
 
     .nav1 > .nav-links {
@@ -138,7 +155,7 @@
             display: block;
             margin-bottom: 20px;
             padding: 0;
-            background-color: #ebeebd;
+            background-color: var(--body-color1);
         }
 
             .nav > .nav-links > ul li a {
@@ -152,6 +169,7 @@
 
     .nav1 > #nav-check:checked ~ .nav-links {
         height: calc(100vh - 50px);
+        position:absolute;
         overflow-y: auto;
     }
 }

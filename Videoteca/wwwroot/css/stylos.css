@@ -19,9 +19,6 @@
 form{
     align-self:center;
 }
-#icon-s{
-    color:black;
-}
 
 #selected {
     height: 30px;
@@ -237,7 +234,7 @@ textarea {
     padding: 20px;
     border: 1px solid #888;
     width: 50%;
-    height: 25%;
+    height: 35%;
 }
 
 #openModal1 {

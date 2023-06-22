@@ -73,7 +73,7 @@ $('.btnC').click(function () {
     const regText2 = /(mierda)?(hp)?(hijueputa)?(malparido)?/g;
  
     if (regText.test(texto)) {
-        if (!regText2.test(texto)) {
+        if (regText2.test(texto)) {
             $.ajax({
                 url: '/User/SetComment',
                 type: 'POST',
