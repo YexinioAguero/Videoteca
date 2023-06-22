@@ -11,7 +11,7 @@ namespace Videoteca.Controllers
         private FilterInfoCollection MisDispositivos;
         private VideoCaptureDevice MiWebCam = null;
 
-        public ActionResult Index()
+        public ActionResult Cam()
         {
             CargaDispositivos();
             return View();
