@@ -57,7 +57,7 @@ $('.carrousel').each(function () {
     // Manejar el evento de clic del botón
 
 $('.btnC').click(function () {
-    var grocerias = ["puta", "puto", "mierda", "maldito", "hp", "hijueputa", "maldicion", "negro"];
+    var grocerias = ["puta", "puto", "mierda", "maldito", "hp", "hijueputa", "maldicion"];
     var commp = document.querySelector(".comment-post");
     var widget = document.querySelector(".comment-widget");
     var editBtn = document.querySelector(".edit");
