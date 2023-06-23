@@ -57,23 +57,29 @@ $('.carrousel').each(function () {
     // Manejar el evento de clic del botón
 
 $('.btnC').click(function () {
+    var grocerias = ["puta", "puto", "mierda", "maldito", "hp", "hijueputa", "maldicion", "negro"];
     var commp = document.querySelector(".comment-post");
     var widget = document.querySelector(".comment-widget");
     var editBtn = document.querySelector(".edit");
     var texto = $('.textC').val();
 
         // Obtener los datos del formulario o crear un objeto de datos
-    var datos = {
-            text: $('.textC').val(),
-            id: $('.textC').attr("id")
-    };
+ 
     var datos1 = { id: $('.textC').attr("id") };
         // Realizar la solicitud Ajax
     const regText = /\S+/g;
-    const regText2 = /(mierda)?(hp)?(hijueputa)?(malparido)?/g;
+
+    for (var i = 0; i < grocerias.length; i++) {
+        regex = new RegExp("(^|\\s)" + grocerias[i] + "($|(?=\\s))", "gi")
+        texto = texto.replace(regex, function ($0, $1) { return $1 + "*****" });
+    }
+    var datos = {
+        text: texto,
+        id: $('.textC').attr("id")
+    };
  
     if (regText.test(texto)) {
-        if (regText2.test(texto)) {
+   
             $.ajax({
                 url: '/User/SetComment',
                 type: 'POST',
@@ -107,10 +113,6 @@ $('.btnC').click(function () {
                     console.log(error);
                 }
             });
-        } else {
-            alert("Hay malas palabras en el comentario!!");
-        }
-
     } else {
         alert("El campo esta vacio!!");
     }

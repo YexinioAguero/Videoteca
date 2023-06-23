@@ -24,7 +24,7 @@
     }
     .searchT{
         align-items:center;
-        width:100%;
+        width:80%;
         height:400px;
     }
     #selected {
@@ -186,5 +186,48 @@
         color: #666;
         font-weight: 500;
         cursor: pointer;
+    }
+    .one-time{
+        width:100%;
+    }
+    #movieA {
+        height: 350px;
+        width:80%;
+        opacity: 0.8;
+    }
+
+    .textA {
+        width: 250px;
+        position: absolute;
+        top: 8%;
+    }
+    .textA p{
+        font-size:10px;
+    }
+        .textA button {
+            font-size: 10px;
+            width:80px;
+        }
+    .textoE {
+        font-size: 13px;
+    }
+
+        .textoE h4 {
+            font-size: 12px;
+        }
+
+        .textoE p {
+            text-align: justify;
+        }
+
+    #imgE {
+        width: 150px;
+        height: 100px;
+    }
+    .slideE{
+        align-self:center;
+        align-items:center;
+        align-content:center;
+        width:100%;
     }
 }

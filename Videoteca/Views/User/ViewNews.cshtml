@@ -1,54 +1,41 @@
-﻿@model IEnumerable<Videoteca.Models.MoviesAndSeries>
+﻿@using Microsoft.CodeAnalysis.Differencing;
+@model IEnumerable<Videoteca.Models.MoviesAndSeries>
 <head>
     <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick.css" />
     <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick-theme.css" />
 </head>
-<style>
-    #movieA{
-        align-self:center;
-        width:80%;
-        height:500px;
-        opacity: 0.8;
-    }
- 
-    .textA{
-        width:500px;
-        position:absolute;
-        top:15%;
-    }
 
-
-</style>
 
 <body>
     <div class="one-time">
     @foreach (var item in Model)
     {
-           
-     <div>
-                <h2>New Realeases</h2>
-                <div>
-        @if (item.id != 0)
-        {
+            
+        <div>
+               
+            <div>
+                    <h1>New Releases</h1>
+                @if (item.id != 0)
+                {
           
-            <div class="d-flex flex-column justify-content-center align-items-center" id="cardA">
-                  <img id="movieA"src="@item.movie_url">
-                  <div class="textA">
-                      <h3 class="titleA">@item.title</h3>
-                      <p class="sypnosisA">@item.synopsis</p>
-                      <form asp-action="InfoMovie" asp-route-id="@item.id">
-                         <button class="btn btn-outline-dark">View More</button>
-                      </form>
-                  </div>
+                    <div class="d-flex flex-column justify-content-center align-items-center" id="cardA">
+                          <img id="movieA"src="@item.movie_url">
+                          <div class="textA">
+                              <h3 class="titleA">@item.title</h3>
+                              <p class="sypnosisA">@item.synopsis</p>
+                              <form asp-action="InfoMovie" asp-route-id="@item.id">
+                                 <button class="btn btn-outline-info">View More</button>
+                              </form>
+                          </div>
+                    </div>
+            
+            
+                }else
+                {
+                    <h2>There's no movies in this section</h2>
+                }
             </div>
-            
-            
-        }else
-        {
-                <h2>There's no movies in this section</h2>
-         }
-                </div>
-                </div>
+         </div>
        }
     </div>
     <script src="~/lib/slick-1.8.1/slick/slick.min.js"></script>

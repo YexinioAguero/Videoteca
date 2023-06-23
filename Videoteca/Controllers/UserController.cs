@@ -184,7 +184,7 @@ namespace Videoteca.Controllers
         public ActionResult GetRate(int id)
         {
             var ratings = new List<Rating>();
-            int count = 0;
+            float count = 0;
             string rate = null;
 
             ratings = vbd.Ratings.FromSqlRaw(@"exec dbo.GetRate @id", new SqlParameter("@id", id)).ToList();
@@ -194,7 +194,7 @@ namespace Videoteca.Controllers
             {
                 if(r.rating1 != null)
                 {
-                    count = (int)(count + r.rating1);
+                    count = (float)(count + r.rating1);
                 }
                 else
                 {
