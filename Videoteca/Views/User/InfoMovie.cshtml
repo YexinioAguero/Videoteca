@@ -208,6 +208,7 @@
         data: datos,
         success: function (result) {
         $("#rate-prom").html(result.replace(/['"]/g,""));
+        console.log(result);
         },
         error: function () {
         // Manejar errores en la solicitud Ajax
