@@ -1,13 +1,8 @@
-﻿@{
-    ViewBag.Title = "Webcam";
-    Layout = null;
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>VideoTeca SharePlay</title>
+    <title>VideoTeca SharePlay - Filtros en tiempo real</title>
     <style>
         body {
             background-color: beige;
@@ -30,17 +25,24 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <h1 style="text-align: center;">VideoTeca SharePlay</h1>
+    <h1 style="text-align: center;">VideoTeca SharePlay - Filtros en tiempo real</h1>
     <div id="videoContainer">
         <video id="videoElement" autoplay></video>
     </div>
     <button id="startButton">Iniciar Captura</button>
     <button id="stopButton">Detener Captura</button>
+    <label for="filterSelect">Seleccionar filtro:</label>
+    <select id="filterSelect">
+        <option value="none">Ninguno</option>
+        <option value="grayscale">Blanco y Negro</option>
+        <option value="sepia">Sepia</option>
+    </select>
 
     <script>
         var videoElement = document.getElementById("videoElement");
         var startButton = document.getElementById("startButton");
         var stopButton = document.getElementById("stopButton");
+        var filterSelect = document.getElementById("filterSelect");
         var isCapturing = false;
         var stream;
 
@@ -50,6 +52,7 @@
                 isCapturing = true;
                 startButton.disabled = true;
                 stopButton.disabled = false;
+                filterSelect.disabled = true;
             }
         });
 
@@ -59,7 +62,12 @@
                 isCapturing = false;
                 startButton.disabled = false;
                 stopButton.disabled = true;
+                filterSelect.disabled = false;
             }
+        });
+
+        filterSelect.addEventListener("change", function () {
+            applyFilter();
         });
 
         function startCapture() {
@@ -67,6 +75,7 @@
                 .then(function (mediaStream) {
                     stream = mediaStream;
                     videoElement.srcObject = mediaStream;
+                    applyFilter();
                 })
                 .catch(function (error) {
                     console.log("Error al acceder a la cámara: " + error);
@@ -80,6 +89,18 @@
                 });
                 videoElement.srcObject = null;
             }
+        }
+
+        function applyFilter() {
+            var selectedFilter = filterSelect.value;
+
+            if (selectedFilter === "none") {
+                videoElement.style.filter = "none";
+            } else if (selectedFilter === "grayscale") {
+                videoElement.style.filter = "grayscale(100%)";
+            } else if (selectedFilter === "sepia") {
+                videoElement.style.filter = "sepia(100%)";
+            } 
         }
     </script>
 </body>
