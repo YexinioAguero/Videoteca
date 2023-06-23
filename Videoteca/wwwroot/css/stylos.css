@@ -104,13 +104,17 @@ form{
 }
 
 .contenedor4 {
+    display:flex;
     margin-bottom: 30px;
     margin-top: 20px;
 }
+    .contenedor4 #viewM{
+        margin-left: 20px;
+    }
 
-.Containt_Genre_Data {
-    margin-left: 50px;
-}
+    .Containt_Genre_Data {
+        margin-left: 50px;
+    }
 
 table {
     width: 80%;
