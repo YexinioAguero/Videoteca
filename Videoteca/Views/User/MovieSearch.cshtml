@@ -13,7 +13,7 @@
 <h1 class="title">Search</h1>
 <body>
     
-    <div class="align-content-center">
+    <div class="align-content-center d-flex flex-column justify-content-center align-items-center text-center m-2">
         <form asp-controller="User" asp-action="MovieSearch" method="get">
 
                 <select asp-for="MovieGenre" asp-items="Model.Genres" id="selected">
@@ -38,7 +38,7 @@
  
             @foreach (var item in Model.Movies!)
             {
-            <div class="d-flex flex-column justify-content-center align-items-center" id="cardM">
+            <div class="d-flex flex-column justify-content-center align-items-center m-2" id="cardM">
                 <img class="movie_img" src="@item.movie_url">
                 <h3>@item.title</h3>
                 <p>@item.release_year</p>
