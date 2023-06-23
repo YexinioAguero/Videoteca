@@ -1,68 +1,37 @@
 ﻿@model IEnumerable<Videoteca.Models.Movie_S_Genre>
 
 @{
-    ViewData ["Title"] = "Index";
+    ViewData["Title"] = "Index";
 }
-
 <head>
     <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick.css" />
     <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick-theme.css" />
+    <link href="https://file.myfontastic.com/keVpAvi8SaSZiH6aNpqDJ6/icons.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/stylos.css" />
     <link rel="stylesheet" href="~/css/responsive.css" />
-
 </head>
 
 <h1 class="title">Movies And Series</h1>
 
 <body>
-
-
-    <div class="contenedor3">
-        
-        <div>
-            <form asp-action="Create_Movie" asp-controller="Admin" method="get">
-                <button id="CreateM" class="btn btn-info align-items-xxl-center" type="submit">Register Movie</button>
+    <div class="contenedor4">
+            <form asp-controller="Admin" asp-action="Create_Movie" method="get">
+                <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">
+                    Register Movie
+                </button>
             </form>
-        </div>
-
-        <div>
-            <form asp-action="Create_Serie" asp-controller="Admin" method="get">
-                <button id="CreateS" class="btn btn-info align-items-xxl-center" type="submit">Register Serie</button>
-            </form>
-        </div>
-
         
-
+            <form asp-controller="Admin" asp-action="Create_Serie" method="get">
+                <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">
+                    Register Serie
+                </button>
+            </form>
     </div>
 
-    
-    <br>
-    <br>
-    <br>
 
-@*    @foreach (var m in Model)
-    {
-        <div class="d-flex flex-column justify-content-center align-items-center">
-            @foreach (var movie in @m.movies)
-            {
-                @if (movie.release_year.Equals(DateTime.Now.AddYears(-2).ToString("yyyy")))
-                {
+    <div class="actuales">
+    </div>
 
-                    <img class="movie_img" src="@movie.movie_url">
-                    <br>
-                    <h3 class="display-4 text-capitalize">@movie.title</h3>
-                    <br>
-                    <p class="display-4 text-capitalize">@movie.release_year</p>
-                    <br>
-                    <form asp-action="InfoMovie" asp-route-id="@movie.id">
-                        <button class="btn btn-info align-items-xxl-center" type="submit">View More</button>
-                    </form>
-
-                }
-            }
-
-        </div>
-    }*@
     @foreach (var item in Model)
     {
         <div class="movie">
@@ -91,7 +60,6 @@
         </div>
     }
 
-
     <!--Librerias para slick, boostrap, jquery-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -101,8 +69,6 @@
     <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script src="~/lib/slick-1.8.1/slick/slick.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
-
 </body>
 
 

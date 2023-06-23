@@ -131,7 +131,7 @@ namespace Videoteca.Controllers
         public ActionResult Edit(string id, AspNetUser person, IFormFile photo)
         {
             try
-            {
+            {//lee los datos de una foto, los convierte en un arreglo de bytes, los guarda en bd en una tabla y actualiza un campo "ProfilePicture" en AspNetUsers con el ID de la imagen guardada.
                 db.Update(person);
                 if (photo != null && photo.Length > 0)
                 {
@@ -172,7 +172,8 @@ namespace Videoteca.Controllers
 
         }
  
-
+        //Este metodo recibe el id de para identificar la imagen,busca en la bd la imagen y la une con este id.
+        //image se convierte en la representación binaria de la imagen, al devolverlo con File() se verás estos datos como correspondientes a una imagen y se mostrará como tal. 
         public ActionResult GetProfilePicture(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -189,6 +190,8 @@ namespace Videoteca.Controllers
            return File(image.image, "image/jpeg"); // Devuelve la imagen como un archivo de tipo "image/jpeg"
         }
 
+
+        //Método para generar el PDF con los usuarios de la aplicación.
 
         public IActionResult DownloaderPDF()
         {

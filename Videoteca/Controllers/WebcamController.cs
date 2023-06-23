@@ -11,12 +11,14 @@ namespace Videoteca.Controllers
         private FilterInfoCollection MisDispositivos;
         private VideoCaptureDevice MiWebCam = null;
 
+        //Ejecuta la acción de encender la cámara
         public ActionResult Cam()
         {
             CargaDispositivos();
             return View();
         }
 
+        //Carga los dispositivos disponibles
         public void CargaDispositivos()
         {
             MisDispositivos = new FilterInfoCollection(FilterCategory.VideoInputDevice);
@@ -33,6 +35,7 @@ namespace Videoteca.Controllers
             }
         }
 
+        //Cierra la webcam deteniendo así la grabación
         public void CerrarWebCam()
         {
             if (MiWebCam != null && MiWebCam.IsRunning)
@@ -42,11 +45,12 @@ namespace Videoteca.Controllers
             }
         }
 
+        //Inicia el momento de la grabación y redirige a la acción cam.
         [HttpPost]
         public ActionResult StartCapture()
         {
             CerrarWebCam();
-            int i = 0; // Obtén el índice seleccionado según tu lógica
+            int i = 0; 
             string NombreVideo = MisDispositivos[i].MonikerString;
             MiWebCam = new VideoCaptureDevice(NombreVideo);
             MiWebCam.NewFrame += new NewFrameEventHandler(Capturando);
@@ -54,15 +58,17 @@ namespace Videoteca.Controllers
             return RedirectToAction("Cam");
         }
 
+        //Se ejecuta para capturar los fotogramas de la cámara web usando el objeto bitmap
+        //Bitmap se utiliza en métodos relacionados al procesamiento de imagenes, como es este el caso.
         public void Capturando(object sender, NewFrameEventArgs eventArgs)
         {
             // Lógica para procesar los fotogramas capturados
-            // Puedes almacenarlos, mostrarlos en la vista, etc.
             Bitmap Imagen = (Bitmap)eventArgs.Frame.Clone();
             // Realiza la lógica necesaria con la imagen capturada
             // Puedes almacenarla en una variable, enviarla a la vista, etc.
         }
 
+        //cierra la cámara web y liberar los recursos.
         protected override void Dispose(bool disposing)
         {
             if (disposing)

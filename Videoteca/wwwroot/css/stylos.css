@@ -108,7 +108,10 @@ form{
     margin-bottom: 30px;
     margin-top: 20px;
 }
-    .contenedor4 #viewM{
+    .contenedor4 .itemContenedor {
+        margin-left: 20px;
+    }
+    .contenedor4 #viewM {
         margin-left: 20px;
     }
 
@@ -334,6 +337,10 @@ input:checked ~ .form {
 
 .container1 .star-widget input {
     display: none;
+}
+.itemContenedor {
+    margin:20px;
+
 }
 
 .star-widget label {

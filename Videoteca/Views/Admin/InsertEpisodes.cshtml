@@ -1,4 +1,4 @@
-﻿@model Videoteca.Models.Episode
+﻿@model Videoteca.Models.EpisodeSeries
 
 @{
     ViewData["Title"] = "InsertEpisodes";
@@ -20,54 +20,66 @@
         </div>
     }
 
-    <h1>Register Movies</h1>
-    <hr />
 
-    <div class="contenedor">
-        <form asp-controller="Admin" asp-action="InsertEpisodes" method="post">
 
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <h3 asp-for="title" class="control-label">Title</h3>
-                <input asp-for="title" class="form-control" />
-                <span asp-validation-for="title" class="text-danger"></span>
+    <div class="contenedor4">
+        <div class="viewM">
+            <br>
+            <br>
+            <br>
+            <img src="@Model.url" height="250" width="250"></img>
+            <h1>@Model.title</h1>
+            <br>
+            <div>
+                <form asp-action="GetEpisodes" asp-controller="Admin" method="get">
+                    <input type="hidden" name="id" value="@Model.id_serie" />
+                    <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">Go Back</button>
+                </form>
             </div>
-            <div class="form-group">
-                <h3 asp-for="duration" class="control-label">Duration</h3>
-                <input asp-for="duration" class="form-control" />
-                <span asp-validation-for="duration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <h3 asp-for="episode_number" class="control-label">Episode Number</h3>
-                <input asp-for="episode_number" class="form-control" />
-                <span asp-validation-for="episode_number" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <h3 asp-for="url" class="control-label">Episode Portate</h3>
-                <input asp-for="url" class="form-control" />
-                <span asp-validation-for="url" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <h3 asp-for="description" class="control-label">Description For Episode</h3>
-                <input asp-for="descripction" class="form-control" />
-                <span asp-validation-for="descripction" class="text-danger"></span>
-            </div>
-            
-            <input type="hidden" name="movies_series_id" value="@Model.movies_series_id" />
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="viewM">
+            <form asp-controller="Admin" asp-action="InsertEpisodes" method="post">
+                <h1>Register Episodes</h1>
+                <hr />
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Registrar</button>
-            </div>
+                <div class="form-group">
+                    <h3 asp-for="title" class="control-label">Title</h3>
+                    <input name="title" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <h3 asp-for="duration" class="control-label">Duration</h3>
+                    <input name="duration" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <h3 asp-for="episode_number" class="control-label">Episode Number</h3>
+                    <input name="episode_number" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <h3 asp-for="url" class="control-label">Episode Portate</h3>
+                    <input name="url" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <h3 asp-for="description" class="control-label">Description For Episode</h3>
+                    <input name="descripction" class="form-control" />
 
-        </form>
+                </div>
+
+                <input type="hidden" name="movies_series_id" value="@Model.id_serie" />
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
+
+            </form>
+        </div>
+        
 
     </div>
 
-    <div>
-        <form asp-action="Details_MoviesAndSeries" asp-controller="Admin" asp-route-id="@Model.movies_series_id" method="get">
-            <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">Go Back</button>
-        </form>
-    </div>
+
 
     @section Scripts {
         @{
