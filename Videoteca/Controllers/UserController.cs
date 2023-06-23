@@ -276,10 +276,11 @@ namespace Videoteca.Controllers
             return PartialView("ViewEpisodes", episodes);
         }
 
+        //Obtiain the recent movies
         public ActionResult GetNews(int id)
         {
             var moviesA = new List<MoviesAndSeries>();
-
+            //Store procedure
             moviesA = vbd.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMoviesA").ToList();
 
             return PartialView("ViewNews", moviesA);
