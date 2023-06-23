@@ -18,7 +18,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<AuthApi>("Test");
+//SEGURIDAD DE LA API
+//app.UseMiddleware<AuthApi>("Test");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

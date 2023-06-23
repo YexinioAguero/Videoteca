@@ -245,7 +245,8 @@ $('.btn-rate').click(function () {
 
 });
 
-// Write your JavaScript code.
+
+//Esta función sirve para previsualizar una imagen seleccionada por el usuario. Lee el archivo seleccionado utilizando FileReader, genera una URL de datos y muestra la previsualización.
 
 function previewProfilePicture(event) {
     var input = event.target;
