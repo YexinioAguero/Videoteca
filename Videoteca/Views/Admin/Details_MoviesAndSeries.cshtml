@@ -134,25 +134,22 @@
                             Asigned Genre
                         </button>
                     </form>
+                    @if (@item.movie.num_episodes != null)
+                    {
+
+                            <form asp-controller="Admin" asp-action="GetEpisodes" method="get">
+                                <input type="hidden" name="id" value="@item.movie.id" />
+                                <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">
+                                    Get Episodes
+                                </button>
+                            </form>
+                    }
 
                 </div>
                 <br>
                 <br>
 
-                @if (@item.movie.num_episodes != null)
-                {
-                    <div class="contenedor4">
 
-                        <form asp-controller="Admin" asp-action="GetEpisodes" method="get">
-                            <input type="hidden" name="id" value="@item.movie.id" />
-                            <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">
-                                Get Episodes
-                            </button>
-                        </form>
-
-                    </div>
-                    
-                }
 
             
             </ul>
