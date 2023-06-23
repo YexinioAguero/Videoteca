@@ -27,31 +27,46 @@
     <hr />
 
     <div class="contenedor">
-
-        <form asp-controller="Admin" asp-action="CreateGenres" method="post">
-
-            <input type="hidden" name="movie_id" value="@Model.movie_id" />
-
-            <div class="form-group">
-                <h3 class="control-label">Genre Name</h3>
-                <input name="genre_name" class="form-control" />
+        <div class="viewM">
+            <br>
+            <br>
+            <br>
+            <img src="@Model.url" height="250" width="250"></img>
+            <br>
+            <h1>@Model.title</h1>
+            <br>
+            <div>
+                <form asp-action="AsignedGenres" asp-controller="Admin" method="get">
+                    <input type="hidden" name="id_pelicula" value="@Model.movie_id" />
+                    <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">Go Back</button>
+                </form>
             </div>
-            
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Registrar</button>
-            </div>
+        </div>
+        <div class="viewM">
+            <br>
+            <br>
+            <br>
+            <form asp-controller="Admin" asp-action="CreateGenres" method="post">
 
-        </form>
+                <input type="hidden" name="movie_id" value="@Model.movie_id" />
+
+                <div class="form-group">
+                    <h3 class="control-label">Genre Name</h3>
+                    <input name="genre_name" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
+
+            </form>
+        </div>
+        
 
     </div>
 
 
-    <div>
-        <form asp-action="AsignedGenres" asp-controller="Admin" method="get">
-            <input type="hidden" name="id_pelicula" value="@Model.movie_id" />
-            <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">Go Back</button>
-        </form>
-    </div>
+
 
     @section Scripts {
         @{
