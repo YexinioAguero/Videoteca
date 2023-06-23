@@ -725,6 +725,22 @@ namespace Videoteca.Controllers
             return Json(rate.ToJson());
         }
 
+        //Get: AdminController/GetEpisodes
+        public ActionResult GetEpisodes(int id)
+        {
+            var episodes = new List<Episode>();
+
+            var datos = new EpisodeSeries();
+
+            episodes = db.Episodes.FromSqlRaw(@"exec dbo.GetEpisodes @id", new SqlParameter("@id", id)).ToList();
+
+            datos.id_serie = id;
+            datos.episodes = episodes.ToArray();
+
+            return View(episodes);
+        }
+
+
         //Get: AdminController/InserEpisode
         public IActionResult InsertEpisodes(int id_pelicula)
         {
