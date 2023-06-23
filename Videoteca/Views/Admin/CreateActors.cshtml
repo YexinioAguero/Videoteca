@@ -28,40 +28,56 @@
 
     <div class="contenedor">
 
-        <form asp-controller="Admin" asp-action="CreateActors" method="post">
+        <div class="viewM">
+            <br>
+            <br>
+            <br>
+            <img src="@Model.url" height="250" width="250"></img>
+            <h1>@Model.title</h1>
+            <br>
+            <div>
+                <form asp-action="AsignedActors" asp-controller="Admin" method="get">
+                    <input type="hidden" name="id_pelicula" value="@Model.movie_id" />
+                    <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">Go Back</button>
+                </form>
+            </div>
+        </div>
+        <div>
+            <br>
+            <br>
+            <br>
+            <form asp-controller="Admin" asp-action="CreateActors" method="post">
 
-            <input type="hidden" name="movie_id" value="@Model.movie_id" />
+                <input type="hidden" name="movie_id" value="@Model.movie_id" />
 
-            <div class="form-group">
-                <h3 class="control-label">Actor First Name</h3>
-                <input name="actor_first_name" class="form-control" />
-            </div>
-            <div class="form-group">
-                <h3 class="control-label">Actor Last Name</h3>
-                <input name="actor_last_name" class="form-control" />
-            </div>
-            <div class="form-group">
-                <h3 asp-for="title" class="control-label">Profile photo of the actor</h3>
-                <input name="actor_url" class="form-control" />
-            </div>
-            
-            
-           
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Registrar</button>
-            </div>
+                <div class="form-group">
+                    <h3 class="control-label">Actor First Name</h3>
+                    <input name="actor_first_name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <h3 class="control-label">Actor Last Name</h3>
+                    <input name="actor_last_name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <h3 asp-for="title" class="control-label">Profile photo of the actor</h3>
+                    <input name="actor_url" class="form-control" />
+                </div>
 
-        </form>
+
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
+
+            </form>
+
+        </div>
+        
 
     </div>
 
 
-    <div>
-        <form asp-action="AsignedActors" asp-controller="Admin" method="get">
-            <input type="hidden" name="id_pelicula" value="@Model.movie_id" />
-            <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">Go Back</button>
-        </form>
-    </div>
+    
 
     @section Scripts {
         @{

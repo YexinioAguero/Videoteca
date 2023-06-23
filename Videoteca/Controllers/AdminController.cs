@@ -144,7 +144,7 @@ namespace Videoteca.Controllers
                             ViewBag.Message = new Models.MessagePack()
                             {
                                 Text = "Problem was register Movie",
-                                Tipo = message.success.ToString()
+                                Tipo = message.danger.ToString()
                             };
 
                             return View();
@@ -293,6 +293,8 @@ namespace Videoteca.Controllers
                             Text = "The series or movie was not modified correctly:",
                             Tipo = message.danger.ToString()
                         };
+
+                        return View(result);
                     }
 
 
@@ -360,6 +362,8 @@ namespace Videoteca.Controllers
                             Tipo = message.danger.ToString()
                         };
 
+                        return View(id);
+
                     }
                 }
 
@@ -395,19 +399,21 @@ namespace Videoteca.Controllers
                     Tipo = message.danger.ToString()
                 };
 
-                return View();
+                return View(id);
             }
 
         }
         
         //Get: AdminController/CreateActor
         public IActionResult CreateActors(int id_pelicula) {
+            var serieData = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovie @id", new SqlParameter("@id", id_pelicula)).ToList();
+           
 
-            
             var data = new CreateActorMcs();
 
             data.movie_id = id_pelicula;
-            
+            data.title = serieData.FirstOrDefault().title;
+            data.url = serieData.FirstOrDefault().movie_url;
             return View(data);
         }
 
@@ -437,7 +443,7 @@ namespace Videoteca.Controllers
                         Tipo = message.danger.ToString()
                     };
 
-                    return View();
+                    return View(Data.movie_id);
                 }
                 else
                 {
@@ -486,7 +492,7 @@ namespace Videoteca.Controllers
                     Tipo = message.danger.ToString()
                 };
 
-                return View();
+                return View(Data.movie_id);
             }
         }
 
@@ -531,7 +537,7 @@ namespace Videoteca.Controllers
                     Tipo = message.danger.ToString()
                 };
 
-                return View();
+                return View(id_pelicula);
             }
             else
             {
@@ -555,10 +561,14 @@ namespace Videoteca.Controllers
         //Get: Admin/CreateGenres
         public IActionResult CreateGenres(int id_pelicula)
         {
+            var serieData = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovie @id", new SqlParameter("@id", id_pelicula)).ToList();
+
 
             var data = new CreateGenresMcs();
 
             data.movie_id = id_pelicula;
+            data.title = serieData.FirstOrDefault().title;
+            data.url = serieData.FirstOrDefault().movie_url;
 
             return View(data);
         }
@@ -585,7 +595,7 @@ namespace Videoteca.Controllers
                         Tipo = message.danger.ToString()
                     };
 
-                    return View();
+                    return View(Data.movie_id);
                 }
                 else
                 {
@@ -630,7 +640,7 @@ namespace Videoteca.Controllers
                     Tipo = message.danger.ToString()
                 };
 
-                return View();
+                return View(Data.movie_id);
             }
         }
 
@@ -671,7 +681,7 @@ namespace Videoteca.Controllers
                     Tipo = message.danger.ToString()
                 };
 
-                return View();
+                return View(id_pelicula);
             }
             else {
                 var Datos_MSG = new MoviesAndSeriesGenre();
@@ -744,9 +754,13 @@ namespace Videoteca.Controllers
         //Get: AdminController/InserEpisode
         public IActionResult InsertEpisodes(int id_pelicula)
         {
+            var serieData = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovie @id", new SqlParameter("@id", id_pelicula)).ToList();
+            var episode = new EpisodeSeries();
+            episode.id_serie = id_pelicula;
+            episode.title = serieData.FirstOrDefault().title;
+            episode.url = serieData.FirstOrDefault().movie_url;
 
-            var episode = new Episode();
-            episode.movies_series_id = id_pelicula;
+            
 
             return View(episode);
         }
@@ -777,7 +791,7 @@ namespace Videoteca.Controllers
                     };
 
 
-                    return RedirectToAction("Details_MoviesAndSeries", new { id = episode.movies_series_id });
+                    return View(episode.movies_series_id);
                 }
                 else
                 {
@@ -800,7 +814,7 @@ namespace Videoteca.Controllers
                             };
 
                            
-                            return RedirectToAction("Details_MoviesAndSeries", new { id = episode.movies_series_id });
+                            return RedirectToAction("GetEpisodes", new { id = episode.movies_series_id });
 
                         }
                         else
@@ -811,7 +825,7 @@ namespace Videoteca.Controllers
                                 Tipo = message.success.ToString()
                             };
 
-                            return View();
+                            return View(episode.movies_series_id);
                         }
                     }
                 }
@@ -826,7 +840,7 @@ namespace Videoteca.Controllers
                     Tipo = message.danger.ToString()
                 };
 
-                return View();
+                return View(episode.movies_series_id);
             }
         }
 
