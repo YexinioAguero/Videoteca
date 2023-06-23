@@ -7,10 +7,8 @@
     .form-container {
         max-width: 300px;
         padding: 20px;
-        background-color: #ebeebd;
         border-radius: 5px;
         text-align: center;
-        color: black;
     }
     #photo{
         display:flex;
@@ -25,7 +23,6 @@
     label {
         font-size: 15px;
         margin-top: 5px;
-        color: black;
         padding-bottom: 10px;
     }
 

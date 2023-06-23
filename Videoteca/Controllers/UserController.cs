@@ -340,7 +340,7 @@ namespace Videoteca.Controllers
                     dbContext.Update(newPerson);
                     dbContext.SaveChanges(true);
 
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Edit));
 
                 }
 
@@ -353,7 +353,7 @@ namespace Videoteca.Controllers
 
         }
 
-
+        //Obtains the foto of the profile
         public ActionResult GetProfilePicture(string id)
         {
             if (string.IsNullOrEmpty(id))
