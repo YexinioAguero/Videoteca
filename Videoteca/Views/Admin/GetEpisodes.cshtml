@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Videoteca.Models.Episode>
+﻿@model Videoteca.Models.EpisodeSeries
 <head>
     <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick.css" />
     <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick-theme.css" />
@@ -7,16 +7,46 @@
     <link rel="stylesheet" href="~/css/responsive.css" />
 </head>
 <body>
-    <div class="slideE">
-        @foreach (var item in Model)
+
+    <div class="movie">
+        <h1 Episodios</h1>
+        <div  class="carrousel">
+        @foreach (var item in Model.episodes)
+        {
+                @if (item.episodes_id != null)
+                {
+                    <div class="episodes d-flex flex-column justify-content-center align-items-center text-center m-2">
+                        <img id="imgE" src="@item.url">
+                        <div class="textoE">
+                            <h3>@item.title - @item.episode_number</h3>
+                            <h4>@item.duration</h4>
+                            <p>@item.descripction</p>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <h2>There's no movies in this section</h2>
+                }
+
+            }
+           
+        </div>
+    </div>
+
+
+    @*<div class="slideE">
+        @foreach (var item in Model.episodes)
         {
             @if (item.title != null)
             {
-                <div class="episodes">
-                    <img src="@item.url">
-                    <div><h3>@item.title</h3></div>
-                    <div><h4>@item.episode_number</h4></div>
-                    <div><h4>@item.duration</h4></div>
+                <div class="episodes d-flex flex-column justify-content-center align-items-center text-center m-2">
+                    <img id="imgE" src="@item.url">
+                    <div class="textoE">
+                        <h3>@item.title - @item.episode_number</h3>
+                        <h4>@item.duration</h4>
+                        <p>@item.descripction</p>
+                    </div>
                 </div>
 
             }
@@ -28,15 +58,26 @@
             }
 
         }
-    </div>
+    </div>*@
+    <br>
+    <br>
+    <br>
 
+    <div>
+        <form asp-controller="Admin" asp-action="InsertEpisodes" method="get">
+            <input type="hidden" name="id_pelicula" value="@Model.id_serie" />
+            <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">
+                Insert Episode
+            </button>
+        </form>
+    </div>
 
     <script>
         $('.slideE').slick({
             autoplay: true,
-            dots: true,
             infinite: true,
             speed: 500,
+            arrows: false,
             fade: true,
             cssEase: 'linear'
         });
@@ -54,4 +95,5 @@
     <script src="~/lib/slick-1.8.1/slick/slick.min.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
+
 </body>

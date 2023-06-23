@@ -1,4 +1,4 @@
-﻿@model Videoteca.Models.EpisodeSeries
+﻿@model IEnumerable<Videoteca.Models.Episode>
 <head>
     <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick.css" />
     <link rel="stylesheet" href="~/lib/slick-1.8.1/slick/slick-theme.css" />
@@ -8,7 +8,7 @@
 </head>
 <body>
        <div class="slideE">
-            @foreach (var item in Model.episodes)
+            @foreach (var item in Model)
             {
                     @if (item.title != null)
                     {
@@ -31,6 +31,9 @@
             
             }
         </div>
+
+
+
         <script>
             $('.slideE').slick({
             autoplay: true,

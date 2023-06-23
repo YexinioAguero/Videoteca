@@ -737,7 +737,7 @@ namespace Videoteca.Controllers
             datos.id_serie = id;
             datos.episodes = episodes.ToArray();
 
-            return View(episodes);
+            return View(datos);
         }
 
 
