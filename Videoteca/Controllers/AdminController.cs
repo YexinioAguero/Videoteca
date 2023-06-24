@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
@@ -15,18 +16,20 @@ namespace Videoteca.Controllers
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
+        //Llamamos al contexto
         private VideotecaContext db = new VideotecaContext();
 
         //Get: AdminController/View_MoviesAndSeries
         public IActionResult View_MoviesAndSeries()
         {
-
+            //Instanciamos los modelos que usaremos 
             var list = new List<Movie_S_Genre>();
             var movie = new List<MoviesAndSeries>();
             var genres = new List<Genre>();
-
+            //Optenemos los generos de la base de datos con un procedimiento almacenado
             genres = db.Genres.FromSqlRaw("exec dbo.GetGenre").ToList();
 
+            //Optenemos las p
             foreach (var g in genres)
             {
                 movie = db.MoviesAndSeries.FromSqlRaw("exec dbo.[GetMoviesForGenre] @id", new SqlParameter("@id", g.genre_id)).ToList();
@@ -842,6 +845,55 @@ namespace Videoteca.Controllers
 
                 return View(episode.movies_series_id);
             }
+        }
+
+
+        public async Task<IActionResult> MovieSearch(string movieGenre, string searchString, string movieActor)
+        {
+            // Use LINQ to get list of genres.
+            IQueryable<string> genres = from m in db.Genres
+                                        orderby m.genre_id
+                                        select m.genre_name;
+            IQueryable<string> actors = from m in db.Actors
+                                        orderby m.actor_last_name
+                                        select m.actor_first_name;
+
+            var movies = from m in db.MoviesAndSeries
+                         select m;
+
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(s => s.title!.Contains(searchString));
+            }
+
+            if (!string.IsNullOrEmpty(movieGenre))
+            {
+                movies = from m in movies
+                         join mg in db.MoviesAndSeriesGenres on m.id equals mg.movies_series_id
+                         join g in db.Genres on mg.genre_id equals g.genre_id
+                         where g.genre_name == movieGenre
+                         select m;
+            }
+            if (!string.IsNullOrEmpty(movieActor))
+            {
+                movies = from m in movies
+                         join mg in db.MoviesAndSeriesActors on m.id equals mg.movies_series_id
+                         join g in db.Actors on mg.actor_id equals g.actor_id
+                         where g.actor_first_name == movieActor
+                         select m;
+            }
+
+            var movieGenreVM = new MovieGenreViewModel
+            {
+                Genres = new SelectList(await genres.Distinct().ToListAsync()),
+                Movies = movies.ToList(),
+                Actors = new SelectList(await actors.Distinct().ToListAsync())
+            };
+
+            return View(movieGenreVM);
+
+
         }
 
     }
