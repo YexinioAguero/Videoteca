@@ -1,5 +1,4 @@
 ﻿
-
 //Effects of the slider
 $('.slide').slick({
     autoplay: true,
@@ -51,7 +50,6 @@ $('.carrousel').each(function () {
      //Random sliders
     var divs = $("div.movie").get().sort(function () {
         return Math.round(Math.random()) - 0.5;
-
     }).slice(0, 4)
     $(divs).appendTo(divs[0].parentNode).show();
     });
@@ -122,10 +120,9 @@ $('.btnC').click(function () {
 
     
 });
-
+//Upload the PartialView of comments
 $('#comments-tab').click(function () {
     var datos1 = { id: $('.textC').attr("id") };
-
 
     $.ajax({
         url: '/User/GetComment',
@@ -133,7 +130,6 @@ $('#comments-tab').click(function () {
         data: datos1,
         success: function (result) {
             $("#getC").html(result);
-            console.log(result);
         },
         error: function () {
             // Manejar errores en la solicitud Ajax
@@ -145,8 +141,6 @@ $('#comments-tab').click(function () {
 });
 $('#episodes-tab').click(function () {
     var datos = { id: $('.textC').attr("id") };
-
-
     $.ajax({
         url: '/User/GetEpisodes',
         type: 'GET',
@@ -159,7 +153,6 @@ $('#episodes-tab').click(function () {
             alert('Error al obtener la vista parcial');
         }
     });
-
 
 });
 
@@ -197,6 +190,7 @@ window.onclick = function (event) {
         modal1.style.display = "none";
     }
 }
+
 var rate = null;
 
 $("#rate-5, #rate-4, #rate-3, #rate-2, #rate-1").click(function () {
