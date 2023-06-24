@@ -29,7 +29,7 @@ namespace Videoteca.Controllers
             //Optenemos los generos de la base de datos con un procedimiento almacenado
             genres = db.Genres.FromSqlRaw("exec dbo.GetGenre").ToList();
 
-            //Optenemos las p
+            //Optenemos las peliculas o series enlazadas a ese genero
             foreach (var g in genres)
             {
                 movie = db.MoviesAndSeries.FromSqlRaw("exec dbo.[GetMoviesForGenre] @id", new SqlParameter("@id", g.genre_id)).ToList();
@@ -43,9 +43,10 @@ namespace Videoteca.Controllers
 
         }
 
+        //Get: AdminController/Details_MoviesAndSeries
         public IActionResult Details_MoviesAndSeries(int id)
         {
-
+            //instanciamos los modelos
             var list = new List<MovieInfo>();
             var movie = new List<MoviesAndSeries>();
             var genre = new List<Genre>();
@@ -54,12 +55,13 @@ namespace Videoteca.Controllers
             var userInfo = new List<AspNetUser>();
             var comments = new List<Comment>();
 
-            
+            //Optenemos los datos de la peliculas, los actores de la pelicula, los generos, y los comentarios
             movie = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovie @id", new SqlParameter("@id", id)).ToList();
             actor = db.Actors.FromSqlRaw(@"exec dbo.GetActorsMovie @id", new SqlParameter("@id", id)).ToList();
             genre = db.Genres.FromSqlRaw(@"exec dbo.GetGenreMovie @id", new SqlParameter("@id", id)).ToList();
             comments = db.Comments.FromSqlRaw(@"exec dbo.GetComments @id", new SqlParameter("@id", id)).ToList();
 
+            //guardamos todos los datos para enviarlos a la vista
             foreach (var m in movie)
             {
                 movieInfo = new MoviesAndSeries
@@ -82,7 +84,7 @@ namespace Videoteca.Controllers
 
             return View(list);
         }
-        // GET: AdminController/Create
+        // GET: AdminController/Create_Movie
         public ActionResult Create_Movie()
         {
             return View();
@@ -95,11 +97,11 @@ namespace Videoteca.Controllers
         {
             try
             {
-
+                //instanciamos los modelos
                 var moviesSearch = new List<MoviesAndSeries>();
-
+                //buscamos el titulo de la pelicula en la base de datos
                 moviesSearch = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovieDataForTitle @title", new SqlParameter("@title", movisData.title)).ToList();
-
+                //verificamos si existe
                 if (moviesSearch.Count > 0)
                 {
                     ViewBag.Message = new Models.MessagePack()
@@ -113,7 +115,7 @@ namespace Videoteca.Controllers
                 else
                 {
 
-
+                    //llamamos a la api apra insertar la pelicula
                     using (var client = new HttpClient())
                     {
                         client.BaseAddress = new Uri("https://localhost:7220/api/");
@@ -122,7 +124,7 @@ namespace Videoteca.Controllers
                         PostTask.Wait();
 
                         var result = PostTask.Result;
-
+                        //verificamos que se realizo el insert en la api
                         if (result.IsSuccessStatusCode)
                         {
                             ViewBag.Message = new Models.MessagePack()
@@ -130,7 +132,7 @@ namespace Videoteca.Controllers
                                 Text = "The Movie Was Register",
                                 Tipo = message.success.ToString()
                             };
-
+                            //buscamos la pelicula insertada y optenemos el id para redireccionar a la vista de detalles
                             var movies = new List<MoviesAndSeries>();
 
                             movies = db.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMovieDataForTitle @title", new SqlParameter("@title", movisData.title)).ToList();
@@ -184,7 +186,7 @@ namespace Videoteca.Controllers
         {
             try
             {
-
+                //instanciamos 
                 var parameter = new List<SqlParameter>();
                 parameter.Add(new SqlParameter("@title", movisData.title));
                 parameter.Add(new SqlParameter("@synopsis", movisData.synopsis));
