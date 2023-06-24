@@ -486,6 +486,7 @@ img.iconFa {
     font-size: 15px;
 }
     .textoE p {
+        width:100px;
         text-align:justify;
     }
 #imgE {

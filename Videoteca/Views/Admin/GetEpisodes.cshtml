@@ -7,13 +7,19 @@
     <link rel="stylesheet" href="~/css/responsive.css" />
 </head>
 <body>
-
-    <div class="movie">
-        <h1 Episodios</h1>
-        <div  class="carrousel">
-        @foreach (var item in Model.episodes)
-        {
-                @if (item.episodes_id != null)
+    <div>
+        <form asp-controller="Admin" asp-action="InsertEpisodes" method="get">
+            <input type="hidden" name="id_pelicula" value="@Model.id_serie" />
+            <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">
+                Insert Episode
+            </button>
+        </form>
+    </div>
+        <div class="slideE">
+            <h1> Episodes</h1>
+            @foreach (var item in Model.episodes)
+            {
+                @if (item.title != null)
                 {
                     <div class="episodes d-flex flex-column justify-content-center align-items-center text-center m-2">
                         <img id="imgE" src="@item.url">
@@ -23,42 +29,29 @@
                             <p>@item.descripction</p>
                         </div>
                     </div>
+
                 }
                 else
                 {
-                    <h2>There's no movies in this section</h2>
+                    <div class="bg-white" id="user-date">
+                        There's no episodes..
+                    </div>
                 }
 
             }
-           
         </div>
-    </div>
-
-
-    
-    <br>
-    <br>
-    <br>
-
-    <div>
-        <form asp-controller="Admin" asp-action="InsertEpisodes" method="get">
-            <input type="hidden" name="id_pelicula" value="@Model.id_serie" />
-            <button id="viewM" class="btn btn-info align-items-xxl-center" type="submit">
-                Insert Episode
-            </button>
-        </form>
-    </div>
 
     <script>
         $('.slideE').slick({
             autoplay: true,
             infinite: true,
             speed: 500,
-            arrows: false,
+            slidesToShow: 3,
             fade: true,
             cssEase: 'linear'
         });
     </script>
+
     <!--Librerias para slick, boostrap, jquery-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

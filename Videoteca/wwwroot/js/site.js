@@ -1,4 +1,6 @@
 ﻿
+
+//Effects of the slider
 $('.slide').slick({
     autoplay: true,
     dots: true,
@@ -7,7 +9,7 @@ $('.slide').slick({
     fade: true,
     cssEase: 'linear'
 });
-
+//Principal slider
 $('.carrousel').each(function () {
         $(this).slick({
             infinite: true,
@@ -15,7 +17,7 @@ $('.carrousel').each(function () {
             centerPadding: '60px',
             slidesToShow: 3,
             autoplay: true,
-            responsive: [
+            responsive: [//Part responsive
                 {
                     breakpoint: 900,
                     settings: {
@@ -45,39 +47,40 @@ $('.carrousel').each(function () {
                 }
             ]
         });
+
+     //Random sliders
     var divs = $("div.movie").get().sort(function () {
         return Math.round(Math.random()) - 0.5;
 
     }).slice(0, 4)
     $(divs).appendTo(divs[0].parentNode).show();
-});
+    });
 
 
-// Escucha el envío del formulario y oculta el pop-up al enviarlo
-    // Manejar el evento de clic del botón
-
+//Manage the swear words in the comments 
 $('.btnC').click(function () {
+    //Array of swear words
     var grocerias = ["puta", "puto", "mierda", "maldito", "hp", "hijueputa", "maldicion"];
+    
     var commp = document.querySelector(".comment-post");
     var widget = document.querySelector(".comment-widget");
     var editBtn = document.querySelector(".edit");
     var texto = $('.textC').val();
 
-        // Obtener los datos del formulario o crear un objeto de datos
- 
     var datos1 = { id: $('.textC').attr("id") };
-        // Realizar la solicitud Ajax
+     //Regex text for the space
     const regText = /\S+/g;
 
     for (var i = 0; i < grocerias.length; i++) {
         regex = new RegExp("(^|\\s)" + grocerias[i] + "($|(?=\\s))", "gi")
+        //Change for ****
         texto = texto.replace(regex, function ($0, $1) { return $1 + "*****" });
     }
     var datos = {
         text: texto,
         id: $('.textC').attr("id")
     };
- 
+    //Test if this have blank spaces
     if (regText.test(texto)) {
    
             $.ajax({
@@ -215,6 +218,7 @@ $('.btn-rate').click(function () {
 
     // Realizar la solicitud Ajax
     $.ajax({
+        //Llama el User/SetRate del controller
         url: '/User/SetRate',
         type: 'POST',
         data: datos,

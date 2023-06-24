@@ -29,6 +29,8 @@ namespace Videoteca.Controllers
             return View(personList);
         }
 
+        //Configuraciones globales
+
 
         // Get: EditRole/Edit/5
 
@@ -90,29 +92,6 @@ namespace Videoteca.Controllers
 
             return View(person);
         }
-
-        // GET: PersonController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: PersonController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-
 
 
         // GET: PersonController/Edit/5
@@ -253,33 +232,3 @@ namespace Videoteca.Controllers
         }
     }
 }
-
-//< div class= "row" >
-//    < div class= "col-md-4" >
-//        < form asp - action = "Edit" >
-//            < div asp - validation - summary = "ModelOnly" class= "text-danger" ></ div >
-//            < input type = "hidden" asp -for= "Id" />
-//            < div class= "form-group" >
-//                < label asp -for= "Name" class= "control-label" ></ label >
-//                < input asp -for= "Name" class= "form-control" />
-//                < span asp - validation -for= "Name" class= "text-danger" ></ span >
-//            </ div >
-
-//            < div class= "form-group" >
-//                < label asp -for= "UserName" class= "control-label" ></ label >
-//                < input asp -for= "UserName" class= "form-control" />
-//                < span asp - validation -for= "UserName" class= "text-danger" ></ span >
-//            </ div >
-
-//            < div class= "form-group" >
-//                < label asp -for= "Email" class= "control-label" ></ label >
-//                < input asp -for= "Email" class= "form-control" />
-//                < span asp - validation -for= "Email" class= "text-danger" ></ span >
-//            </ div >
-
-//            < div class= "form-group" >
-//                < input type = "submit" value = "Save" class= "btn btn-primary" />
-//            </ div >
-//        </ form >
-//    </ div >
-//</ div >

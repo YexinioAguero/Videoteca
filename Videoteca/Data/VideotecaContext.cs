@@ -29,7 +29,6 @@ public partial class VideotecaContext : DbContext
     public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
 
     public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
-
     public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
 
     public virtual DbSet<Comment> Comments { get; set; }
@@ -47,6 +46,8 @@ public partial class VideotecaContext : DbContext
     public virtual DbSet<Rating> Ratings { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<config_global> config_globals { get; set; }
 
     public virtual DbSet<profilePicture> profilePictures { get; set; }
 
@@ -101,17 +102,17 @@ public partial class VideotecaContext : DbContext
             entity.Property(e => e.SelectedImageId).HasMaxLength(450);
             entity.Property(e => e.UserName).HasMaxLength(256);
 
-           // entity.HasMany(d => d.Roles).WithMany(p => p.Users)
-           //     .UsingEntity<Dictionary<string, object>>(
-          //          "AspNetUserRole",
-          //          r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
-           //         l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
-           //         j =>
+            // entity.HasMany(d => d.Roles).WithMany(p => p.Users)
+            //     .UsingEntity<Dictionary<string, object>>(
+            //          "AspNetUserRole",
+            //          r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
+            //         l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
+            //         j =>
             //        {
             //            j.HasKey("UserId", "RoleId");
-           //             j.ToTable("AspNetUserRoles");
-           //             j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
-           //         });
+            //             j.ToTable("AspNetUserRoles");
+            //             j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
+            //         });
         });
         modelBuilder.Entity<AspNetUserRoles>(entity =>
         {
@@ -133,7 +134,6 @@ public partial class VideotecaContext : DbContext
 
             entity.HasOne(d => d.User).WithMany(p => p.AspNetUserLogins).HasForeignKey(d => d.UserId);
         });
-
 
         modelBuilder.Entity<AspNetUserToken>(entity =>
         {
@@ -235,6 +235,13 @@ public partial class VideotecaContext : DbContext
             entity.Property(e => e.username)
                 .HasMaxLength(256)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<config_global>(entity =>
+        {
+            entity.HasKey(e => e.id_conf).HasName("PK__config_g__6D69F2D5EF811783");
+
+            entity.ToTable("config_global");
         });
 
         modelBuilder.Entity<profilePicture>(entity =>

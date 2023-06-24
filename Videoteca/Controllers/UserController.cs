@@ -21,21 +21,22 @@ namespace Videoteca.Controllers
         // GET: UserController
         static AspNetUser newPerson = new AspNetUser();
         private readonly UserManager<ApplicationUser> _userManager;
-
+        //Llamar el usuario
         public UserController(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
         }
 
-
+        //Llama el context de videoteca
         private VideotecaContext vbd = new VideotecaContext();
-
+        //Veiw index
         public ActionResult Index()
         {
+            //Model that gets
             var list = new List<Movie_S_Genre>();
             var movie = new List<MoviesAndSeries>();
             var genres = new List<Genre>();
-
+            //Store procedure to get genres
             genres = vbd.Genres.FromSqlRaw("exec dbo.GetGenre").ToList();
 
             foreach (var g in genres)
@@ -49,6 +50,7 @@ namespace Videoteca.Controllers
         }
 
         //GET: Search Movies
+        //Linq
         public async Task<IActionResult> MovieSearch(string movieGenre, string searchString, string movieActor)
         {
             // Use LINQ to get list of genres.
@@ -102,7 +104,6 @@ namespace Videoteca.Controllers
             var list = new List<MovieInfo>();
             var movie = new List<MoviesAndSeries>();
             var genre = new List<Genre>();
-            string genresS = null;
             var actor = new List<Actor>();
             var movieInfo = new MoviesAndSeries();
             var userInfo = new List<AspNetUser>();
@@ -263,16 +264,16 @@ namespace Videoteca.Controllers
                 };
                 commentUser.Add(cUser);
             }
-
+            //Return the View ViewComment
             return PartialView("ViewComment", commentUser);
        }
 
         public ActionResult GetEpisodes(int id)
         {
             var episodes = new List<Episode>();
-
+            //Store procedure
             episodes = vbd.Episodes.FromSqlRaw(@"exec dbo.GetEpisodes @id", new SqlParameter("@id", id)).ToList();
-
+            //Return view
             return PartialView("ViewEpisodes", episodes);
         }
 
@@ -280,7 +281,7 @@ namespace Videoteca.Controllers
         public ActionResult GetNews(int id)
         {
             var moviesA = new List<MoviesAndSeries>();
-            //Store procedure
+            //Store procedure fro getMoviesA
             moviesA = vbd.MoviesAndSeries.FromSqlRaw(@"exec dbo.GetMoviesA").ToList();
 
             return PartialView("ViewNews", moviesA);

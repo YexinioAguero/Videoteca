@@ -64,8 +64,6 @@ namespace Videoteca.Controllers
         {
             // Lógica para procesar los fotogramas capturados
             Bitmap Imagen = (Bitmap)eventArgs.Frame.Clone();
-            // Realiza la lógica necesaria con la imagen capturada
-            // Puedes almacenarla en una variable, enviarla a la vista, etc.
         }
 
         //cierra la cámara web y liberar los recursos.
